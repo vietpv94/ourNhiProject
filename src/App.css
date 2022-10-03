@@ -1,7 +1,5 @@
 * {
     box-sizing: border-box;
-    /* text-transform: capitalize; */
-    /* overflow: hidden; */
 }
 
 @font-face {
@@ -12,6 +10,11 @@
 @font-face {
     font-family: "Inter";
     src: url("./styles/fonts/Inter.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: "Manrope";
+    src: url("./styles/fonts/Manrope.ttf") format("opentype");
 }
 
 html,
@@ -136,7 +139,7 @@ section {
 
 body {
     line-height: 1;
-    font-family: "Poppins", sans-serif;
+    font-family: "Manrope", sans-serif;
 }
 
 a {
