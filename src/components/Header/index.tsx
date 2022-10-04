@@ -5,7 +5,7 @@ import { useMedia } from "react-use";
 import { dataNavigation, DataItemNav } from './data';
 import { Hamburger } from "./hamburger";
 import { Logo } from "./logo";
-import { Dropdown, HeaderWrapper, ItemNav, Main, Navigation } from './style';
+import { Dropdown, HeaderWrapper, ItemNav, Main, MenuMobileWrapper, Navigation } from './style';
 
 export interface IHeaderProps {}
 
@@ -26,23 +26,47 @@ export const ItemNavigation = (data: DataItemNav) => {
     </ItemNav>
   );
 };
+
+export const ItemMenuMobile = (data: DataItemNav) => {
+  return (
+    <div className="item">
+      <span className="name">{data.name}</span>
+      {data.children?.map((item) => (
+        <div className="item-child">
+          <span className="title">{item.name}</span>
+          <span className="description">{item.description}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+export const MenuMobile = ({ toggle }: { toggle: boolean }) => {
+  return (
+    <MenuMobileWrapper className={toggle ? "active" : ""}>
+      {dataNavigation.map((item) => (
+        <ItemMenuMobile {...item} />
+      ))}
+    </MenuMobileWrapper>
+  );
+};
 export function Header(props: IHeaderProps) {
   const [toggle, setToggle] = React.useState(false);
   const isMobile = useMedia(breakpoints.md);
   return (
-    <HeaderWrapper>
-      <Main>
+    <HeaderWrapper className={toggle ? "toggle" : ""}>
+      <Main className="header">
         <Logo />
         {!isMobile ? (
           <Navigation>
             {dataNavigation.map((item, index) => {
-              return <ItemNavigation key={index} {...item}/>;
+              return <ItemNavigation key={index} {...item} />;
             })}
           </Navigation>
         ) : (
           <Hamburger toggle={toggle} setToggle={setToggle} />
         )}
       </Main>
+      <MenuMobile toggle={toggle} />
     </HeaderWrapper>
   );
 }

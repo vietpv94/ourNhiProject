@@ -14,7 +14,7 @@ function Path(props: any) {
     <motion.path
       fill="transparent"
       strokeWidth="3"
-      stroke="hsl(0, 0%, 100%)"
+      stroke="black"
       strokeLinecap="round"
       {...props}
     />

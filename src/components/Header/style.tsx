@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.div`
@@ -7,10 +8,18 @@ export const HeaderWrapper = styled.div`
   width: 100%;
   background-color: transparent;
   z-index: 9999;
-  padding: 0 20px;
+  @media ${breakpoints.md} {
+    &.toggle {
+      position: sticky;
+      & > .header {
+        background-color: #fff;
+      }
+    }
+  }
 `;
 
 export const Main = styled.main`
+  padding: 0 20px;
   display: flex;
   align-items: center;
   max-width: 1360px;
@@ -40,7 +49,7 @@ export const ItemNav = styled.div`
 `;
 
 export const Dropdown = styled.ul`
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   top: 100%;
@@ -78,5 +87,57 @@ export const Dropdown = styled.ul`
         opacity: 0.5;
       }
     }
+  }
+`;
+
+export const MenuMobileWrapper = styled.div`
+  position: sticky;
+  top: 80px;
+  left: 0;
+  transform: translateX(-100%);
+  width: 100%;
+  height: calc(100vh - 80px);
+  padding: 30px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  overflow-x: auto;
+  transition: all 0.3s ease-in-out;
+  & > .item {
+    display: flex;
+    flex-direction: column;
+    & > .name {
+      font-weight: 700;
+      font-size: 10px;
+      line-height: 18px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgb(39, 56, 82);
+      opacity: 0.3;
+    }
+
+    & > .item-child {
+      display: flex;
+      flex-direction: column;
+      & > .title {
+        margin-top: 20px;
+        font-size: 14px;
+        line-height: 22px;
+        color: rgb(39, 56, 82);
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      & > .description {
+        margin-top: 4px;
+        font-size: 12px;
+        line-height: 20px;
+        color: rgb(122, 138, 160);
+        opacity: 1;
+      }
+    }
+  }
+  &.active{
+    transform: translateX(0);
   }
 `;
