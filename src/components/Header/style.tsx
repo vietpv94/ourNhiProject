@@ -46,7 +46,6 @@ export const Dropdown = styled.ul`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  width: 280px;
   padding: 20px;
   background-color: rgb(43, 48, 54);
   box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;
@@ -58,6 +57,7 @@ export const Dropdown = styled.ul`
     flex-direction: column;
     align-items: flex-start;
     & > span {
+      text-transform: capitalize;
       font-weight: normal;
       font-size: 14px;
       line-height: 22px;

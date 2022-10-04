@@ -1,0 +1,3 @@
+export const ACCOUNT_TYPE_ACTION = {
+	LOGIN_REQUEST: "LOGIN_REQUEST",
+}
