@@ -23,7 +23,7 @@ export function Audits(props: IAuditsProps) {
         </Description>
         <List>
           {dataAudits.map((item, index) => (
-			<Item key={index} {...item} />
+            <Item key={index} {...item} />
           ))}
         </List>
       </AuditWrapper>

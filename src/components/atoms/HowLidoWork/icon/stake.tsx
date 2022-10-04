@@ -12,7 +12,7 @@ export function StakeIcon(props: IStakeIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_1454)">
+      <g clipPath="url(#clip0_298_1454)">
         <path
           d="M24.2589 29.4455H22.0846C21.515 29.4455 21.0532 28.9837 21.0532 28.4141V25.1832H25.2903V28.4141C25.2903 28.9837 24.8285 29.4455 24.2589 29.4455Z"
           fill="#365E7D"

@@ -10,8 +10,8 @@ export const Item = (data: DataItemNav) => {
     <Col>
       <div className="title">{data.name}</div>
       <ul>
-        {data.children?.map((item) => (
-          <li>
+        {data.children?.map((item, index) => (
+          <li key={index}>
             <a href={item.link}>{item.name}</a>
           </li>
         ))}
@@ -25,8 +25,8 @@ export function Footer(props: IFooterProps) {
     <Section>
       <FooterWrapper>
         <List>
-          {data.map((item) => (
-            <Item {...item} />
+          {data.map((item, index) => (
+            <Item {...item} key={index}/>
           ))}
         </List>
       </FooterWrapper>

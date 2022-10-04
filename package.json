@@ -66,6 +66,7 @@
         "buffer": "^6.0.3",
         "crypto-browserify": "^3.12.0",
         "dotenv-webpack": "^7.0.3",
+        "ethers": "^5.7.1",
         "framer-motion": "6.2.4",
         "moment": "^2.29.1",
         "react": "^17.0.2",

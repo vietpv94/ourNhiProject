@@ -11,7 +11,7 @@ export function StakeEtherIcon(props: IStakeEtherIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_1621)">
+      <g clipPath="url(#clip0_298_1621)">
         <path
           d="M16.5 32.5007C25.3366 32.5007 32.5 25.3373 32.5 16.5007C32.5 7.66418 25.3366 0.500732 16.5 0.500732C7.66344 0.500732 0.5 7.66418 0.5 16.5007C0.5 25.3373 7.66344 32.5007 16.5 32.5007Z"
           fill="#F2F5FF"

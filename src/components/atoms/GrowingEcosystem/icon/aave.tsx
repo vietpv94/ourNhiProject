@@ -11,7 +11,7 @@ export function AAVEIcon(props: IAAVEIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_889)">
+      <g clipPath="url(#clip0_298_889)">
         <path
           d="M16.5 32.5C25.3365 32.5 32.5 25.4827 32.5 16.8265C32.5 8.17035 25.3365 1.15308 16.5 1.15308C7.66347 1.15308 0.5 8.17035 0.5 16.8265C0.5 25.4827 7.66347 32.5 16.5 32.5Z"
           fill="url(#paint0_linear_298_889)"
@@ -30,8 +30,8 @@ export function AAVEIcon(props: IAAVEIconProps) {
           y2="27.0923"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#B6509E" />
-          <stop offset="1" stop-color="#2EBAC6" />
+          <stop stopColor="#B6509E" />
+          <stop offset="1" stopColor="#2EBAC6" />
         </linearGradient>
         <clipPath id="clip0_298_889">
           <rect

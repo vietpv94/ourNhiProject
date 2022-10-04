@@ -12,7 +12,7 @@ export function OneInchIcon (props: IOneInchIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_441)">
+      <g clipPath="url(#clip0_298_441)">
         <path
           d="M0.5 16.4993C0.5 7.66313 7.66313 0.5 16.4993 0.5C25.3354 0.5 32.4985 7.66313 32.4985 16.4993C32.4985 25.3354 25.3354 32.4985 16.4993 32.4985C7.66313 32.4985 0.5 25.3354 0.5 16.4993Z"
           fill="url(#paint0_linear_298_441)"
@@ -83,8 +83,8 @@ export function OneInchIcon (props: IOneInchIconProps) {
           y2="32.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#742A31" />
-          <stop offset="1" stop-color="#175180" />
+          <stop stopColor="#742A31" />
+          <stop offset="1" stopColor="#175180" />
         </linearGradient>
         <clipPath id="clip0_298_441">
           <rect

@@ -28,7 +28,7 @@ export function Beach(props: IBeachProps) {
       <BeachWrapper>
         {data.map((item, index) => {
           return (
-            <Item>
+            <Item key={index}>
               <p className="title">{item.title}</p>
               <p className="value">{item.value}</p>
             </Item>

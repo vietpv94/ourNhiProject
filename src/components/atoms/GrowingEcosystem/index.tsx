@@ -39,8 +39,8 @@ export function GrowingEcosystem(props: IGrowingEcosystemProps) {
           and services integrated with Lido.
         </Description>
         <List>
-          {DataGrowingEcosystem.map((item) => (
-            <Item {...item} />
+          {DataGrowingEcosystem.map((item, index) => (
+            <Item {...item} key={index} />
           ))}
           <ViewAll />
         </List>

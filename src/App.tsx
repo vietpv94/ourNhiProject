@@ -9,6 +9,12 @@ import { RootState } from "@Redux/reducers";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
 const App: FC = () => {
   const loading = useSelector((state: RootState) => state.loading);
   return (

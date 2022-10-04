@@ -26,7 +26,7 @@ export function HowLidoWork (props: IHowLidoWorkProps) {
         </Description>
         <List>
           {dataHowLidoWork.map((item, index) => {
-            return Item(item);
+            return <Item key={index} {...item} />;
           })}
         </List>
       </HowLidoWorkWrapper>

@@ -11,7 +11,7 @@ export function CurveIcon(props: ICurveIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_1634)">
+      <g clipPath="url(#clip0_298_1634)">
         <path
           d="M0.5 16.8208C0.5 8.1646 7.66347 1.14734 16.5 1.14734C25.3365 1.14734 32.5 8.1646 32.5 16.8208C32.5 25.477 25.3365 32.4943 16.5 32.4943C7.66347 32.4943 0.5 25.477 0.5 16.8208Z"
           fill="#3F659F"

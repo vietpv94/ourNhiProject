@@ -11,7 +11,7 @@ export function FTXIcon(props: IFTXIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_3179)">
+      <g clipPath="url(#clip0_298_3179)">
         <path
           d="M16.5 32.5C25.3366 32.5 32.5 25.3366 32.5 16.5C32.5 7.66344 25.3366 0.5 16.5 0.5C7.66344 0.5 0.5 7.66344 0.5 16.5C0.5 25.3366 7.66344 32.5 16.5 32.5Z"
           fill="black"

@@ -11,7 +11,7 @@ export function MixBytesIcon(props: IMixBytesIconProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_298_1424)">
+      <g clipPath="url(#clip0_298_1424)">
         <path
           d="M5.84414 5.87988L5.91415 4.34469H5.83045L4.26797 6.92211H3.93315L2.30066 4.34469H2.23065L2.31436 5.72478V11.1307H0.5V1.27612H2.43991L4.11425 4.00709H4.16981L5.83045 1.27612H7.75614V11.1307H5.84414V5.87988Z"
           fill="#29C278"
