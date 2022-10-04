@@ -10,7 +10,7 @@ import { accountReducer } from './account';
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: []
+  whitelist: ['account']
 };
 
 const allReducers = combineReducers({
