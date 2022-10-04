@@ -4,7 +4,7 @@ export const Section = styled.section`
   position: relative;
   width: 100%;
   background-color: rgb(248, 250, 252);
-  padding: 20px;
+  padding: 60px 20px;
 `;
 
 export const SubscriberWrapper = styled.div`

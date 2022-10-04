@@ -7,6 +7,7 @@ export const Section = styled.section`
 `;
 
 export const GrowingEcosystemWrapper = styled.div`
+  padding-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +16,6 @@ export const GrowingEcosystemWrapper = styled.div`
   min-width: 320px;
   margin: auto;
   border-radius: 20px;
-  margin-top: 90px;
 `;
 
 export const Title = styled.h1`

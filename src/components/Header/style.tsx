@@ -30,8 +30,7 @@ export const Navigation = styled.div`
 export const ItemNav = styled.div`
   position: relative;
   cursor: pointer;
-  margin: 0 20px;
-  padding: 10px 20px;
+  padding: 10px 30px;
   & > span {
     color: rgb(39, 56, 82);
     font-weight: 700;

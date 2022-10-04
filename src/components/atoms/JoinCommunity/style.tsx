@@ -14,6 +14,7 @@ export const JoinCommunityWrapper = styled.div`
   height: 100%;
   max-width: 928px;
   min-width: 320px;
+  padding-top: 60px;
   margin: auto;
 `;
 

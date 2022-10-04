@@ -4,7 +4,7 @@ export const Section = styled.section`
   position: relative;
   width: 100%;
   background: #fff;
-  padding: 20px;
+  padding: 60px 20px;
 `;
 
 export const ValidatorsWrapper = styled.div`

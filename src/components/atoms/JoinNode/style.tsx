@@ -6,6 +6,7 @@ export const Section = styled.section`
   width: 100%;
   padding: 20px;
   background-color: rgb(248, 250, 252);
+  padding-top: 60px;
 `;
 
 export const Mask = styled.div`

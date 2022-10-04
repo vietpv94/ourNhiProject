@@ -25,6 +25,7 @@ export const BeachWrapper = styled.div`
   min-width: 320px;
   margin: auto;
   display: flex;
+  padding-top: 60px;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;

@@ -5,6 +5,7 @@ export const Section = styled.div`
   width: 100%;
   padding: 20px;
   background-color: rgb(248, 250, 252);
+  padding-top: 60px;
 `;
 
 export const StakeWrapper = styled.div`

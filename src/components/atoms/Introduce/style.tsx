@@ -19,6 +19,7 @@ export const IntroWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 60px;
   @media ${breakpoints.xs} {
     height: 500px;
   }

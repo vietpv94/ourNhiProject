@@ -9,6 +9,7 @@ export const Section = styled.section`
 `;
 
 export const HowLidoWorkWrapper = styled.div`
+  padding-top: 60px;
   position: relative;
   width: 100%;
   height: 100%;

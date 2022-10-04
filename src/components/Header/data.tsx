@@ -9,37 +9,68 @@ export const dataNavigation: DataItemNav[] = [
     name: "product",
     children: [
       {
-        name: "product 1",
+        name: "Stake with Lido",
         link: "/product/1",
         description: "product 1 description",
       },
       {
-        name: "product 2",
+        name: "Lido Referral Program",
         link: "/product/2",
         description: "product 2 description",
       },
       {
-        name: "product 3",
+        name: "Ethereum Referral Terms",
         link: "/product/3",
         description: "product 3 description",
       },
+      {
+        name: "Solana Referral Terms",
+        link: "/product/3",
+        description: "product 3 description",
+      },
+      {
+        name: "Lido Ecosystem",
+        link: "/product/3",
+        description: "product 3 description",
+      },
+      {
+        name: "Dune Analytics",
+        link: "/product/3",
+        description: "product 3 description",
+      },
+      {
+        name: "Token Terminal",
+        link: "/product/3",
+        description: "product 3 description",
+      },
+
     ],
   },
   {
     name: "networks",
     children: [
       {
-        name: "network 1",
+        name: "Ethereum",
         link: "/network/1",
         description: "network 1 description",
       },
       {
-        name: "network 2",
+        name: "Solana",
         link: "/network/2",
         description: "network 2 description",
       },
       {
-        name: "network 3",
+        name: "Kusama",
+        link: "/network/3",
+        description: "network 3 description",
+      },
+      {
+        name: "Polygon",
+        link: "/network/3",
+        description: "network 3 description",
+      },
+      {
+        name: "Polkadot",
         link: "/network/3",
         description: "network 3 description",
       },
@@ -49,17 +80,37 @@ export const dataNavigation: DataItemNav[] = [
     name: "Governance",
     children: [
       {
-        name: "Governance 1",
+        name: "Forum",
         link: "/Governance/1",
         description: "Governance 1 description",
       },
       {
-        name: "Governance 2",
+        name: "Easy Track",
         link: "/Governance/2",
         description: "Governance 2 description",
       },
       {
-        name: "Governance 3",
+        name: "User Guide",
+        link: "/Governance/3",
+        description: "Governance 3 description",
+      },
+      {
+        name: "Lido DAO",
+        link: "/Governance/1",
+        description: "Governance 1 description",
+      },
+      {
+        name: "Off-chain Voting",
+        link: "/Governance/2",
+        description: "Governance 2 description",
+      },
+      {
+        name: "Lido Bug Bounty",
+        link: "/Governance/3",
+        description: "Governance 3 description",
+      }, 
+      {
+        name: "Governance Process",
         link: "/Governance/3",
         description: "Governance 3 description",
       },
@@ -69,19 +120,24 @@ export const dataNavigation: DataItemNav[] = [
     name: "Developers",
     children: [
       {
-        name: "Developers 1",
+        name: "GitHub",
         link: "/Developers/1",
         description: "Developers 1 description",
       },
       {
-        name: "Developers 2",
+        name: "Documentation",
         link: "/Developers/2",
         description: "Developers 2 description",
       },
       {
-        name: "Developers 3",
+        name: "Primer",
         link: "/Developers/3",
         description: "Developers 3 description",
+      },
+      {
+        name: "Audits",
+        link: "/Developers/1",
+        description: "Developers 1 description",
       },
     ],
   },
@@ -89,17 +145,17 @@ export const dataNavigation: DataItemNav[] = [
     name: "Community",
     children: [
       {
-        name: "Community 1",
+        name: "Discord",
         link: "/Community/1",
         description: "Community 1 description",
       },
       {
-        name: "Community 2",
+        name: "Twitter",
         link: "/Community/2",
         description: "Community 2 description",
       },
       {
-        name: "Community 3",
+        name: "Telegram",
         link: "/Community/3",
         description: "Community 3 description",
       },
@@ -109,17 +165,32 @@ export const dataNavigation: DataItemNav[] = [
     name: "About",
     children: [
       {
-        name: "About 1",
+        name: "Contact Us",
         link: "/About/1",
         description: "About 1 description",
       },
       {
-        name: "About 2",
+        name: "Blog",
         link: "/About/2",
         description: "About 2 description",
       },
       {
-        name: "About 3",
+        name: "FAQ",
+        link: "/About/3",
+        description: "About 3 description",
+      },
+      {
+        name: "Help Center",
+        link: "/About/1",
+        description: "About 1 description",
+      },
+      {
+        name: "Careers",
+        link: "/About/2",
+        description: "About 2 description",
+      },
+      {
+        name: "Press Kit",
         link: "/About/3",
         description: "About 3 description",
       },
