@@ -3,9 +3,10 @@ import * as React from "react";
 export interface IGithubIconProps {
   isHover?: boolean;
   color?: string;
+  customStyle?: React.SVGProps<SVGSVGElement>;
 }
 
-export function GithubIcon({ isHover, color }: IGithubIconProps) {
+export function GithubIcon({ isHover, color, customStyle }: IGithubIconProps) {
   return (
     <svg
       width="34"
@@ -13,6 +14,7 @@ export function GithubIcon({ isHover, color }: IGithubIconProps) {
       viewBox="0 0 34 34"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
     >
       <path
         fill-rule="evenodd"

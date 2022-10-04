@@ -3,9 +3,10 @@ import * as React from "react";
 export interface IDiscordIconProps {
   isHover?: boolean;
   color?: string;
+  customStyle?: React.SVGProps<SVGSVGElement>;
 }
 
-export function DiscordIcon({ isHover, color }: IDiscordIconProps) {
+export function DiscordIcon({ isHover, color, customStyle }: IDiscordIconProps) {
   return (
     <svg
       width="37"
@@ -13,6 +14,7 @@ export function DiscordIcon({ isHover, color }: IDiscordIconProps) {
       viewBox="0 0 37 37"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
     >
       <path
         fill-rule="evenodd"

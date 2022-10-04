@@ -3,9 +3,10 @@ import * as React from "react";
 export interface IResearchIconProps {
   isHover?: boolean;
   color?: string;
+  customStyle?: React.SVGProps<SVGSVGElement>;
 }
 
-export function ResearchIcon({ isHover, color }: IResearchIconProps) {
+export function ResearchIcon({ isHover, color, customStyle}: IResearchIconProps) {
   return (
     <svg
       width="34"
@@ -13,6 +14,7 @@ export function ResearchIcon({ isHover, color }: IResearchIconProps) {
       viewBox="0 0 34 34"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
     >
       <path
         fill-rule="evenodd"

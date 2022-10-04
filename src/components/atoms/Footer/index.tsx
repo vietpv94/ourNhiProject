@@ -1,11 +1,11 @@
-import { dataNavigation, ItemNav } from "@Components/Header/data";
+import { dataNavigation, DataItemNav } from "@Components/Header/data";
 import { Logo } from "@Components/Header/logo";
 import * as React from "react";
 import { Col, CopyRight, FooterWrapper, List, Section } from "./style";
 
 export interface IFooterProps {}
 
-export const Item = (data: ItemNav) => {
+export const Item = (data: DataItemNav) => {
   return (
     <Col>
       <div className="title">{data.name}</div>

@@ -1,10 +1,10 @@
-export interface ItemNav {
+export interface DataItemNav {
   name: string;
   link?: string;
   description?: string;
-  children?: ItemNav[];
+  children?: DataItemNav[];
 }
-export const dataNavigation: ItemNav[] = [
+export const dataNavigation: DataItemNav[] = [
   {
     name: "product",
     children: [

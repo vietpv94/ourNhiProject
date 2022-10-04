@@ -3,9 +3,10 @@ import * as React from "react";
 export interface ITelegramIconProps {
   isHover?: boolean;
   color?: string;
+  customStyle?: React.SVGProps<SVGSVGElement>;
 }
 
-export function TelegramIcon({ isHover, color }: ITelegramIconProps) {
+export function TelegramIcon({ isHover, color, customStyle }: ITelegramIconProps) {
   return (
     <svg
       width="34"
@@ -13,6 +14,7 @@ export function TelegramIcon({ isHover, color }: ITelegramIconProps) {
       viewBox="0 0 34 34"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
     >
       <path
         fill-rule="evenodd"

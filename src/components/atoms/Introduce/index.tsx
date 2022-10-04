@@ -15,19 +15,51 @@ export interface IIntroduceProps {}
 const ListSocial = [
   {
     name: "Twitter",
-    icon: <TwitterIcon color="#000" />,
+    icon: (
+      <TwitterIcon
+        color="#000"
+        customStyle={{
+          width: "24",
+          height: "24",
+        }}
+      />
+    ),
   },
   {
     name: "Telegram",
-    icon: <TelegramIcon color="#000" />,
+    icon: (
+      <TelegramIcon
+        color="#000"
+        customStyle={{
+          width: "24",
+          height: "24",
+        }}
+      />
+    ),
   },
   {
     name: "Discord",
-    icon: <DiscordIcon color="#000" />,
+    icon: (
+      <DiscordIcon
+        color="#000"
+        customStyle={{
+          width: "24",
+          height: "24",
+        }}
+      />
+    ),
   },
   {
     name: "Github",
-    icon: <GithubIcon color="#000" />,
+    icon: (
+      <GithubIcon
+        color="#000"
+        customStyle={{
+          width: "24",
+          height: "24",
+        }}
+      />
+    ),
   },
 ];
 export function Introduce(props: IIntroduceProps) {
