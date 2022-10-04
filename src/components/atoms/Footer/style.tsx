@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const Section = styled.section`
@@ -40,6 +41,7 @@ export const List = styled.div`
   display: flex;
   gap: 20px;
   padding: 50px 0;
+  flex-wrap: wrap;
 `;
 
 export const Col = styled.div`
@@ -62,6 +64,9 @@ export const Col = styled.div`
       line-height: 30px;
       color: rgb(122, 138, 160);
     }
+  }
+  @media ${breakpoints.xs}{
+    width: calc(100% / 2 - 20px);
   }
 `;
 
