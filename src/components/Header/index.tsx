@@ -31,8 +31,8 @@ export const ItemMenuMobile = (data: DataItemNav) => {
   return (
     <div className="item">
       <span className="name">{data.name}</span>
-      {data.children?.map((item) => (
-        <div className="item-child">
+      {data.children?.map((item, index) => (
+        <div className="item-child" key={index}>
           <span className="title">{item.name}</span>
           <span className="description">{item.description}</span>
         </div>
@@ -43,8 +43,8 @@ export const ItemMenuMobile = (data: DataItemNav) => {
 export const MenuMobile = ({ toggle }: { toggle: boolean }) => {
   return (
     <MenuMobileWrapper className={toggle ? "active" : ""}>
-      {dataNavigation.map((item) => (
-        <ItemMenuMobile {...item} />
+      {dataNavigation.map((item, index) => (
+        <ItemMenuMobile {...item} key={index}/>
       ))}
     </MenuMobileWrapper>
   );

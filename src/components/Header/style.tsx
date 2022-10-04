@@ -6,10 +6,11 @@ export const HeaderWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  height: 80px;
   background-color: transparent;
   z-index: 9999;
   @media ${breakpoints.md} {
-    &.toggle {
+    &.toggle {   
       position: sticky;
       & > .header {
         background-color: #fff;
@@ -49,7 +50,7 @@ export const ItemNav = styled.div`
 `;
 
 export const Dropdown = styled.ul`
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
   top: 100%;

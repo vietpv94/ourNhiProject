@@ -29,6 +29,9 @@ export const BeachWrapper = styled.div`
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
+  @media ${breakpoints.xs} {
+    padding: 0;
+  }
 `;
 
 export const Plant = styled.div`
@@ -73,5 +76,13 @@ export const Item = styled.div`
   }
   @media ${breakpoints.xs} {
     width: calc(100% / 2 - 20px);
+    & > .title {
+      font-size: 10px;
+      margin: 0;
+    }
+    & > .value {
+      font-size: 16px;
+      margin: 0;
+    }
   }
 `;
