@@ -16,8 +16,8 @@ export const ItemNavigation = (data: DataItemNav) => {
     <ItemNav ref={ref}>
       <span>{data.name}</span>
       <Dropdown style={{ display: `${isHover ? "flex" : "none"}` }}>
-        {data.children?.map((item) => (
-          <li>
+        {data.children?.map((item, index) => (
+          <li key={index}>
             <span className="title">{item.name}</span>
             <span className="description">{item.description}</span>
           </li>
@@ -31,8 +31,8 @@ export const ItemMenuMobile = (data: DataItemNav) => {
   return (
     <div className="item">
       <span className="name">{data.name}</span>
-      {data.children?.map((item) => (
-        <div className="item-child">
+      {data.children?.map((item, index) => (
+        <div key={index} className="item-child">
           <span className="title">{item.name}</span>
           <span className="description">{item.description}</span>
         </div>
@@ -43,8 +43,8 @@ export const ItemMenuMobile = (data: DataItemNav) => {
 export const MenuMobile = ({ toggle }: { toggle: boolean }) => {
   return (
     <MenuMobileWrapper className={toggle ? "active" : ""}>
-      {dataNavigation.map((item) => (
-        <ItemMenuMobile {...item} />
+      {dataNavigation.map((item, index) => (
+        <ItemMenuMobile key={index} {...item} />
       ))}
     </MenuMobileWrapper>
   );

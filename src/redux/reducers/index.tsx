@@ -6,6 +6,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from "redux-saga";
 import { loadingReducer } from "./loading";
+import { accountReducer } from './account';
 const persistConfig = {
   key: "root",
   storage,
@@ -14,7 +15,8 @@ const persistConfig = {
 
 const allReducers = combineReducers({
   // ...reducers
-  loading: loadingReducer
+  loading: loadingReducer,
+  account: accountReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, allReducers);
@@ -46,3 +48,13 @@ export { store, persister as persister };
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+
+export type Props<T> = {
+  [P in keyof T]?: T[P];
+};
+
+export type Action<T> = {
+  type: string;
+  payload: Props<T>;
+};

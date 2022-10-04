@@ -9,6 +9,8 @@ import { DiscordIcon } from "../JoinCommunity/icon/discord";
 import { GithubIcon } from "../JoinCommunity/icon/github";
 import { breakpoints } from "@Utils/theme";
 import { useMedia } from "react-use";
+import { useDispatch } from 'react-redux';
+import { loginRequest } from '../../../redux/actions/account';
 
 export interface IIntroduceProps {}
 
@@ -64,6 +66,7 @@ const ListSocial = [
 ];
 export function Introduce(props: IIntroduceProps) {
   const isMobile = useMedia(breakpoints.md);
+  const dispatch = useDispatch()
   return (
     <Section>
       <IntroWrapper>
@@ -83,6 +86,10 @@ export function Introduce(props: IIntroduceProps) {
                 width: 150px;"
               type="blue"
               text="Stake now"
+              onClick={() => {
+                console.log('%cindex.tsx line:90 helo ba gia', 'color: #007acc;');
+                dispatch(loginRequest())
+              }}
             />
           </Content>
           <Socials>
