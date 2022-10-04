@@ -66,7 +66,9 @@ export function Header(props: IHeaderProps) {
           <Hamburger toggle={toggle} setToggle={setToggle} />
         )}
       </Main>
-      <MenuMobile toggle={toggle} />
+      {
+        isMobile && <MenuMobile toggle={toggle} />
+      }
     </HeaderWrapper>
   );
 }
