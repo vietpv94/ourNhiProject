@@ -1,4 +1,4 @@
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 import * as React from "react";
 import { Content, IntroWrapper, Main, Mask, Section, Socials } from "./style";
 import sun from "@Assets/images/home/sun2.png";

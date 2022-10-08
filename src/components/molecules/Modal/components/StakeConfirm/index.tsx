@@ -1,5 +1,5 @@
 import solToken from "@Assets/images/molecules/card/sol-token.png";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 import { setModal } from "@Redux/actions/modal";
 import { useDispatch } from "react-redux";
 import { Content, Item, Logo, Wrapper } from "./style";

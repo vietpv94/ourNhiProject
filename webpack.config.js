@@ -28,6 +28,9 @@ module.exports = {
       "@Hooks": path.resolve(__dirname, "src/hooks/"),
       "@Pages": path.resolve(__dirname, "src/pages/"),
       "@Styles": path.resolve(__dirname, "src/styles/"),
+      "@Types": path.resolve(__dirname, "src/types/"),
+      "@Helpers": path.resolve(__dirname, "src/helpers/"),
+      "@Models": path.resolve(__dirname, "src/models")
     },
     extensions: [".tsx", ".ts", ".js"],
     fallback: {
@@ -42,16 +45,14 @@ module.exports = {
       stream: false,
       assert: false,
       util: false,
-      crypto: require.resolve('crypto-browserify'),
+      crypto: require.resolve("crypto-browserify")
     }
   },
   devServer: {
     static: path.join(__dirname, "public"),
     hot: true,
     port: 3001,
-    historyApiFallback: {
-      index: "index.html"
-    }
+    historyApiFallback: true
   },
   performance: {
     hints: process.env.NODE_ENV === "production" ? "warning" : false
@@ -98,7 +99,7 @@ module.exports = {
       ignoreOrder: false // Enable to remove warnings about conflicting order
     }),
     new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer'],
+      Buffer: ["buffer", "Buffer"]
     }),
     new Dotenv({
       path: `./.env`

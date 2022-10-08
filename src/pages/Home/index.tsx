@@ -3,7 +3,7 @@ import Layout from "@Pages/Layout";
 import React from "react";
 import { breakpoints } from "@Utils/theme";
 import { useMedia } from "react-use";
-import { Header } from "@Components/Header";
+import { Header } from "@Components/molecules/Header";
 import { Networks } from "@Components/atoms/Networks";
 import { HowLidoWork } from "@Components/atoms/HowLidoWork";
 import { TheDAO } from "@Components/atoms/TheDAO";
@@ -15,7 +15,7 @@ import { Stake } from "@Components/atoms/Stake";
 import { Blogs } from "@Components/atoms/Blogs";
 import { JoinCommunity } from "@Components/atoms/JoinCommunity";
 import { Subscribe } from "@Components/atoms/Subscribe";
-import { Footer } from "@Components/atoms/Footer";
+import { Footer } from "@Components/molecules/Footer";
 import { Introduce } from "@Components/atoms/Introduce";
 import { Beach } from "@Components/atoms/Beach";
 

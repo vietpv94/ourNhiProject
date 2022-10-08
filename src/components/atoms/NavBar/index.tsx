@@ -65,28 +65,26 @@ export function NavBar(): React.ReactElement {
   const [showMenu, setShowMenu] = React.useState(false);
 
   return (
-    <Wrapper>
-      <PageWrapper>
+    <PageWrapper>
+      <Flex></Flex>
+      {!isMobile ? (
         <Flex></Flex>
-        {!isMobile ? (
-          <Flex></Flex>
-        ) : (
-          <div onClick={() => setShowMenu(!showMenu)}>
-            <svg
-              width="25"
-              height="23"
-              viewBox="0 0 25 23"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect x="2" y="4" width="21" height="3" rx="1.5" fill="white" />
-              <rect x="2" y="10" width="21" height="3" rx="1.5" fill="white" />
-              <rect x="2" y="16" width="21" height="3" rx="1.5" fill="white" />
-            </svg>
-          </div>
-        )}
-      </PageWrapper>
-    </Wrapper>
+      ) : (
+        <div onClick={() => setShowMenu(!showMenu)}>
+          <svg
+            width="25"
+            height="23"
+            viewBox="0 0 25 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect x="2" y="4" width="21" height="3" rx="1.5" fill="white" />
+            <rect x="2" y="10" width="21" height="3" rx="1.5" fill="white" />
+            <rect x="2" y="16" width="21" height="3" rx="1.5" fill="white" />
+          </svg>
+        </div>
+      )}
+    </PageWrapper>
   );
 }
 

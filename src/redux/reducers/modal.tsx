@@ -1,11 +1,11 @@
-import { MODAL_TYPE_ACTION } from "@Redux/constants/modal";
+import { MODAL_TYPE_ACTION } from "@Constants/redux-actions/modal";
 
 interface IModalState {
   modal: string;
 }
 
 const initialState: IModalState = {
-  modal: "",
+  modal: ""
 };
 
 export const modalReducer = (

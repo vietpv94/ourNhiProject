@@ -25,9 +25,13 @@
       "@Hooks/*": ["src/hooks/*"],
       "@Pages/*": ["src/pages/*"],
       "@Constants/*": ["src/constants/*"],
-      "@Styles/*": ["src/styles/*"]
+      "@Styles/*": ["src/styles/*"],
+      "@Types/*": ["src/types/*"],
+      "@Helpers/*": ["src/helpers/*"],
+      "@Models/*": ["src/models/*"],
+      "@Assets/*": ["src/assets/*"]
     }
   },
-  "include": ["./src/**/*", "types", "index.d.ts"],
+  "include": ["./src/**/*", "src/typings.d.ts", "index.d.ts"],
   "exclude": ["./build/**/*"]
 }

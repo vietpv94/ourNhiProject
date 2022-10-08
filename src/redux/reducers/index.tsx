@@ -1,22 +1,26 @@
 import rootSaga from "@Redux/sagas/rootSaga";
-import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
+import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from "redux-saga";
 import { loadingReducer } from "./loading";
+import account from "./accounts";
+import accessToken from "./accessToken";
 import { modalReducer } from "./modal";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: []
 };
 
 const allReducers = combineReducers({
   // ...reducers
+  account,
+  accessToken,
   loading: loadingReducer,
-  modal: modalReducer,
+  modal: modalReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, allReducers);
@@ -35,9 +39,9 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: false,
-      serializableCheck: false,
+      serializableCheck: false
     }).concat(middleware),
-  devTools: !isProduction,
+  devTools: !isProduction
 });
 
 sagaMiddleware.run(rootSaga);

@@ -1,14 +1,11 @@
-import { NavBar } from "@Components/atoms/NavBar";
-import PageWrapper from "@Components/atoms/PageWrapper";
-import React from "react";
-import { Helmet } from "react-helmet-async";
+import { NavBar } from '@Components/atoms/NavBar';
+import PageWrapper from '@Components/atoms/PageWrapper';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 interface LayoutProps {
   title?: string;
-  meta?: React.DetailedHTMLProps<
-    React.MetaHTMLAttributes<HTMLMetaElement>,
-    HTMLMetaElement
-  >;
+  meta?: React.DetailedHTMLProps<React.MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement>;
   children: React.ReactNode;
 }
 
@@ -20,13 +17,14 @@ export function Layout(props: LayoutProps): React.ReactElement {
         <title>{title}</title>
         <meta {...meta} />
       </Helmet>
+      <NavBar />
       <PageWrapper>{children}</PageWrapper>
     </>
   );
 }
 
 Layout.defaultProps = {
-  title: "",
+  title: '',
   meta: {},
 };
 

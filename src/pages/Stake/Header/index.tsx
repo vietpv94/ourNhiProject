@@ -1,6 +1,6 @@
-import logo from "@Assets/images/logo.png";
+import logo from "@Assets/images/Logo.png";
 import { WalletIcon } from "@Components/atoms/icon/wallet";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 import { Badge } from "@Components/molecules/Badge";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
