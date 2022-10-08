@@ -45,12 +45,3 @@ export const Item = styled.div`
     color: #53ba95;
   }
 `;
-
-export const APR = styled(Item)`
-  margin-top: 20px;
-  & > .value {
-    color: #53ba95;
-    font-weight: 400;
-    font-size: 14px;
-  }
-`;

@@ -6,6 +6,11 @@ export const DurationWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  & > .num {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+  }
 `;
 
 export const Label = styled.div`

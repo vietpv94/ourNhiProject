@@ -1,13 +1,6 @@
 import successful from "@Assets/images/Gif/successful.gif";
 import { TimeStepper } from "@Components/molecules/TimeStepper";
-import {
-  APR,
-  Content,
-  Item,
-  Logo,
-  StakeSuccessfulWrapper,
-  Title,
-} from "./style";
+import { Content, Item, Logo, StakeSuccessfulWrapper, Title } from "./style";
 export interface IStakeSuccessfulProps {}
 
 const data = [
@@ -41,10 +34,6 @@ export function StakeSuccessful(props: IStakeSuccessfulProps) {
         </Item>
       </Content>
       <TimeStepper data={data} />
-      <APR>
-        <span className="label">Est. APR</span>
-        <span className="value">1.39%</span>
-      </APR>
     </StakeSuccessfulWrapper>
   );
 }

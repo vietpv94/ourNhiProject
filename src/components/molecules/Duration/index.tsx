@@ -5,6 +5,7 @@ export interface IDurationProps {
   selected: number;
   list: number[];
   setSelected: (value: number) => void;
+  className?: string;
 }
 
 export function Duration({
@@ -12,20 +13,23 @@ export function Duration({
   selected,
   list,
   setSelected,
+  className,
 }: IDurationProps) {
   return (
-    <DurationWrapper>
+    <DurationWrapper className={className}>
       <Label>Duration ({type}):</Label>
-      {list.map((item, index) => (
-        <Num
-          key={index}
-          className={selected === item ? "active" : ""}
-          onClick={() => setSelected(item)}
-        >
-          {selected === item && <Active />}
-          <span>{item}</span>
-        </Num>
-      ))}
+      <div className="num">
+        {list.map((item, index) => (
+          <Num
+            key={index}
+            className={selected === item ? "active" : ""}
+            onClick={() => setSelected(item)}
+          >
+            {selected === item && <Active />}
+            <span>{item}</span>
+          </Num>
+        ))}
+      </div>
     </DurationWrapper>
   );
 }

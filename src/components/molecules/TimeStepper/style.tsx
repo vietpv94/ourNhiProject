@@ -44,3 +44,19 @@ export const Rect = styled.div`
   height: 9px;
   background: #00a3ff;
 `;
+
+export const EstAPR = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  & > .label {
+    color: #8c8c92;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  & > .value {
+    color: #53ba95;
+    font-weight: 400;
+    font-size: 14px;
+  }
+`;
