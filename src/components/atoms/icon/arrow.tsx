@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 export interface IArrowIconProps {
   color?: string;
-  direction: "up" | "down" | "left" | "right";
-  style?: "outline" | "solid";
+  direction?: "up" | "down" | "left" | "right";
+  style?: "outline" | "solid" | "default";
 }
 
 const Wrapper = styled.div<{ direction: "up" | "down" | "left" | "right" }>`
@@ -26,11 +26,35 @@ const Wrapper = styled.div<{ direction: "up" | "down" | "left" | "right" }>`
 export function ArrowIcon({
   color = "#37373b",
   direction = "down",
-  style = "solid",
+  style = "default",
 }: IArrowIconProps) {
   return (
     <Wrapper direction={direction}>
-      {style === "outline" ? (
+      {style === "default" && (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.6831 18.192L10.6831 5.63571"
+            stroke={color}
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M4.45654 10.8675L10.683 4.76376L16.9095 10.8675"
+            stroke={color}
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      )}
+      {style === "outline" && (
         <svg
           width="18"
           height="10"
@@ -47,15 +71,19 @@ export function ArrowIcon({
             stroke-linejoin="round"
           />
         </svg>
-      ) : (
+      )}
+      {style === "solid" && (
         <svg
-          width="14"
-          height="9"
-          viewBox="0 0 14 9"
+          width="18"
+          height="10"
+          viewBox="0 0 18 10"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M7 9L0.0717964 0H13.9282L7 9Z" fill={color} />
+          <path
+            d="M7.70776 6.71794L9.1962 5.2295L11.6215 2.80416C12.1278 2.29039 11.7651 1.41394 11.0398 1.41394L6.33265 1.41394L2.094 1.41394C1.3686 1.41394 1.006 2.29039 1.5198 2.80416L5.43354 6.71794C6.05309 7.34505 7.08065 7.34505 7.70776 6.71794Z"
+            fill={color}
+          />
         </svg>
       )}
     </Wrapper>

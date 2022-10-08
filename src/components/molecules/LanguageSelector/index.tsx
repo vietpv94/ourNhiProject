@@ -28,7 +28,7 @@ export function LanguageSelector(props: ILanguageSelectorProps) {
     <LanguageSelectorWrapper>
       <Main>
         <CountryFlag src={eng} alt="eng" />
-        <ArrowIcon direction="down" color="#00a3ff" />
+        <ArrowIcon style="solid" direction="down" color="#00a3ff" />
       </Main>
     </LanguageSelectorWrapper>
   );

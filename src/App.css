@@ -190,8 +190,8 @@ input[type="number"] {
 }
 
 ::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
+    width: 3px;
+    height: 3px;
 }
 
 
@@ -206,7 +206,7 @@ input[type="number"] {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-    background: #00ccff3b;
+    background: #4a66ef7a;
     border-radius: 10px;
 }
 
@@ -214,7 +214,7 @@ input[type="number"] {
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #00ccff;
+    background: #4A65EF;
 }
 
 input {

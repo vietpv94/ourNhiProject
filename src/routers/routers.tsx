@@ -1,5 +1,6 @@
 import HomePage from "@Pages/Home";
 import { Stake } from "@Pages/Stake";
+import { Dashboard } from "@Pages/Stake/Dashboard";
 import { DefiStaking } from "@Pages/Stake/DefiStaking";
 
 export interface Router {
@@ -21,6 +22,10 @@ export const router: Router[] = [
       {
         path: "defi-staking",
         component: DefiStaking,
+      },
+      {
+        path: "dashboard",
+        component: Dashboard,
       },
     ],
   },

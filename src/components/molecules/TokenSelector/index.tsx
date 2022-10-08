@@ -46,7 +46,7 @@ export function TokenSelector(props: ITokenSelectorProps) {
             </span>
             <span className="value">${activeToken.value}</span>
           </div>
-          <ArrowIcon color="#fff" direction="left" />
+          <ArrowIcon style="solid" color="#fff" direction="left" />
         </div>
       </Main>
     </TokenSelectorWrapper>
