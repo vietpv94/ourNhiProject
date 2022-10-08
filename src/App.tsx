@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@Redux/reducers";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { router } from "./routers/routers";
 
 declare global {
   interface Window {
@@ -28,7 +29,22 @@ const App: FC = () => {
           <meta name="description" content="React Boilerplate" />
         </Helmet>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {router.map((item, index) => {
+            return (
+              <Route key={index} path={item.path} element={<item.component />}>
+                {item.children &&
+                  item.children.map((child, index) => {
+                    return (
+                      <Route
+                        key={index}
+                        path={child.path}
+                        element={<child.component />}
+                      />
+                    );
+                  })}
+              </Route>
+            );
+          })}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
