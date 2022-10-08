@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface ITeamIconProps {
   color?: string;
 }
 
-export function TeamIcon({ color = "#00A3FF" }: ITeamIconProps) {
+export function TeamIcon({ color = "#37373b" }: ITeamIconProps) {
   return (
     <svg
       width="24"

@@ -1,8 +1,19 @@
-import { HeaderWrapper } from "@Components/Header/style";
-import * as React from "react";
-import { Logo, Main, LeftMenu, RightMenu } from "./style";
 import logo from "@Assets/images/logo.png";
+import { WalletIcon } from "@Components/atoms/icon/wallet";
+import { Button } from "@Components/Button";
 import { Badge } from "@Components/molecules/Badge";
+import { LanguageSelector } from "@Components/molecules/LanguageSelector";
+import { Profile } from "@Components/molecules/Profile.tsx";
+import * as React from "react";
+import { WalletSelector } from "../style";
+import {
+  Container,
+  HeaderWrapper,
+  LeftMenu,
+  Logo,
+  Main,
+  RightMenu,
+} from "./style";
 export interface IHeaderProps {}
 
 interface IMenuItem {
@@ -28,21 +39,38 @@ const dataMenu: IMenuItem[] = [
   },
 ];
 export function Header(props: IHeaderProps) {
+  const [isLogin, setIsLogin] = React.useState(false);
   return (
-    <HeaderWrapper>
-      <Logo src={logo} alt="logo" />
-      <Main>
-        <LeftMenu>
-          {dataMenu.map((item) => (
-            <li key={item.id}>
-              <a href={item.link}>{item.name}</a>
-            </li>
-          ))}
-        </LeftMenu>
-        <RightMenu>
-          <Badge num={10} />
-        </RightMenu>
-      </Main>
-    </HeaderWrapper>
+    <Container>
+      <HeaderWrapper>
+        <Logo src={logo} alt="logo" />
+        <Main>
+          <LeftMenu>
+            {dataMenu.map((item) => (
+              <li key={item.id}>
+                <a href={item.link}>{item.name}</a>
+              </li>
+            ))}
+          </LeftMenu>
+          <RightMenu>
+            <Badge num={10} />
+            {isLogin ? (
+              <Profile />
+            ) : (
+              <Button
+                customStyle={"height: 40px;"}
+                onClick={() => setIsLogin(true)}
+                type="blue"
+                text="Connect"
+              />
+            )}
+            <WalletSelector>
+              <WalletIcon color="#00a3ff" />
+            </WalletSelector>
+            <LanguageSelector />
+          </RightMenu>
+        </Main>
+      </HeaderWrapper>
+    </Container>
   );
 }

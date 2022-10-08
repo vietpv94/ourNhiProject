@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface IWalletIconProps {
   color?: string;
 }
 
-export function WalletIcon({ color = "#00A3FF" }: IWalletIconProps) {
+export function WalletIcon({ color = "#37373b" }: IWalletIconProps) {
   return (
     <svg
       width="16"

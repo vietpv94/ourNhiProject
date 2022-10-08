@@ -2,9 +2,10 @@ import * as React from "react";
 
 export interface ICloseIconProps {
   color?: string;
+  customStyle?: React.CSSProperties;
 }
 
-export function CloseIcon({ color = "#FF476A" }: ICloseIconProps) {
+export function CloseIcon({ color = "#FF476A", customStyle }: ICloseIconProps) {
   return (
     <svg
       width="16"
@@ -12,6 +13,7 @@ export function CloseIcon({ color = "#FF476A" }: ICloseIconProps) {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={customStyle}
     >
       <path
         d="M9.32666 6.67328L9.88666 6.11328"

@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface ILogoutIconProps {
   color?: string;
 }
 
-export function LogoutIcon({ color = "#00A3FF" }: ILogoutIconProps) {
+export function LogoutIcon({ color = "#37373b" }: ILogoutIconProps) {
   return (
     <svg
       width="17"

@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface IProfileIconProps {
   color?: string;
 }
 
-export function ProfileIcon({ color = "#00A3FF" }: IProfileIconProps) {
+export function ProfileIcon({ color = "#37373b" }: IProfileIconProps) {
   return (
     <svg
       width="17"

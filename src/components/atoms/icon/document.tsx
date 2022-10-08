@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface IDocumentIconProps {
   color?: string;
 }
 
-export function DocumentIcon({ color = "#00A3FF" }: IDocumentIconProps) {
+export function DocumentIcon({ color = "#37373b" }: IDocumentIconProps) {
   return (
     <svg
       width="24"

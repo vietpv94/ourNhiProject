@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface IBlockIconProps {
   color?: string;
 }
 
-export function BlockIcon({ color = "#00A3FF" }: IBlockIconProps) {
+export function BlockIcon({ color = "#37373b" }: IBlockIconProps) {
   return (
     <svg
       width="24"

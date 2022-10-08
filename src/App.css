@@ -206,7 +206,7 @@ input[type="number"] {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-    background: #8980bc;
+    background: #00ccff3b;
     border-radius: 10px;
 }
 

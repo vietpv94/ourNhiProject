@@ -1,10 +1,8 @@
-import * as React from "react";
-
 export interface IHistoryIconProps {
   color?: string;
 }
 
-export function HistoryIcon({ color = "#00A3FF" }: IHistoryIconProps) {
+export function HistoryIcon({ color = "#37373b" }: IHistoryIconProps) {
   return (
     <svg
       width="24"

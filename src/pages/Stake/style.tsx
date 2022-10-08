@@ -12,4 +12,21 @@ export const StakeWrapper = styled.div`
 export const Flex = styled.div`
   display: flex;
   flex-direction: row;
+  position: relative;
+  height: calc(100vh - 100px);
+  width: 100%;
+  padding: 20px;
+  padding-bottom: 0;
+  gap: 20px;
+`;
+
+export const WalletSelector = styled.div`
+  cursor: pointer;
+  height: 35px;
+  aspect-ratio: 1;
+  background: #e6f6ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
