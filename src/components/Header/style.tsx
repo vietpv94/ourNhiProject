@@ -10,7 +10,7 @@ export const HeaderWrapper = styled.div`
   background-color: transparent;
   z-index: 9999;
   @media ${breakpoints.md} {
-    &.toggle {   
+    &.toggle {
       position: sticky;
       & > .header {
         background-color: #fff;
@@ -138,7 +138,11 @@ export const MenuMobileWrapper = styled.div`
       }
     }
   }
-  &.active{
+  &.active {
     transform: translateX(0);
   }
+`;
+export const LogoImage = styled.img`
+  height: 24px;
+  width: auto;
 `;
