@@ -10,10 +10,10 @@ export const TabWrapper = styled.div`
 export const Item = styled.div`
   position: relative;
   cursor: pointer;
-  color: #dddde8;
-  font-weight: 600;
-  font-size: 16px;
-  padding: 16px 0;
+  color: #8c8c92;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 10px 0;
   height: max-content;
   text-transform: capitalize;
   &.active {

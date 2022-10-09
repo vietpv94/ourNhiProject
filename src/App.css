@@ -9,6 +9,12 @@
 }
 
 @font-face {
+    font-family: "SF Pro Display";
+    src: url("./styles/fonts/SF-Pro-Display-Regular.otf") format("opentype");
+    font-weight: bold;
+}
+
+@font-face {
     font-family: "Inter";
     src: url("./styles/fonts/Inter.ttf") format("opentype");
 }

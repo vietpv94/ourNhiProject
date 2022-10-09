@@ -16,6 +16,7 @@ export function ProfileTickIcon({
       viewBox="0 0 40 43"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
     >
       <path
         d="M24.0664 33.7252L26.5997 36.3759L31.6664 31.0744"

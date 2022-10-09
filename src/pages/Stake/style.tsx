@@ -7,6 +7,9 @@ export const StakeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background: #f5f5f5;
+  & * {
+    font-family: "SF Pro Display" !important;
+  }
 `;
 
 export const Flex = styled.div`

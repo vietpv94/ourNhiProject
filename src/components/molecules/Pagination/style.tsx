@@ -4,6 +4,7 @@ export const PaginationWrapper = styled.div`
   .pagination-container {
     display: flex;
     list-style-type: none;
+    align-items: center;
     gap: 10px;
     .pagination-item {
       height: 32px;
@@ -11,7 +12,7 @@ export const PaginationWrapper = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 32px;
+      width: 32px;
       background: #e6f6ff;
       border-radius: 4px;
       &.selected,
@@ -35,18 +36,15 @@ export const PaginationWrapper = styled.div`
       }
       .arrow {
         &::before {
-          position: relative;
-          /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
           content: "";
-          /* By using an em scale, the arrows will size with the font */
           display: inline-block;
-          width: 0.4em;
-          height: 0.4em;
-          border-right: 0.12em solid rgba(0, 0, 0, 0.87);
-          border-top: 0.12em solid rgba(0, 0, 0, 0.87);
+          width: 5px;
+          height: 5px;
+          border-right: 2px solid #00a3ff;
+          border-top: 2px solid #00a3ff;
         }
         &.left {
-          transform: rotate(-135deg) translate(-50%);
+          transform: rotate(-135deg);
         }
         &.right {
           transform: rotate(45deg);
@@ -55,8 +53,8 @@ export const PaginationWrapper = styled.div`
       &.disabled {
         pointer-events: none;
         .arrow::before {
-          border-right: 0.12em solid rgba(0, 0, 0, 0.43);
-          border-top: 0.12em solid rgba(0, 0, 0, 0.43);
+          border-right: 2px solid #00a2ff76;
+          border-top: 2px solid #00a2ff76;
         }
         &:hover {
           background-color: transparent;
@@ -64,10 +62,14 @@ export const PaginationWrapper = styled.div`
         }
       }
       &.arrow {
+        height: 28px;
         cursor: pointer;
         background-color: white;
         border: 1px solid #00a3ff;
         border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
