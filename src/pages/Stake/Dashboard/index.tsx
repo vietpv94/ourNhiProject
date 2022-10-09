@@ -78,7 +78,7 @@ export function Dashboard(props: IDashboardProps) {
       <Title>Dashboard</Title>
       <CardGroup>
         {dataCard.map((item, index) => (
-          <CardItem {...item} key={index} />
+          <CardItem {...item} key={`card-item-${index}`} />
         ))}
         <AffiliateLink>
           <div className="label">Your affiliate link</div>
@@ -89,13 +89,13 @@ export function Dashboard(props: IDashboardProps) {
       <Title>System</Title>
       <System>
         {DataAffiliate.map((item, index) => (
-          <CardAffiliate {...item} key={index} />
+          <CardAffiliate {...item} key={`card-affiliate-${index}`} />
         ))}
       </System>
       <Title>Members</Title>
       <Info>
         {Object.keys(infoData).map((item: any, index) => (
-          <ItemInfo key={index}>
+          <ItemInfo key={`item-info-${index}`}>
             <div className="name">{item}</div>
             <div className="value">
               {infoData[item as keyof typeof infoData]}
@@ -105,7 +105,7 @@ export function Dashboard(props: IDashboardProps) {
       </Info>
       <ListAffiliate>
         {listAffiliate.map((item, index) => (
-          <CardChild data={item} key={index} />
+          <CardChild data={item} key={`list-affiliate-${index}`} />
         ))}
       </ListAffiliate>
     </DashboardWrapper>

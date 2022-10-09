@@ -11,7 +11,7 @@ export function Tab({ tabs, currentTab, setCurrentTab }: ITabProps) {
     <TabWrapper>
       {tabs.map((tab, index) => (
         <Item
-          key={index}
+          key={`tab-${index}`}
           onClick={() => setCurrentTab(tab)}
           className={currentTab === tab ? "active" : ""}
         >

@@ -19,7 +19,7 @@ export function Table({ data, header }: ITableProps) {
         <thead>
           <tr>
             {header.map((item, index) => (
-              <th className={item} key={index}>
+              <th className={item} key={`thead-tr-${index}`}>
                 {_.startCase(item)}
               </th>
             ))}
@@ -29,9 +29,9 @@ export function Table({ data, header }: ITableProps) {
           {data
             .slice((currentPage - 1) * PageSize, currentPage * PageSize)
             .map((item, index) => (
-              <tr key={index}>
+              <tr key={`table-tr-${index}`}>
                 {Object.keys(item).map((key, index) => (
-                  <td key={index}>{item[_.camelCase(key)]}</td>
+                  <td key={`tbody-tr-${index}`}>{item[_.camelCase(key)]}</td>
                 ))}
               </tr>
             ))}

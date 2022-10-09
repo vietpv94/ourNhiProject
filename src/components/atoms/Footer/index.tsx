@@ -11,7 +11,7 @@ export const Item = (data: DataItemNav) => {
       <div className="title">{data.name}</div>
       <ul>
         {data.children?.map((item, index) => (
-          <li key={index}>
+          <li key={`footer-${index}`}>
             <a href={item.link}>{item.name}</a>
           </li>
         ))}
@@ -26,7 +26,7 @@ export function Footer(props: IFooterProps) {
       <FooterWrapper>
         <List>
           {data.map((item, index) => (
-            <Item {...item} key={index}/>
+            <Item {...item} key={`footer-list-${index}`} />
           ))}
         </List>
       </FooterWrapper>

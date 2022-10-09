@@ -50,7 +50,7 @@ export function LockedStaking(props: ILockedStakingProps) {
               <CardStaking
                 onClick={handleStakeNow}
                 data={dataFake}
-                key={index}
+                key={`grid-item-${index}`}
               />
             ))}
         </Grid>

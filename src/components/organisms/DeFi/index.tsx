@@ -141,13 +141,13 @@ export function DeFi(props: IDeFiProps) {
               data={data}
             />
             <Term>
-              {dataTerm.map((item) => (
-                <ItemTerm key={item.id}>
+              {dataTerm.map((item, index) => (
+                <ItemTerm key={`tern-${index}`}>
                   {item.icon}
                   <span className="text">{item.text}</span>
                 </ItemTerm>
               ))}
-              <ItemTerm key={3}>
+              <ItemTerm key={`term-3`}>
                 <TickIcon type="square" color="#00A3FF" />
                 <span className="text">
                   I have read and I agree to Lido Simple Earn Service Agreement

@@ -25,7 +25,7 @@ export function Stake(props: IStakeProps) {
         </Description>
         <List>
           {dataStake.map((item, index) => {
-            return <Item key={index} {...item}/>
+            return <Item key={`stake-${index}`} {...item} />;
           })}
         </List>
       </StakeWrapper>

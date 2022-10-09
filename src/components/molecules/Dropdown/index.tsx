@@ -44,7 +44,7 @@ export function Dropdown({ label, data }: IDropdownProps) {
             {data.map((item) => {
               return (
                 <DropdownItem
-                  key={item.id}
+                  key={"dropdown-item-" + item.id}
                   onClick={() => {
                     setSelected(item.name);
                     setIsOpen(false);

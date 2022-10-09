@@ -47,7 +47,7 @@ export function Header(props: IHeaderProps) {
         <Main>
           <LeftMenu>
             {dataMenu.map((item) => (
-              <li key={item.id}>
+              <li key={`li-${item.id}`}>
                 <a href={item.link}>{item.name}</a>
               </li>
             ))}

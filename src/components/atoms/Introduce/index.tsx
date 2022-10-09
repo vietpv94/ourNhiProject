@@ -87,7 +87,7 @@ export function Introduce(props: IIntroduceProps) {
           </Content>
           <Socials>
             {ListSocial.map((item, index) => (
-              <div key={index}>{item.icon}</div>
+              <div key={`social-${index}`}>{item.icon}</div>
             ))}
           </Socials>
         </Main>

@@ -1,21 +1,26 @@
-import * as React from 'react';
-import { Description, HowLidoWorkWrapper, List, Section, Title, Card } from './style';
-import { DataHowLidoWork, dataHowLidoWork } from './data';
+import * as React from "react";
+import {
+  Description,
+  HowLidoWorkWrapper,
+  List,
+  Section,
+  Title,
+  Card,
+} from "./style";
+import { DataHowLidoWork, dataHowLidoWork } from "./data";
 
-export interface IHowLidoWorkProps {
-}
+export interface IHowLidoWorkProps {}
 
 export const Item = (data: DataHowLidoWork) => {
-	return (
-		<Card>
-			{data.icon}
-			<Title>{data.name}</Title>
-			<Description>{data.description}</Description>
-		</Card>
-	)
-
-}
-export function HowLidoWork (props: IHowLidoWorkProps) {
+  return (
+    <Card>
+      {data.icon}
+      <Title>{data.name}</Title>
+      <Description>{data.description}</Description>
+    </Card>
+  );
+};
+export function HowLidoWork(props: IHowLidoWorkProps) {
   return (
     <Section>
       <HowLidoWorkWrapper>
@@ -26,7 +31,7 @@ export function HowLidoWork (props: IHowLidoWorkProps) {
         </Description>
         <List>
           {dataHowLidoWork.map((item, index) => {
-            return <Item key={index} {...item} />;
+            return <Item key={`how-lido-work-${index}`} {...item} />;
           })}
         </List>
       </HowLidoWorkWrapper>

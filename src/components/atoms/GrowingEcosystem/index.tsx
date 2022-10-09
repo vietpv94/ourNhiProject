@@ -1,7 +1,14 @@
-import * as React from 'react';
-import { Card, Description, GrowingEcosystemWrapper, List, Title, ViewAllCard } from './style';
-import { Section } from '../TheDAO/style';
-import { DataGrowingEcosystem, DataEcosystem } from './data';
+import * as React from "react";
+import {
+  Card,
+  Description,
+  GrowingEcosystemWrapper,
+  List,
+  Title,
+  ViewAllCard,
+} from "./style";
+import { Section } from "../TheDAO/style";
+import { DataGrowingEcosystem, DataEcosystem } from "./data";
 
 export interface IGrowingEcosystemProps {}
 
@@ -24,7 +31,7 @@ export const ViewAll = () => {
         <div className="title">26</div>
         <div className="description">ecosystem applications</div>
       </div>
-	  <div className='view-all'>View all</div>
+      <div className="view-all">View all</div>
     </ViewAllCard>
   );
 };
@@ -40,7 +47,7 @@ export function GrowingEcosystem(props: IGrowingEcosystemProps) {
         </Description>
         <List>
           {DataGrowingEcosystem.map((item, index) => (
-            <Item {...item} key={index} />
+            <Item {...item} key={`GrowingEcosystem-${index}`} />
           ))}
           <ViewAll />
         </List>

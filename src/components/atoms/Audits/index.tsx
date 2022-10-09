@@ -1,6 +1,6 @@
 import * as React from "react";
-import { AuditWrapper, Section, Title, Description, Card, List } from './style';
-import { DataAudits, dataAudits } from './data';
+import { AuditWrapper, Section, Title, Description, Card, List } from "./style";
+import { DataAudits, dataAudits } from "./data";
 
 export interface IAuditsProps {}
 
@@ -23,7 +23,7 @@ export function Audits(props: IAuditsProps) {
         </Description>
         <List>
           {dataAudits.map((item, index) => (
-            <Item key={index} {...item} />
+            <Item key={`audit-${index}`} {...item} />
           ))}
         </List>
       </AuditWrapper>

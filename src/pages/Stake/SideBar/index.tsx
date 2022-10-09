@@ -20,7 +20,7 @@ export function SideBar(props: ISideBarProps) {
     <SideBarWrapper>
       <Main>
         {dataSideBar.map((item, index) => (
-          <>
+          <React.Fragment key={`sidebar-${index}`}>
             <Item onClick={() => handleActiveChild(item.name)}>
               {item.icon}
               <div className="right">
@@ -37,13 +37,13 @@ export function SideBar(props: ISideBarProps) {
               {item.children &&
                 activeChild.includes(item.name) &&
                 item.children.map((item, index) => (
-                  <ChildItem>
+                  <ChildItem key={`sidebar-child-${index}`}>
                     <LineSvg />
                     <span className="name">{item.name}</span>
                   </ChildItem>
                 ))}
             </ChildMenu>
-          </>
+          </React.Fragment>
         ))}
       </Main>
       <TokenSelector />

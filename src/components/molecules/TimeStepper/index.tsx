@@ -1,3 +1,4 @@
+import React from "react";
 import {
   EstAPR,
   Item,
@@ -24,7 +25,7 @@ export function TimeStepper({
     <TimeStepperWrapper style={{ ...customStyle }}>
       {data.map((item, index) => {
         return (
-          <>
+          <React.Fragment key={`time-stepper-${index}`}>
             <ItemWrapper>
               <Rect />
               <Item>
@@ -33,7 +34,7 @@ export function TimeStepper({
               </Item>
             </ItemWrapper>
             {index !== data.length - 1 && <Line />}
-          </>
+          </React.Fragment>
         );
       })}
 

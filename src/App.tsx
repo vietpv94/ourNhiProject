@@ -31,12 +31,16 @@ const App: FC = () => {
         <Routes>
           {router.map((item, index) => {
             return (
-              <Route key={index} path={item.path} element={<item.component />}>
+              <Route
+                key={`router-${index}`}
+                path={item.path}
+                element={<item.component />}
+              >
                 {item.children &&
                   item.children.map((child, index) => {
                     return (
                       <Route
-                        key={index}
+                        key={`router-child-${index}`}
                         path={child.path}
                         element={<child.component />}
                       />

@@ -107,6 +107,11 @@ export const BoxTransaction = styled.div`
         & > .walletAddress {
           color: rgba(41, 45, 50, 0.5);
         }
+        & > .time {
+          color: rgba(41, 45, 50, 0.5);
+          font-weight: 500;
+          font-size: 14px;
+        }
         & > .status {
           margin: auto;
           border-radius: 4px;
