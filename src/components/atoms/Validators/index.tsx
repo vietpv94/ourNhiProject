@@ -75,7 +75,7 @@ export function Validators(props: IValidatorsProps) {
         <Description>Explore validators that help grow Lido</Description>
         <List>
           {data.map((item) => (
-            <div key={item.id} className="image">
+            <div key={`validator-${item.id}`} className="image">
               <img src={item.image} alt="validator" />
             </div>
           ))}

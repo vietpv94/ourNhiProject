@@ -51,7 +51,7 @@ export function Blogs(props: IBlogsProps) {
         </Description>
         <Slider {...settings}>
           {data.map((item, index) => {
-            return <Item {...item} key={index} />;
+            return <Item {...item} key={`slider-${index}`} />;
           })}
         </Slider>
       </BlogsWrapper>

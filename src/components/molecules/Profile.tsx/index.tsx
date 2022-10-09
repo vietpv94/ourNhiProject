@@ -37,7 +37,7 @@ export function Profile(props: IProfileProps) {
       {showDropdown && (
         <Dropdown>
           {dropdownList.map((item, index) => (
-            <Item key={index}>
+            <Item key={`dropdown-item-${index}`}>
               {item.icon}
               <span>{item.name}</span>
             </Item>

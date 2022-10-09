@@ -49,7 +49,7 @@ export function Networks(props: INetworksProps) {
         </Description>
         <List>
           {dataSupportedNetworks.map((item, index) => {
-            return <ItemNetwork {...item} key={index} />;
+            return <ItemNetwork {...item} key={`network-${index}`} />;
           })}
         </List>
       </NetworksWrapper>

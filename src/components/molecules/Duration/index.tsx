@@ -21,7 +21,7 @@ export function Duration({
       <div className="num">
         {list.map((item, index) => (
           <Num
-            key={index}
+            key={`list-duration-${index}`}
             className={selected === item ? "active" : ""}
             onClick={() => setSelected(item)}
           >

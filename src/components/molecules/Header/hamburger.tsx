@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useMedia } from "react-use";
 import { breakpoints } from "@Utils/theme";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { openSideBar } from "@Redux/actions/home";
 
-export interface IHamburgerProps {
-  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  toggle: boolean;
-}
+export interface IHamburgerProps {}
 
 function Path(props: any) {
   return (
@@ -27,11 +27,16 @@ export const HamburgerWrapper = styled(motion.div)`
   margin: auto 0;
 `;
 
-export function Hamburger({ toggle, setToggle }: IHamburgerProps) {
+export function Hamburger(props: IHamburgerProps) {
+  const isOpenSidebar = useSelector((state: any) => state.home.isOpenSidebar);
+  const dispatch = useDispatch();
+  const handleOpenSidebar = () => {
+    dispatch(openSideBar(!isOpenSidebar));
+  };
   return (
     <HamburgerWrapper
-      onClick={() => setToggle(!toggle)}
-      animate={toggle ? "open" : "closed"}
+      onClick={handleOpenSidebar}
+      animate={isOpenSidebar ? "open" : "closed"}
     >
       <svg width="23" height="23" viewBox="0 0 23 23">
         <Path

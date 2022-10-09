@@ -36,7 +36,7 @@ export function JoinCommunity(props: IJoinCommunityProps) {
         </Description>
         <List>
           {data.map((item, index) => (
-            <Item key={index} {...item} />
+            <Item key={`joint-${index}`} {...item} />
           ))}
         </List>
       </JoinCommunityWrapper>

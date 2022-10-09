@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -10,6 +11,13 @@ export const DurationWrapper = styled.div`
     display: flex;
     gap: 10px;
     flex: 1;
+  }
+  @media ${breakpoints.sm} {
+    justify-content: space-between;
+    width: 100%;
+    & > .num {
+      justify-content: flex-end;
+    }
   }
 `;
 

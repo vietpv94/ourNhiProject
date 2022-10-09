@@ -13,7 +13,7 @@ interface DataSideBar {
 export const dataSideBar: DataSideBar[] = [
   {
     name: "Defi Staking",
-    link: "/",
+    link: "/stake/defi-staking",
     icon: <BlockAddIcon />,
     children: [
       {
@@ -28,12 +28,12 @@ export const dataSideBar: DataSideBar[] = [
   },
   {
     name: "Dashboard",
-    link: "/dashboard",
+    link: "/stake/dashboard",
     icon: <DocumentIcon />,
   },
   {
     name: "History",
-    link: "/history",
+    link: "/stake/history",
     icon: <HistoryIcon />,
   },
   {

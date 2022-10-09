@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   Outlet,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -22,6 +22,7 @@ import Login from "@Pages/Login";
 import SignUp from "@Pages/SignUp";
 import { Stake } from "@Pages/Stake";
 import { DefiStaking } from "@Pages/Stake/DefiStaking";
+import { router } from "./routers/routers";
 
 const ProtectedRoute = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -42,14 +43,34 @@ const App: FC = () => {
           <meta name="description" content="React Boilerplate" />
         </Helmet>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {router.map((item, index) => {
+            return (
+              <Route
+                key={`router-${index}`}
+                path={item.path}
+                element={<item.component />}
+              >
+                {item.children &&
+                  item.children.map((child, index) => {
+                    return (
+                      <Route
+                        key={`router-child-${index}`}
+                        path={child.path}
+                        element={<child.component />}
+                      />
+                    );
+                  })}
+              </Route>
+            );
+          })}
+          {/* <Route path="/" element={<HomePage />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="sign-up" element={<SignUp />} />
-          <Route path="dashboard" element={<ProtectedRoute />}>
+          {/* <Route path="dashboard" element={<ProtectedRoute />}>
             <Route path="" element={<Stake />}>
               <Route path="defi-staking" element={<DefiStaking />} />
             </Route>
-          </Route>
+          </Route> */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
