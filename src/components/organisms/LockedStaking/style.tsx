@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const LockedStakingWrapper = styled.div``;
@@ -8,11 +9,16 @@ export const Header = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 20px;
+  @media ${breakpoints.sm} {
+    flex-direction: column-reverse;
+    gap: 20px;
+    align-items: flex-start;
+  }
 `;
 
 export const Pool = styled.div`
   & > .label {
-    color: #1e1e20;
+    color: #4a65ef;
     font-weight: 400;
     font-size: 14px;
   }
@@ -21,8 +27,13 @@ export const Pool = styled.div`
     font-size: 14px;
     color: #8c8c92;
     & > .total {
-      color: #1e1e20;
+      color: #4a65ef;
     }
+  }
+  @media ${breakpoints.sm} {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 `;
 

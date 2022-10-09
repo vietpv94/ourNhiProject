@@ -1,5 +1,6 @@
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
-import * as React from "react";
+import useOnClickOutside from "@Hooks/useOnClickOutside";
+import React, { useRef } from "react";
 import {
   Box,
   DropdownItem,
@@ -20,11 +21,13 @@ export interface IDropdownProps {
 export function Dropdown({ label, data }: IDropdownProps) {
   const [selected, setSelected] = React.useState(data[0].name);
   const [isOpen, setIsOpen] = React.useState(false);
+  const ref = useRef(null);
+  useOnClickOutside(ref, () => setIsOpen(false));
   return (
     <DropdownWrapper>
       <Label>{label}:</Label>
       <div></div>
-      <Main>
+      <Main ref={ref}>
         <Box
           onClick={() => {
             setIsOpen(!isOpen);

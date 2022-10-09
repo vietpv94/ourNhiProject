@@ -1,6 +1,7 @@
 import useHover from "@Hooks/useHover";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
+import { useSelector } from "react-redux";
 import { useMedia } from "react-use";
 import { dataNavigation, DataItemNav } from "./data";
 import { Hamburger } from "./hamburger";
@@ -57,10 +58,10 @@ export const MenuMobile = ({ toggle }: { toggle: boolean }) => {
   );
 };
 export function Header(props: IHeaderProps) {
-  const [toggle, setToggle] = React.useState(false);
   const isMobile = useMedia(breakpoints.md);
+  const isOpenSideBar = useSelector((state: any) => state.home.isOpenSidebar);
   return (
-    <HeaderWrapper className={toggle ? "toggle" : ""}>
+    <HeaderWrapper className={isOpenSideBar ? "toggle" : ""}>
       <Main className="header">
         <Logo />
         {!isMobile ? (
@@ -70,10 +71,10 @@ export function Header(props: IHeaderProps) {
             })}
           </Navigation>
         ) : (
-          <Hamburger toggle={toggle} setToggle={setToggle} />
+          <Hamburger />
         )}
       </Main>
-      {isMobile && <MenuMobile toggle={toggle} />}
+      {isMobile && <MenuMobile toggle={isOpenSideBar} />}
     </HeaderWrapper>
   );
 }

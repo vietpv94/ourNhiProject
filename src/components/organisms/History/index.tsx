@@ -100,6 +100,7 @@ export function History(props: IHistoryProps) {
       <Title>History</Title>
       <Top>
         <Tab
+          parent="history"
           tabs={tabs}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}

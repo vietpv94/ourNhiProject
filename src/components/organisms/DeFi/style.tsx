@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const DefiWrapper = styled.div`
@@ -17,6 +18,14 @@ export const DefiWrapper = styled.div`
     display: flex;
     min-height: 100%;
     height: max-content;
+  }
+  @media ${breakpoints.sm} {
+    & > .container {
+      flex-direction: column;
+      & > div {
+        width: 100%;
+      }
+    }
   }
 `;
 
@@ -188,6 +197,7 @@ export const Content = styled.div`
 `;
 
 export const Term = styled.div`
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;

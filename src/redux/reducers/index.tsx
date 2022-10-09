@@ -5,6 +5,7 @@ import logger from "redux-logger";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from "redux-saga";
+import { homeReducer } from "./home";
 import { loadingReducer } from "./loading";
 import { modalReducer } from "./modal";
 const persistConfig = {
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
   // ...reducers
   loading: loadingReducer,
   modal: modalReducer,
+  home: homeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, allReducers);

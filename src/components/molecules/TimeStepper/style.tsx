@@ -22,11 +22,13 @@ export const Item = styled.div`
     color: #8c8c92;
     font-weight: 400;
     font-size: 14px;
+    line-height: 1.5;
   }
   & > .value {
     color: #1e1e20;
     font-size: 14px;
     font-weight: 400;
+    line-height: 1.5;
   }
 `;
 

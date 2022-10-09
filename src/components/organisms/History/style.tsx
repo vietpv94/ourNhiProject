@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const HistoryWrapper = styled.div`
@@ -24,6 +25,11 @@ export const Top = styled.div`
     align-items: center;
     gap: 20px;
     justify-content: flex-end;
+  }
+  @media ${breakpoints.sm} {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
   }
 `;
 

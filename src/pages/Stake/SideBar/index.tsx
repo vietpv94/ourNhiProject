@@ -1,27 +1,86 @@
+import React, { useRef } from "react";
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
+import { WalletIcon } from "@Components/atoms/icon/wallet";
+import { Button } from "@Components/Button";
+import { Hamburger } from "@Components/Header/hamburger";
+import { Badge } from "@Components/molecules/Badge";
+import { LanguageSelector } from "@Components/molecules/LanguageSelector";
+import { Profile } from "@Components/molecules/Profile.tsx";
 import { TokenSelector } from "@Components/molecules/TokenSelector";
-import * as React from "react";
+import { breakpoints } from "@Utils/theme";
+import { useMedia } from "react-use";
+import { WalletSelector } from "../style";
 import { dataSideBar } from "./data";
 import { LineSvg } from "./line";
-import { ChildItem, ChildMenu, Item, Main, SideBarWrapper } from "./style";
+import {
+  ChildItem,
+  ChildMenu,
+  Item,
+  Main,
+  SideBarHeader,
+  SideBarWrapper,
+} from "./style";
+import useOnClickOutside from "@Hooks/useOnClickOutside";
+import { useDispatch } from "react-redux";
+import { openSideBar } from "@Redux/actions/home";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export interface ISideBarProps {}
 
 export function SideBar(props: ISideBarProps) {
+  const ref = useRef(null);
+  const dispatch = useDispatch();
+  const pathname = useLocation().pathname;
+  const [isLogin, setIsLogin] = React.useState(false);
   const [activeChild, setActiveChild] = React.useState([dataSideBar[0].name]);
-  const handleActiveChild = (name: string) => {
+  const navigate = useNavigate();
+  const handleActiveChild = (name: string, link: string) => {
+    navigate(link);
     if (activeChild.includes(name)) {
       setActiveChild(activeChild.filter((item) => item !== name));
     } else {
       setActiveChild([...activeChild, name]);
     }
   };
+  const isMobile = useMedia(breakpoints.sm);
+  useOnClickOutside(ref, () => {
+    if (isMobile) {
+      dispatch(openSideBar(false));
+    }
+  });
+  const isOpenSidebar = useSelector((state: any) => state.home.isOpenSidebar);
   return (
-    <SideBarWrapper>
+    <SideBarWrapper
+      ref={ref}
+      className={isOpenSidebar && isMobile ? "active" : ""}
+    >
+      {isMobile && (
+        <SideBarHeader>
+          <Badge num={10} />
+          {isLogin ? (
+            <Profile />
+          ) : (
+            <Button
+              customStyle={"height: 40px;"}
+              onClick={() => setIsLogin(true)}
+              type="blue"
+              text="Connect"
+            />
+          )}
+          <WalletSelector>
+            <WalletIcon color="#00a3ff" />
+          </WalletSelector>
+          <LanguageSelector />
+        </SideBarHeader>
+      )}
       <Main>
         {dataSideBar.map((item, index) => (
           <React.Fragment key={`sidebar-${index}`}>
-            <Item onClick={() => handleActiveChild(item.name)}>
+            <Item
+              className={pathname.includes(item.link) ? "active" : ""}
+              onClick={() => handleActiveChild(item.name, item.link)}
+            >
               {item.icon}
               <div className="right">
                 <span className="name">{item.name}</span>
@@ -46,7 +105,13 @@ export function SideBar(props: ISideBarProps) {
           </React.Fragment>
         ))}
       </Main>
-      <TokenSelector />
+      <div
+        style={{
+          padding: "20px",
+        }}
+      >
+        <TokenSelector />
+      </div>
     </SideBarWrapper>
   );
 }

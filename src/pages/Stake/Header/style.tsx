@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -22,7 +23,10 @@ export const HeaderWrapper = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
-  gap: 80px;
+  gap: 50px;
+  @media ${breakpoints.md} {
+    justify-content: space-between;
+  }
 `;
 
 export const Logo = styled.img`
