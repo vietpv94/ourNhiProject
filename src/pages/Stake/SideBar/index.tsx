@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
 import { WalletIcon } from "@Components/atoms/icon/wallet";
-import { Button } from "@Components/Button";
-import { Hamburger } from "@Components/Header/hamburger";
 import { Badge } from "@Components/molecules/Badge";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
@@ -25,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { openSideBar } from "@Redux/actions/home";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@Components/atoms/Button";
 
 export interface ISideBarProps {}
 
@@ -37,6 +36,9 @@ export function SideBar(props: ISideBarProps) {
   const navigate = useNavigate();
   const handleActiveChild = (name: string, link: string) => {
     navigate(link);
+    if (isMobile) {
+      dispatch(openSideBar(false));
+    }
     if (activeChild.includes(name)) {
       setActiveChild(activeChild.filter((item) => item !== name));
     } else {

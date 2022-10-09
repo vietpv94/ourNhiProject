@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card, Description, List, Section, StakeWrapper, Title } from "./style";
 import { DataStake, dataStake } from "./data";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 
 export interface IStakeProps {}
 

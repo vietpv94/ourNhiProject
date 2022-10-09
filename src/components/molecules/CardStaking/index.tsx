@@ -1,5 +1,5 @@
 import mask from "@Assets/images/molecules/card/mask.png";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 import {
   Amount,
   CardStakingWrapper,

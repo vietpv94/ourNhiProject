@@ -9,7 +9,7 @@ import {
   Title,
 } from "./style";
 import { dataSupportedNetworks, SupportedNetworkCard } from "./data";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 import { Beach } from "../Beach";
 
 export interface INetworksProps {}

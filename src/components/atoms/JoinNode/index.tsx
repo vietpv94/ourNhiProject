@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 import { NodeIcon } from "./icon/Node";
 
 import {

@@ -6,7 +6,7 @@ import {
   TheDAOWrapper,
   Title,
 } from "./style";
-import { Button } from "@Components/Button";
+import { Button } from "@Components/atoms/Button";
 
 export interface ITheDAOProps {}
 

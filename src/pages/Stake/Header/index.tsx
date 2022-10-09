@@ -1,8 +1,8 @@
-import logo from "@Assets/images/logo.png";
+import logo from "@Assets/images/Logo.png";
+import { Button } from "@Components/atoms/Button";
 import { WalletIcon } from "@Components/atoms/icon/wallet";
-import { Button } from "@Components/Button";
-import { Hamburger } from "@Components/Header/hamburger";
 import { Badge } from "@Components/molecules/Badge";
+import { Hamburger } from "@Components/molecules/Header/hamburger";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
 import { breakpoints } from "@Utils/theme";

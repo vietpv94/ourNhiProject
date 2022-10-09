@@ -1,3 +1,0 @@
-export const HOME_ACTION_TYPES = {
-  OPEN_SIDE_BAR: "OPEN_SIDE_BAR",
-};

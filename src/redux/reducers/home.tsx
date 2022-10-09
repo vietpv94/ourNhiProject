@@ -1,4 +1,4 @@
-import { HOME_ACTION_TYPES } from "@Redux/constants/home";
+import { HOME_ACTION_TYPES } from "@Constants/redux-actions/home";
 
 interface IHomeProps {
   isOpenSidebar: boolean;
