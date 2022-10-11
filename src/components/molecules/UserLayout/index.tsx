@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Logo from "@Assets/images/Logo.png";
 import { NavLink } from "react-router-dom";
 import { breakpoints } from "@Utils/theme";
-import { Header } from "../Header";
+import { Header } from "../HeaderHomePage";
 
 import beach from "@Assets/images/login/background.png";
 
@@ -88,7 +88,7 @@ export interface IUserLayoutProps {
 
 export const UserLayout: React.FC<IUserLayoutProps> = ({
   children,
-  heading
+  heading,
 }) => {
   return (
     <Wrapper id="container">

@@ -3,7 +3,7 @@ import Layout from "@Pages/Layout";
 import React from "react";
 import { breakpoints } from "@Utils/theme";
 import { useMedia } from "react-use";
-import { Header } from "@Components/molecules/Header";
+import { Header } from "@Components/molecules/HeaderHomePage";
 import { Networks } from "@Components/atoms/Networks";
 import { HowLidoWork } from "@Components/atoms/HowLidoWork";
 import { TheDAO } from "@Components/atoms/TheDAO";

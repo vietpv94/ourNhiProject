@@ -6,7 +6,7 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useMedia } from "react-use";
-import { Header } from "./Header";
+import { Header } from "../../components/molecules/Header";
 import { SideBar } from "./SideBar";
 import { Flex, StakeWrapper } from "./style";
 

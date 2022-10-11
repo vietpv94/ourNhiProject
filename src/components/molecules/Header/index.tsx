@@ -1,80 +1,84 @@
-import useHover from "@Hooks/useHover";
+import logo from "@Assets/images/Logo.png";
+import { Button } from "@Components/atoms/Button";
+import { WalletIcon } from "@Components/atoms/icon/wallet";
+import { Badge } from "@Components/molecules/Badge";
+import { Hamburger } from "@Components/molecules/HeaderHomePage/hamburger";
+import { LanguageSelector } from "@Components/molecules/LanguageSelector";
+import { Profile } from "@Components/molecules/Profile.tsx";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
-import { useSelector } from "react-redux";
 import { useMedia } from "react-use";
-import { dataNavigation, DataItemNav } from "./data";
-import { Hamburger } from "./hamburger";
-import { Logo } from "./logo";
+import { WalletSelector } from "../../../pages/Stake/style";
 import {
-  Dropdown,
+  Container,
   HeaderWrapper,
-  ItemNav,
+  LeftMenu,
+  Logo,
   Main,
-  MenuMobileWrapper,
-  Navigation,
+  RightMenu,
 } from "./style";
-
 export interface IHeaderProps {}
 
-export const ItemNavigation = (data: DataItemNav) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const isHover = useHover(ref);
-  return (
-    <ItemNav ref={ref}>
-      <span>{data.name}</span>
-      <Dropdown style={{ display: `${isHover ? "flex" : "none"}` }}>
-        {data.children?.map((item, index) => (
-          <li key={`navigation-${index}`}>
-            <span className="title">{item.name}</span>
-            <span className="description">{item.description}</span>
-          </li>
-        ))}
-      </Dropdown>
-    </ItemNav>
-  );
-};
-
-export const ItemMenuMobile = (data: DataItemNav) => {
-  return (
-    <div className="item">
-      <span className="name">{data.name}</span>
-      {data.children?.map((item, index) => (
-        <div className="item-child" key={`menu-${index}`}>
-          <span className="title">{item.name}</span>
-          <span className="description">{item.description}</span>
-        </div>
-      ))}
-    </div>
-  );
-};
-export const MenuMobile = ({ toggle }: { toggle: boolean }) => {
-  return (
-    <MenuMobileWrapper className={toggle ? "active" : ""}>
-      {dataNavigation.map((item, index) => (
-        <ItemMenuMobile {...item} key={`menu-mobile-${index}`} />
-      ))}
-    </MenuMobileWrapper>
-  );
-};
+interface IMenuItem {
+  id: number;
+  name: string;
+  link: string;
+}
+const dataMenu: IMenuItem[] = [
+  {
+    id: 1,
+    name: "Home",
+    link: "/",
+  },
+  {
+    id: 2,
+    name: "marketing",
+    link: "/marketing",
+  },
+  {
+    id: 3,
+    name: "support",
+    link: "/support",
+  },
+];
 export function Header(props: IHeaderProps) {
-  const isMobile = useMedia(breakpoints.md);
-  const isOpenSideBar = useSelector((state: any) => state.home.isOpenSidebar);
+  const [isLogin, setIsLogin] = React.useState(false);
+  const isTablet = useMedia(breakpoints.xs);
   return (
-    <HeaderWrapper className={isOpenSideBar ? "toggle" : ""}>
-      <Main className="header">
-        <Logo />
-        {!isMobile ? (
-          <Navigation>
-            {dataNavigation.map((item, index) => {
-              return <ItemNavigation key={`header-${index}`} {...item} />;
-            })}
-          </Navigation>
-        ) : (
+    <Container>
+      <HeaderWrapper>
+        <Logo src={logo} alt="logo" />
+        {isTablet ? (
           <Hamburger />
+        ) : (
+          <Main>
+            <LeftMenu>
+              {dataMenu.map((item) => (
+                <li key={`li-${item.id}`}>
+                  <a href={item.link}>{item.name}</a>
+                </li>
+              ))}
+            </LeftMenu>
+            <RightMenu>
+              <Badge num={10} />
+              {isLogin ? (
+                <Profile />
+              ) : (
+                <Button
+                  customStyle={"height: 40px;"}
+                  onClick={() => setIsLogin(true)}
+                  type="blue"
+                  text="Connect"
+                />
+              )}
+              <WalletSelector>
+                <WalletIcon color="#00a3ff" />
+              </WalletSelector>
+              <LanguageSelector />
+            </RightMenu>
+          </Main>
         )}
-      </Main>
-      {isMobile && <MenuMobile toggle={isOpenSideBar} />}
-    </HeaderWrapper>
+      </HeaderWrapper>
+    </Container>
   );
 }
