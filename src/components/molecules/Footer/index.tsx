@@ -1,5 +1,5 @@
-import { dataNavigation, DataItemNav } from "../Header/data";
-import { Logo } from "../Header/logo";
+import { dataNavigation, DataItemNav } from "../HeaderHomePage/data";
+import { Logo } from "../HeaderHomePage/logo";
 import { Col, CopyRight, FooterWrapper, List, Section } from "./style";
 
 export interface IFooterProps {}
