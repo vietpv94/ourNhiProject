@@ -11,10 +11,12 @@ import {
 import { dataSupportedNetworks, SupportedNetworkCard } from "./data";
 import { Button } from "@Components/atoms/Button";
 import { Beach } from "../Beach";
+import { useNavigate } from "react-router-dom";
 
 export interface INetworksProps {}
 
 export const ItemNetwork = (data: SupportedNetworkCard) => {
+  const navigate = useNavigate()
   return (
     <Card>
       <img src={data.icon} alt={data.name} />
@@ -32,7 +34,9 @@ export const ItemNetwork = (data: SupportedNetworkCard) => {
       </Flex>
       <Flex>
         <Button type="silver" text="Learn more" />
-        <Button type="blue" text="Stake now" />
+        <Button type="blue" text="Stake now" onClick={() => {
+          navigate("/stake");
+        }}/>
       </Flex>
     </Card>
   );

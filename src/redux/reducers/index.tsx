@@ -10,10 +10,11 @@ import { loadingReducer } from "./loading";
 import account from "./accounts";
 import accessToken from "./accessToken";
 import { modalReducer } from "./modal";
+import { stakingReducer } from "./staking";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: ["account"]
 };
 
 const allReducers = combineReducers({
@@ -23,6 +24,7 @@ const allReducers = combineReducers({
   loading: loadingReducer,
   modal: modalReducer,
   home: homeReducer,
+  staking: stakingReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, allReducers);
@@ -41,9 +43,9 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: false,
-      serializableCheck: false,
+      serializableCheck: false
     }).concat(middleware),
-  devTools: !isProduction,
+  devTools: !isProduction
 });
 
 sagaMiddleware.run(rootSaga);

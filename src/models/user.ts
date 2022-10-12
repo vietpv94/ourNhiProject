@@ -44,3 +44,8 @@ export type KYCData = {
   imageFront: string;
   imageBack: string;
 };
+
+export type SetBinaryChild = {
+  userId: number;
+  type: number;
+};

@@ -1,3 +1,6 @@
+import { logoutSuccess } from "@Redux/actions/accounts";
+import { store } from "@Redux/reducers";
+import { sessionServices } from "@Services/index";
 import axios from "axios";
 import {
   getLocalToken,
@@ -75,6 +78,9 @@ httpClient.interceptors.response.use(
             processQueue(err, null);
             reject(err);
             removeToken();
+            sessionServices.deleteAccountSession();
+
+            store.dispatch(logoutSuccess());
             // TODO: Handle when can't refresh!
           })
           .finally(() => {

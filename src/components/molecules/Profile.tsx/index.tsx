@@ -1,7 +1,9 @@
 import avatar from "@Assets/images/stake/avatar.png";
 import { LogoutIcon } from "@Components/atoms/icon/logout";
 import { ProfileIcon } from "@Components/atoms/icon/profile";
+import { logoutRequest } from "@Redux/actions/accounts";
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Info, Item, Main, ProfileWrapper } from "./style";
 export interface IProfileProps {}
@@ -10,18 +12,23 @@ const dropdownList = [
   {
     name: "Profile",
     link: "/profile",
-    icon: <ProfileIcon />,
+    icon: <ProfileIcon />
   },
   {
     name: "Logout",
     link: "/logout",
-    icon: <LogoutIcon />,
-  },
+    icon: <LogoutIcon />
+  }
 ];
 export function Profile(props: IProfileProps) {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const ref = useRef(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const logout = () => {
+    dispatch(logoutRequest());
+  };
   return (
     <ProfileWrapper>
       <Main
@@ -37,15 +44,16 @@ export function Profile(props: IProfileProps) {
       </Main>
       {showDropdown && (
         <Dropdown>
-          {dropdownList.map((item, index) => (
-            <Item
-              key={`dropdown-item-${index}`}
-              onClick={() => navigate(item.link)}
-            >
-              {item.icon}
-              <span>{item.name}</span>
-            </Item>
-          ))}
+          <Item onClick={() => {
+            navigate("/profile")
+          }}>
+            <ProfileIcon />
+            <span>Profile</span>
+          </Item>
+          <Item onClick={logout}>
+            <LogoutIcon />
+            <span>Logout</span>
+          </Item>
         </Dropdown>
       )}
     </ProfileWrapper>

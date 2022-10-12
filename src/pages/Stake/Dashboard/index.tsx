@@ -6,7 +6,11 @@ import { ProfileIcon } from "@Components/atoms/icon/profile";
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import { CardAffiliate } from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
+import { RootState } from "@Redux/reducers";
+import account from "@Redux/reducers/accounts";
 import * as React from "react";
+import { useSelector } from "react-redux";
+import { useCopyToClipboard } from "react-use";
 import { DataAffiliate, infoData, listAffiliate } from "./data";
 import {
   AffiliateLink,
@@ -17,7 +21,7 @@ import {
   ItemInfo,
   ListAffiliate,
   System,
-  Title,
+  Title
 } from "./style";
 
 export interface IDashboardProps {}
@@ -28,21 +32,21 @@ export const dataCard = [
     title: "total members",
     value: "5,432",
     percent: 16,
-    icon: <MemberIcon />,
+    icon: <MemberIcon />
   },
   {
     id: 2,
     title: "total profit",
     value: "1,893",
     percent: -1,
-    icon: <DollarIcon />,
+    icon: <DollarIcon />
   },
   {
     id: 3,
     title: "total transaction",
     value: "V",
-    icon: <ProfileTickIcon />,
-  },
+    icon: <ProfileTickIcon />
+  }
 ];
 
 export const CardItem = (data: any) => {
@@ -60,7 +64,7 @@ export const CardItem = (data: any) => {
             />
             <span
               style={{
-                color: data.percent > 0 ? "#53BA95" : "#ff476a",
+                color: data.percent > 0 ? "#53BA95" : "#ff476a"
               }}
             >
               {data.percent}%
@@ -73,6 +77,8 @@ export const CardItem = (data: any) => {
   );
 };
 export function Dashboard(props: IDashboardProps) {
+  const account = useSelector((state: RootState) => state.account);
+  const [state, copyToClipboard] = useCopyToClipboard();
   return (
     <DashboardWrapper>
       <Title>Dashboard</Title>
@@ -80,10 +86,16 @@ export function Dashboard(props: IDashboardProps) {
         {dataCard.map((item, index) => (
           <CardItem {...item} key={`card-item-${index}`} />
         ))}
-        <AffiliateLink>
+        <AffiliateLink
+          onClick={() => {
+            copyToClipboard(
+              `${window.location.origin}/sign-up?ref=${account.ref}`
+            );
+          }}
+        >
           <div className="label">Your affiliate link</div>
           <CopyIcon />
-          <div className="link">TCxd82wTXV9McykvT3JAYwBpjrAr11Wkh5</div>
+          <div className="link">{`${window.location.origin}/sign-up?ref=${account.ref}`}</div>
         </AffiliateLink>
       </CardGroup>
       <Title>System</Title>

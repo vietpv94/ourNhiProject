@@ -25,10 +25,12 @@ export const Login = ({ children }: ILoginProps) => {
   const [code, setCode] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const account = useSelector((state: RootState) => state.account);
+  const { is2FAEnabled, userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.account
+  );
 
   const handleSubmit = async () => {
-    if (account.is2FAEnabled) {
+    if (is2FAEnabled) {
       setShowModal(true);
     } else {
       dispatch(loginRequest({ email: userName, password, remember: false }));
@@ -36,7 +38,7 @@ export const Login = ({ children }: ILoginProps) => {
   };
   const handleVerify = async () => {
     const response = await authServices.verify2FA({
-      userId: Number(account.userId),
+      userId: Number(userId),
       otpToken: code
     });
     if (response?.success) {
@@ -50,10 +52,10 @@ export const Login = ({ children }: ILoginProps) => {
     }
   };
   useEffect(() => {
-    if (account.isLoggedIn) {
-      navigate("/dashboard");
+    if (isLoggedIn) {
+      navigate("/stake");
     }
-  }, [account.isLoggedIn]);
+  }, [isLoggedIn]);
   useEffect(() => {
     const handleOutsideClick = (e: any) => {
       setShowModal(false);
@@ -65,10 +67,10 @@ export const Login = ({ children }: ILoginProps) => {
   }, []);
 
   useEffect(() => {
-    if (account.is2FAEnabled) {
+    if (is2FAEnabled) {
       setShowModal(true);
     }
-  }, [account.is2FAEnabled]);
+  }, [is2FAEnabled]);
 
   const changeInput = () => {
     const message = document.getElementById("wrong-email-pass");

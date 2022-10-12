@@ -7,22 +7,79 @@ import { ToggleIcon } from "@Components/atoms/icon/toggle";
 import { WarningIcon } from "@Components/atoms/icon/warning";
 import { Form } from "@Components/molecules/Form";
 import { Input } from "@Components/molecules/Form/input";
+import { RootState } from "@Redux/reducers";
 import * as React from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Flex, ReviewTime, Title, UL, Wrapper, QR } from "./style";
 
 export interface IPersonalInformationProps {}
 
 export function PersonalInformation(props: IPersonalInformationProps) {
+  const account = useSelector((state: RootState) => state.account);
+
+  const is2FAEnabled = useSelector(
+    (state: RootState) => state.account.is2FAEnabled
+  );
+
+  const dispatch = useDispatch();
+  const [qr, setQr] = useState("");
+  const [secret, setSecret] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [password, setPassword] = useState("");
+  const [changePassword, setChangePassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changePass, setChangePass] = useState(false);
+  const [active2FA, setActive2FA] = useState(false);
+  const [code, setCode] = useState("");
+
+  const handleCheckPass = async () => {};
+
   return (
     <Wrapper>
       <Form>
-        <Input type="text" label="Your ID" />
-        <Input type="email" label="Email" />
+        <Input type="text" label="Your ID" value={account.userId} disabled />
+        <Input type="email" label="Email" value={account.email} disabled />
         <Title>
           <span>General Account Settings</span>
         </Title>
-        <Input type="email" label="Email" />
-        <Input type="password" label="Password" icon={<EditIcon />} />
+        <Input type="email" label="Email" value={account.email} />
+        <Input
+          type="password"
+          label="Password"
+          disabled
+          icon={
+            <EditIcon
+              onClick={() =>
+                changePass ? setChangePass(false) : setChangePass(true)
+              }
+            />
+          }
+        />
+        {changePass && (
+          <>
+            <Input
+              label="Enter new password"
+              type="password"
+              placeholder="********"
+              onChange={(e) => setChangePassword(e.target.value)}
+              value={changePassword}
+            />
+            <Input
+              label="Confirm your password"
+              type="password"
+              placeholder="********"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
+            />
+            <Button
+              type="blue"
+              text="Save Change"
+              customStyle={"width: 100%;"}
+              onClick={() => handleCheckPass()}
+            />
+          </>
+        )}
         <Title>
           <span>2FA Authenticator</span>
           <ToggleIcon />
@@ -57,7 +114,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               color="#FF9900"
               customStyle={{
                 height: 12,
-                width: 12,
+                width: 12
               }}
             />
           </span>

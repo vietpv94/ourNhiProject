@@ -2,11 +2,10 @@ import { ACCOUNT_ACTION } from "@Constants/redux-actions/account";
 import { AnyAction } from "redux";
 
 export const defaultState = {
-  isLoggedIn: true, // to-do
+  isLoggedIn: false,
   userId: "",
   email: "",
   ref: "",
-  role: "",
   is2FAEnabled: false
 };
 
@@ -16,7 +15,7 @@ const account = (state = defaultState, action: AnyAction) => {
       const params = action.payload;
       return {
         ...state,
-        is2FAEnabled: true,
+        is2FAEnabled: true
       };
     case ACCOUNT_ACTION.AUTHEN_DISABLED:
       return {
@@ -28,10 +27,10 @@ const account = (state = defaultState, action: AnyAction) => {
       return {
         ...state,
         isLoggedIn: true,
-        userId: user.id,
+        userId: user.userId,
         email: user.email,
-        role: user.role,
-        ref: user.ref
+        ref: user.refCode,
+        is2FAEnabled: user.active2fa
       };
     case ACCOUNT_ACTION.LOGOUT:
       return defaultState;

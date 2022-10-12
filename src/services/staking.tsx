@@ -1,9 +1,19 @@
 import service, { NonAuthService as nonAuthService } from "@Helpers/api";
 import { handleError, handleResponse } from "@Helpers/util";
+import { CommonFilter } from "@Types/common";
 
-const getStakingPack = async () => {
+const getStakingDuration = async () => {
   try {
-    const { data } = await nonAuthService.get(`staking/pack`);
+    const { data } = await nonAuthService.get(`staking/pack/duration`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while get packs");
+  }
+};
+
+const getStakingPack = async (duration?: number) => {
+  try {
+    const { data } = await nonAuthService.get(`staking/pack`, { duration });
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while get packs");
@@ -19,18 +29,18 @@ const getStakingPackValue = async () => {
   }
 };
 
-const doStake = async () => {
+const doStake = async (params: { packageId: number; stakeValue: number }) => {
   try {
-    const { data } = await service.post(`staking`);
+    const { data } = await service.post(`staking`, params);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while trigger staking");
   }
 };
 
-const getStakingHistory = async () => {
+const getStakingHistory = async (filter?: CommonFilter) => {
   try {
-    const { data } = await service.get(`staking/history`);
+    const { data } = await service.get(`staking/history`, filter);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while get staking history");
@@ -65,6 +75,7 @@ const doHarvest = async (id: number) => {
 };
 
 export const stakingServices = {
+  getStakingDuration,
   getStakingPack,
   getStakingPackValue,
   doStake,

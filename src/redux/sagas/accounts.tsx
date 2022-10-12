@@ -7,6 +7,7 @@ import {
 import { sessionServices, authServices, userServices } from "@Services/index";
 import { ACCOUNT_ACTION } from "@Constants/redux-actions/account";
 import { SignInData } from "@Models/auth";
+import { removeToken } from "@Helpers/util";
 export const accountSagas = [
   takeLatest(ACCOUNT_ACTION.LOGIN_REQUEST, handleLoginRequest),
   takeLatest(ACCOUNT_ACTION.LOGOUT_REQUEST, logout)
@@ -22,7 +23,6 @@ function* handleLoginRequest(data: any): any {
       remember: body.remember
     } as SignInData);
 
-    console.log(success, data);
 
     if (success) {
       if (data.is2FAEnabled) {
@@ -47,10 +47,10 @@ function* handleLoginRequest(data: any): any {
 }
 
 function* logout() {
-  // handle actions logout
   try {
     yield call(authServices.logout);
     yield call(sessionServices.deleteAccountSession);
+    yield call(removeToken)
     yield put(logoutSuccess());
   } catch (error) {
     console.log("error");

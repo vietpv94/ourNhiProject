@@ -1,7 +1,11 @@
+import { Button } from "@Components/atoms/Button";
 import useHover from "@Hooks/useHover";
+import { RootState } from "@Redux/reducers";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
+import { useCallback } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import { dataNavigation, DataItemNav } from "./data";
 import { Hamburger } from "./hamburger";
@@ -12,7 +16,7 @@ import {
   ItemNav,
   Main,
   MenuMobileWrapper,
-  Navigation,
+  Navigation
 } from "./style";
 
 export interface IHeaderProps {}
@@ -60,16 +64,36 @@ export const MenuMobile = ({ toggle }: { toggle: boolean }) => {
 export function Header(props: IHeaderProps) {
   const isMobile = useMedia(breakpoints.md);
   const isOpenSideBar = useSelector((state: any) => state.home.isOpenSidebar);
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state: RootState) => state.account);
+  const renderLoginBtn = useCallback(() => {
+    return (
+      isLoggedIn ?? (
+        <Button
+          customStyle={"height: 40px;"}
+          onClick={() => {
+            navigate("/login");
+          }}
+          type="blue"
+          text="Login"
+        />
+      )
+    );
+  }, [isLoggedIn]);
+
   return (
     <HeaderWrapper className={isOpenSideBar ? "toggle" : ""}>
       <Main className="header">
         <Logo />
         {!isMobile ? (
-          <Navigation>
-            {dataNavigation.map((item, index) => {
-              return <ItemNavigation key={`header-${index}`} {...item} />;
-            })}
-          </Navigation>
+          <>
+            <Navigation>
+              {dataNavigation.map((item, index) => {
+                return <ItemNavigation key={`header-${index}`} {...item} />;
+              })}
+            </Navigation>
+            {renderLoginBtn()}
+          </>
         ) : (
           <Hamburger />
         )}

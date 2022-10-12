@@ -51,7 +51,7 @@ module.exports = {
   devServer: {
     static: path.join(__dirname, "public"),
     hot: true,
-    port: 3001,
+    port: 5000,
     historyApiFallback: true
   },
   performance: {

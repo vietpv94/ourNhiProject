@@ -1,0 +1,3 @@
+export const STAKING_PACK_ACTION = {
+  SELECT_PACK: "SELECT_PACK"
+};

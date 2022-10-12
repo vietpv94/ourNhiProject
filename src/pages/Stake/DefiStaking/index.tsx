@@ -1,14 +1,36 @@
+import { ICardStakingData } from "@Components/molecules/CardStaking";
 import { Tab } from "@Components/molecules/Tab";
 import { DeFi } from "@Components/organisms/DeFi";
 import { LockedStaking } from "@Components/organisms/LockedStaking";
-import * as React from "react";
+import { stakingServices } from "@Services/index";
+import { useEffect, useState } from "react";
 import { DefiStakingWrapper } from "./style";
 
 export interface IDefiStakingProps {}
 
 export function DefiStaking(props: IDefiStakingProps) {
   const tabs = ["locked staking", "DeFi Staking"];
-  const [currentTab, setCurrentTab] = React.useState(tabs[0]);
+  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [durations, setDurations] = useState<number[]>([]);
+
+  useEffect(() => {
+    loadDuration();
+    return () => {
+      setDurations([]);
+    };
+  }, []);
+
+  const loadDuration = async () => {
+    const { data } = await stakingServices.getStakingDuration();
+    const duration = data
+      .map((item: { duration: number }) => {
+        return item.duration;
+      })
+      .sort(function (a: number, b: number) {
+        return a - b;
+      });
+    setDurations(duration);
+  };
 
   return (
     <DefiStakingWrapper>
@@ -18,7 +40,11 @@ export function DefiStaking(props: IDefiStakingProps) {
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
       />
-      {currentTab === tabs[0] ? <LockedStaking /> : <DeFi />}
+      {currentTab === tabs[0] ? (
+        <LockedStaking durations={durations} />
+      ) : (
+        <DeFi />
+      )}
     </DefiStakingWrapper>
   );
 }

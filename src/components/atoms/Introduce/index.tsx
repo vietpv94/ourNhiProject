@@ -9,6 +9,7 @@ import { DiscordIcon } from "../JoinCommunity/icon/discord";
 import { GithubIcon } from "../JoinCommunity/icon/github";
 import { breakpoints } from "@Utils/theme";
 import { useMedia } from "react-use";
+import { useNavigate } from "react-router-dom";
 
 export interface IIntroduceProps {}
 
@@ -20,10 +21,10 @@ const ListSocial = [
         color="#000"
         customStyle={{
           width: "24",
-          height: "24",
+          height: "24"
         }}
       />
-    ),
+    )
   },
   {
     name: "Telegram",
@@ -32,10 +33,10 @@ const ListSocial = [
         color="#000"
         customStyle={{
           width: "24",
-          height: "24",
+          height: "24"
         }}
       />
-    ),
+    )
   },
   {
     name: "Discord",
@@ -44,10 +45,10 @@ const ListSocial = [
         color="#000"
         customStyle={{
           width: "24",
-          height: "24",
+          height: "24"
         }}
       />
-    ),
+    )
   },
   {
     name: "Github",
@@ -56,14 +57,15 @@ const ListSocial = [
         color="#000"
         customStyle={{
           width: "24",
-          height: "24",
+          height: "24"
         }}
       />
-    ),
-  },
+    )
+  }
 ];
 export function Introduce(props: IIntroduceProps) {
   const isMobile = useMedia(breakpoints.md);
+  const navigate = useNavigate();
   return (
     <Section>
       <IntroWrapper>
@@ -83,6 +85,9 @@ export function Introduce(props: IIntroduceProps) {
                 width: 150px;"
               type="blue"
               text="Stake now"
+              onClick={() => {
+                navigate("/stake");
+              }}
             />
           </Content>
           <Socials>

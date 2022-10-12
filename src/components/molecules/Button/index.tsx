@@ -104,6 +104,8 @@ const StyledButton = styled.button((props: IBtnProps) => {
   };
 });
 
-export default function Button(props: IBtnProps) {
+export const Button = (props: IBtnProps) => {
   return <StyledButton {...props} />;
-}
+};
+
+export default Button;

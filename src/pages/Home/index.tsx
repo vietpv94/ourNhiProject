@@ -1,8 +1,6 @@
 import HomeWrapper from "./style";
 import Layout from "@Pages/Layout";
 import React from "react";
-import { breakpoints } from "@Utils/theme";
-import { useMedia } from "react-use";
 import { Header } from "@Components/molecules/HeaderHomePage";
 import { Networks } from "@Components/atoms/Networks";
 import { HowLidoWork } from "@Components/atoms/HowLidoWork";
@@ -17,13 +15,12 @@ import { JoinCommunity } from "@Components/atoms/JoinCommunity";
 import { Subscribe } from "@Components/atoms/Subscribe";
 import { Footer } from "@Components/molecules/Footer";
 import { Introduce } from "@Components/atoms/Introduce";
-import { Beach } from "@Components/atoms/Beach";
 
 interface Props {}
 
 export function HomePage(): React.ReactElement {
   return (
-    <Layout title="Home">
+    <Layout title="Liquidity for staked assets">
       <Header />
       <HomeWrapper>
         <Introduce />

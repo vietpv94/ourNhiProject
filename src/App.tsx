@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   Outlet,
-  Navigate,
+  Navigate
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -21,13 +21,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Login from "@Pages/Login";
 import SignUp from "@Pages/SignUp";
 import { Stake } from "@Pages/Stake";
-import { DefiStaking } from "@Pages/Stake/DefiStaking";
-import { router } from "./routers/routers";
+import { dashboardRoutes } from "./routers/routers";
+import { Profile } from "@Pages/Profile";
+import { PersonalInformation } from "@Pages/Profile/Information";
 
-const ProtectedRoute = () => {
+function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
-  return isLoggedIn ? <Outlet /> : <Navigate to="/" />;
-};
+  return isLoggedIn ? <Component /> : <Navigate to="/login" />;
+}
 
 const App: FC = () => {
   const { i18n } = useTranslation();
@@ -37,40 +38,50 @@ const App: FC = () => {
       {loading && <Loading />}
       <BrowserRouter>
         <Helmet
-          titleTemplate="%s - React Boilerplate"
-          defaultTitle="React Boilerplate"
+          titleTemplate="%s | Lido"
+          defaultTitle="Liquidity for staked assets"
         >
-          <meta name="description" content="React Boilerplate" />
+          <meta name="description" content="Liquidity for staked assets" />
         </Helmet>
         <Routes>
-          {router.map((item, index) => {
-            return (
-              <Route
-                key={`router-${index}`}
-                path={item.path}
-                element={<item.component />}
-              >
-                {item.children &&
-                  item.children.map((child, index) => {
-                    return (
-                      <Route
-                        key={`router-child-${index}`}
-                        path={child.path}
-                        element={<child.component />}
-                      />
-                    );
-                  })}
-              </Route>
-            );
-          })}
-          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<HomePage />} />
           <Route path="login" element={<Login />} />
           <Route path="sign-up" element={<SignUp />} />
-          {/* <Route path="dashboard" element={<ProtectedRoute />}>
-            <Route path="" element={<Stake />}>
-              <Route path="defi-staking" element={<DefiStaking />} />
-            </Route>
-          </Route> */}
+          <Route
+            path="stake"
+            element={ProtectedRoute(() => {
+              return <Stake />;
+            })}
+          >
+            {dashboardRoutes.map((item, index) => {
+              return (
+                <Route
+                  key={`router-${index}`}
+                  path={item.path}
+                  element={<item.component />}
+                >
+                  {item.children &&
+                    item.children.map((child, index) => {
+                      return (
+                        <Route
+                          key={`router-child-${index}`}
+                          path={child.path}
+                          element={<child.component />}
+                        />
+                      );
+                    })}
+                </Route>
+              );
+            })}
+          </Route>
+          <Route
+            path="profile"
+            element={ProtectedRoute(() => {
+              return <Profile />;
+            })}
+          >
+            <Route path="" element={<PersonalInformation />}></Route>
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -10,7 +10,7 @@ import {
   DataStaking,
   dataStaking,
   dataTransaction,
-  DataTransaction,
+  DataTransaction
 } from "./data";
 import {
   Box,
@@ -18,25 +18,46 @@ import {
   BoxTransaction,
   HistoryWrapper,
   Title,
-  Top,
+  Top
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
+import { useEffect, useState } from "react";
+import { stakingServices } from "@Services/index";
+import moment from "moment";
 export interface IHistoryProps {}
 
-const renderData = (data: DataStaking[]) => {
-  return data.map((item: DataStaking, index: number) => {
+interface IStakingHistory {
+  id: number;
+  startTime: number;
+  endTime: number;
+  claimRewardTime: number;
+  stakeValue: number;
+  status: number;
+  packageId: number;
+  packageDuration: number;
+  packagePercentProfitPerMonth: number;
+  packagePercentProfitPerDay: number;
+  token: string;
+}
+const renderData = (data: IStakingHistory[]) => {
+  return data.map((item: IStakingHistory, index: number) => {
+    const dateOfRegistration = moment.unix(item.startTime || moment().unix());
     return {
       id: item.id,
-      package: <div className="package">${item.package}</div>,
+      package: (
+        <div className="package">${Number(item.stakeValue).toFixed(2)}</div>
+      ),
       token: (
         <div className="token">
           <img src={sol} alt="sol" />
-          <span>{item.token}</span>
+          <span>{item.token || "SOL"}</span>
         </div>
       ),
       dateOfRegistration: (
-        <div className="dateOfRegistration">{item.dateOfRegistration}</div>
-      ),
+        <div className="dateOfRegistration">
+          {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
+        </div>
+      )
     };
   });
 };
@@ -55,7 +76,7 @@ const renderDataPayout = (data: DataPayout[]) => {
         </div>
       ),
       package: <div className="package">${item.package}</div>,
-      time: <div className="time">{item.time}</div>,
+      time: <div className="time">{item.time}</div>
     };
   });
 };
@@ -79,13 +100,14 @@ const renderDataTransaction = (data: DataTransaction[]) => {
         </div>
       ),
       status: <div className={`status ${item.status}`}>{item.status}</div>,
-      time: <div className="time">{item.time}</div>,
+      time: <div className="time">{item.time}</div>
     };
   });
 };
 export function History(props: IHistoryProps) {
   const tabs = ["staking", "payout", "transactions"];
-  const [currentTab, setCurrentTab] = React.useState(tabs[0]);
+  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [stakingHistory, setStakingHistory] = useState<IStakingHistory[]>([]);
   const headerStaking = ["ID", "package", "token", "date of registration"];
   const headerPayout = ["ID", "profit", "package", "time"];
   const headerTransactions = [
@@ -93,8 +115,17 @@ export function History(props: IHistoryProps) {
     "value",
     "Wallet Address",
     "status",
-    "time",
+    "time"
   ];
+
+  useEffect(() => {
+    loadStakingHistory();
+  }, []);
+
+  const loadStakingHistory = async () => {
+    const { data } = await stakingServices.getStakingHistory();
+    setStakingHistory(data);
+  };
   return (
     <HistoryWrapper>
       <Title>History</Title>
@@ -112,7 +143,7 @@ export function History(props: IHistoryProps) {
       </Top>
       {currentTab === "staking" && (
         <Box>
-          <Table header={headerStaking} data={renderData(dataStaking)} />
+          <Table header={headerStaking} data={renderData(stakingHistory)} />
         </Box>
       )}
       {currentTab === "payout" && (

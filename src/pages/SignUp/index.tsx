@@ -18,7 +18,7 @@ import {
   Form,
   Heading,
   Input,
-  Select,
+  Select
 } from "@Components/atoms/Form";
 import { Steps } from "@Components/molecules/Steps";
 import { UserLayout } from "@Components/molecules/UserLayout";
@@ -28,10 +28,10 @@ import {
   Item,
   StyledCheckbox,
   Social,
-  ButtonGroup,
+  ButtonGroup
 } from "./components";
 import { breakpoints } from "@Utils/theme";
-import { Header } from "@Components/molecules/HeaderHomePage";
+import { Header } from "@Components/molecules/Header";
 
 export const SignUp = () => {
   const [step, setStep] = useState(1);
@@ -55,7 +55,7 @@ export const SignUp = () => {
     return authServices.register({
       email: email,
       password: password,
-      refCode: ref,
+      refCode: ref
     });
   };
 
@@ -63,7 +63,7 @@ export const SignUp = () => {
     setCountdown();
     userServices
       .getVerifyEmail({
-        email: email,
+        email: email
       })
       .then((response: any) => {
         if (!response.success) {
@@ -78,7 +78,7 @@ export const SignUp = () => {
     userServices
       .verifyCode({
         email: email,
-        verifyToken: code,
+        verifyToken: code
       })
       .then((response: any) => {
         if (response.success) {

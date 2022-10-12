@@ -15,7 +15,7 @@ export function setToken(token: string): boolean {
 }
 
 export function removeToken() {
-  const logoutEventName = "naga-user-logout";
+  const logoutEventName = "user-logout";
   window.localStorage.removeItem("Authorization");
   window.localStorage.setItem(logoutEventName, moment().format());
   return true;
@@ -28,7 +28,7 @@ export function handleError(error: unknown, mess: string): any {
       return serverError.response.data;
     }
   }
-  return { errorMsg: mess };
+  return { message: mess };
 }
 
 export function handleResponse<T>(data: IResponse<T>): T {
@@ -42,6 +42,7 @@ export function handleResponseCommission<T>(data: IResponse<T>): T {
 }
 export async function retryRefreshToken(numberTry: number): Promise<Token> {
   let keepTrying = 0;
+  let lastErr = null;
   do {
     try {
       const result = await authServices.refreshToken();
@@ -49,7 +50,8 @@ export async function retryRefreshToken(numberTry: number): Promise<Token> {
       return result;
     } catch (err) {
       keepTrying += 1;
+      lastErr = err;
     }
   } while (keepTrying < numberTry);
-  throw new Error();
+  throw lastErr;
 }

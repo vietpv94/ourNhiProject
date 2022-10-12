@@ -6,10 +6,10 @@ import { useDispatch } from "react-redux";
 import { Close, Container, Mask, ModalWrapper } from "./style";
 export interface IModalProps {}
 
-export function withModal<T>(Component: React.ComponentType) {
+export function withModal<T>(Component: React.ComponentType<any>) {
   const dispatch = useDispatch();
   const handleClose = () => {
-    dispatch(setModal({ modal: "" }));
+    dispatch(setModal({ modal: "", data: {} }));
   };
   return (
     <ModalWrapper>

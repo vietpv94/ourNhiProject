@@ -48,7 +48,7 @@ export const LeftMenu = styled.ul`
   align-items: center;
   justify-content: flex-start;
   gap: 50px;
-  & > li > a {
+  & > a {
     color: #37373b;
     font-weight: 600;
     font-size: 16px;

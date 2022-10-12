@@ -88,7 +88,7 @@ export interface IUserLayoutProps {
 
 export const UserLayout: React.FC<IUserLayoutProps> = ({
   children,
-  heading,
+  heading
 }) => {
   return (
     <Wrapper id="container">

@@ -1,55 +1,76 @@
 import logo from "@Assets/images/molecules/card/sol-token.png";
 import {
   CardStaking,
-  ICardStakingData,
+  ICardStakingData
 } from "@Components/molecules/CardStaking";
 import { Duration } from "@Components/molecules/Duration";
 import { setModal } from "@Redux/actions/modal";
+import { selectPack } from "@Redux/actions/staking";
+import { stakingServices } from "@Services/index";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Grid, GridWrapper, Header, Pool } from "./style";
 
-export interface ILockedStakingProps {}
-
-const dataFake: ICardStakingData = {
-  logo: logo,
-  amount: 1000,
-  dayPercent: 10,
-  monthPercent: 20,
-  totalStaked: 1000,
-};
+export interface ILockedStakingProps {
+  durations: number[];
+}
 
 export function LockedStaking(props: ILockedStakingProps) {
-  const list = [6, 12, 18, 24];
-  const [selected, setSelected] = React.useState(list[2]);
+  const [selected, setSelected] = useState<number>(props.durations[0]);
+  const [packs, setPacks] = useState<ICardStakingData[]>([]);
+  const [poolStaked, setPoolStaked] = useState<{
+    currentStakeValue: number;
+    maxPoolValue: number;
+  }>();
   const dispatch = useDispatch();
-  const handleStakeNow = () => {
-    dispatch(setModal({ modal: "stake-confirm" }));
+
+  const handleStakeNow = (pack: ICardStakingData) => {
+    dispatch(
+      setModal({ modal: "stake-confirm", data: { selectedPack: pack } })
+    );
   };
+
+  const loadPackByDuration = async (duration: number) => {
+    const { data } = await stakingServices.getStakingPack(duration);
+    setSelected(duration);
+    setPacks(data?.packs || []);
+    setPoolStaked({
+      currentStakeValue: data?.currentStakeValue | 0,
+      maxPoolValue: data?.maxPoolValue || 0
+    });
+  };
+
+  useEffect(() => {
+    if (props.durations.length > 0) {
+      loadPackByDuration(props.durations[0]);
+    }
+  }, [props.durations]);
+
   return (
     <>
       <Header>
         <Pool>
           <span className="label">Pool: </span>
           <span className="value">
-            $1.000.000/<span className="total">$10.000.000</span>
+            ${poolStaked?.currentStakeValue}/
+            <span className="total">${poolStaked?.maxPoolValue}</span>
           </span>
         </Pool>
         <Duration
           type="month"
-          list={list}
+          list={props.durations}
           selected={selected}
-          setSelected={setSelected}
+          setSelected={loadPackByDuration}
         />
       </Header>
       <GridWrapper>
         <Grid>
-          {Array(selected)
-            .fill(0)
-            .map((_, index) => (
+          {packs.length &&
+            packs.map((pack, index) => (
               <CardStaking
                 onClick={handleStakeNow}
-                data={dataFake}
+                data={pack}
                 key={`grid-item-${index}`}
               />
             ))}

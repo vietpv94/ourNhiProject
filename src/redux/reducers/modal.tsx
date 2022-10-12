@@ -1,16 +1,17 @@
 import { MODAL_TYPE_ACTION } from "@Constants/redux-actions/modal";
 
-interface IModalState {
+export interface IModalState {
   modal: string;
+  data?: any;
 }
 
 const initialState: IModalState = {
-  modal: ""
+  modal: "",
 };
 
 export const modalReducer = (
   state = initialState,
-  action: { type: string; payload: string }
+  action: { type: string; payload: IModalState }
 ) => {
   switch (action.type) {
     case MODAL_TYPE_ACTION.OPEN_MODAL:

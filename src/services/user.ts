@@ -3,16 +3,18 @@ import { handleError, handleResponse } from "@Helpers/util";
 import { Token, User } from "@Types/index";
 import {
   SendMail,
+  SetBinaryChild,
   UserChangePassword,
   UserUpdateData,
   VerifyEmail,
   VerifyResetPass
 } from "@Models/index";
+import { GetChildFilter } from "@Types/common";
 const getProfile = async () => {
   try {
     const { data } = await service.get("user/me");
     console.log(data);
-    
+
     return handleResponse(data);
   } catch (err) {
     console.log(err);
@@ -47,75 +49,123 @@ const verifyCode = async (verifyData: VerifyEmail) => {
   }
 };
 
-const changePassword = async (data: UserChangePassword) => {
+const changePassword = async (passwordData: UserChangePassword) => {
   try {
-    const response = await service.update("user/password", data);
-    return response;
+    const { data } = await service.update("user/password", passwordData);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while change password");
   }
 };
 
-const resetPassword = async (data: SendMail) => {
+const resetPassword = async (mail: SendMail) => {
   try {
-    const response = await nonAuthService.post(`user/reset-pass`, data);
-    return response;
+    const { data } = await nonAuthService.post(`user/reset-pass`, mail);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while reset password reset password");
   }
 };
 
-const verifyResetPassword = async (data: VerifyResetPass) => {
+const verifyResetPassword = async (resetPasswordData: VerifyResetPass) => {
   try {
-    const response = await nonAuthService.post(`user/verify-reset-pass`, data);
-    return response;
+    const { data } = await nonAuthService.post(
+      `user/verify-reset-pass`,
+      resetPasswordData
+    );
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while verify password");
   }
 };
 
 const getQrCode2fa = async () => {
   try {
-    const response = await nonAuthService.get(`user/qrcode-2fa`);
-    return response;
+    const { data } = await nonAuthService.get(`user/qrcode-2fa`);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while  get qrcode");
   }
 };
 
 const sendMailConfirmEnable2fa = async () => {
   try {
-    const response = await nonAuthService.post(`user/send-mail-enable-2fa`);
-    return response;
+    const { data } = await service.post(`user/send-mail-enable-2fa`);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while send mail");
   }
 };
 
 const enable2FA = async () => {
   try {
-    const response = await nonAuthService.post(`user/enable-2fa`);
-    return response;
+    const { data } = await service.post(`user/enable-2fa`);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while enable2FA");
   }
 };
 
 const disable2FA = async () => {
   try {
-    const response = await nonAuthService.post(`user/disable-2fa`);
-    return response;
+    const { data } = await service.post(`user/disable-2fa`);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while disable2FA");
   }
 };
 
 const sendKyc = async () => {
   try {
-    const response = await nonAuthService.post(`user/kyc`);
-    return response;
+    const { data } = await service.post(`user/kyc`);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while sending kyc");
+  }
+};
+
+const getUserChild = async (filter: GetChildFilter) => {
+  try {
+    const { data } = await service.get(`user/child`, filter);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while getting user child");
+  }
+};
+
+const setBinaryChild = async (child: SetBinaryChild) => {
+  try {
+    const { data } = await service.post("user/child", child);
+    return handleResponse(data);
+  } catch (error) {
+    return handleError(error, "Error while setting binary child");
+  }
+};
+
+const getBinaryChild = async (filter: GetChildFilter) => {
+  try {
+    const { data } = await service.get(`user/child/binary`, filter);
+    return handleResponse(data);
+  } catch (error) {
+    return handleError(error, "Error while get binary child");
+  }
+};
+
+const getUserParent = async () => {
+  try {
+    const { data } = await service.get(`user/parent`);
+    return handleResponse(data);
+  } catch (error) {
+    return handleError(error, "Error while getting parent");
+  }
+};
+
+const getUserTree = async () => {
+  try {
+    const { data } = await service.get(`user/tree`);
+    return handleResponse(data);
+  } catch (error) {
+    return handleError(error, "Error while getting tree user");
   }
 };
 
@@ -131,7 +181,12 @@ export const userServices = {
   sendMailConfirmEnable2fa,
   enable2FA,
   disable2FA,
-  sendKyc
+  sendKyc,
+  getUserChild,
+  getBinaryChild,
+  getUserParent,
+  getUserTree,
+  setBinaryChild
 };
 
 export default userServices;

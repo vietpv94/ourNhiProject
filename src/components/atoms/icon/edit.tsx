@@ -2,11 +2,17 @@ import * as React from "react";
 
 export interface IEditIconProps {
   color?: string;
+  onClick?: (event?: MouseEvent) => void;
 }
 
-export function EditIcon({ color = "#33B5FF" }: IEditIconProps) {
+export function EditIcon({ color = "#33B5FF", onClick }: IEditIconProps) {
   return (
     <svg
+      onClick={() => {
+        if (onClick) {
+          onClick();
+        }
+      }}
       width="16"
       height="16"
       viewBox="0 0 16 16"
