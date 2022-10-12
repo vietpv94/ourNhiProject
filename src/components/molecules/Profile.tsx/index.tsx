@@ -1,6 +1,7 @@
 import avatar from "@Assets/images/stake/avatar.png";
 import { LogoutIcon } from "@Components/atoms/icon/logout";
 import { ProfileIcon } from "@Components/atoms/icon/profile";
+import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { logoutRequest } from "@Redux/actions/accounts";
 import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
@@ -12,13 +13,13 @@ const dropdownList = [
   {
     name: "Profile",
     link: "/profile",
-    icon: <ProfileIcon />
+    icon: <ProfileIcon />,
   },
   {
     name: "Logout",
     link: "/logout",
-    icon: <LogoutIcon />
-  }
+    icon: <LogoutIcon />,
+  },
 ];
 export function Profile(props: IProfileProps) {
   const [showDropdown, setShowDropdown] = React.useState(false);
@@ -29,6 +30,8 @@ export function Profile(props: IProfileProps) {
   const logout = () => {
     dispatch(logoutRequest());
   };
+
+  useOnClickOutside(ref, () => setShowDropdown(false));
   return (
     <ProfileWrapper>
       <Main
@@ -43,10 +46,12 @@ export function Profile(props: IProfileProps) {
         </Info>
       </Main>
       {showDropdown && (
-        <Dropdown>
-          <Item onClick={() => {
-            navigate("/profile")
-          }}>
+        <Dropdown ref={ref}>
+          <Item
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
             <ProfileIcon />
             <span>Profile</span>
           </Item>

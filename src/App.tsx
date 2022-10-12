@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   Outlet,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 

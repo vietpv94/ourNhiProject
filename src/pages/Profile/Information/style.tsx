@@ -7,6 +7,15 @@ export const Wrapper = styled.div`
   max-width: 700px;
   margin: 0 auto;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  & > .title {
+    color: #3f3f3f;
+    font-weight: 600;
+    font-size: 28px;
+  }
 `;
 
 export const Title = styled.div`

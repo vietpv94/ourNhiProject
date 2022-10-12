@@ -8,6 +8,7 @@ export interface IEditIconProps {
 export function EditIcon({ color = "#33B5FF", onClick }: IEditIconProps) {
   return (
     <svg
+      cursor={"pointer"}
       onClick={() => {
         if (onClick) {
           onClick();

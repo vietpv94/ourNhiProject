@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const TableWrapper = styled.div`
@@ -32,6 +33,7 @@ export const TableWrapper = styled.div`
           color: #4a65ef;
           font-weight: 400;
           font-size: 14px;
+          min-width: 120px;
         }
         & > th:first-child {
           text-align: left;
@@ -48,7 +50,6 @@ export const TableWrapper = styled.div`
       width: 100%;
       height: 100%;
       flex: 1;
-      overflow: auto;
       & > tr {
         display: flex;
         width: 100%;
@@ -63,6 +64,7 @@ export const TableWrapper = styled.div`
           text-align: center;
           font-weight: 500;
           font-size: 14px;
+          min-width: 120px;
         }
         & > td:first-child {
           text-align: left;
@@ -99,5 +101,21 @@ export const Footer = styled.div`
     color: #8c8c92;
     font-weight: 400;
     font-size: 14px;
+  }
+  @media ${breakpoints.md} {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    & > span {
+      width: 100%;
+      text-align: center;
+    }
+    & > div {
+      width: 100%;
+      & > ul {
+        justify-content: center;
+      }
+    }
   }
 `;

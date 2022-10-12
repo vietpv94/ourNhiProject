@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const FormWrapper = styled.form`
@@ -26,7 +27,7 @@ export const InputWrapper = styled.div`
   gap: 16px;
   flex-wrap: wrap;
   & > label {
-    width: 100px;
+    width: 130px;
     color: #27272a;
     font-weight: 400;
     font-size: 14px;
@@ -57,6 +58,11 @@ export const InputWrapper = styled.div`
       }
     }
   }
+  @media ${breakpoints.xs} {
+    &.file {
+      align-items: flex-start;
+    }
+  }
 `;
 
 export const FileWrapper = styled.div`
@@ -84,5 +90,20 @@ export const Box = styled.div`
   & > img {
     width: 100%;
     height: 100%;
+  }
+`;
+
+export const Flex = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 16px;
+  @media ${breakpoints.xs} {
+    flex-direction: column;
+    gap: 20px;
+    & > div {
+      width: 100%;
+    }
   }
 `;

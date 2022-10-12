@@ -3,11 +3,18 @@ import * as React from "react";
 export interface IQRCodeProps {
   color?: string;
   customStyle?: React.SVGProps<SVGSVGElement>;
+  onClick?: () => void;
 }
 
-export function QRCodeIcon({ color = "#00A3FF", customStyle }: IQRCodeProps) {
+export function QRCodeIcon({
+  color = "#00A3FF",
+  customStyle,
+  onClick,
+}: IQRCodeProps) {
   return (
     <svg
+      onClick={onClick}
+      cursor={"pointer"}
       width="25"
       height="24"
       viewBox="0 0 25 24"
