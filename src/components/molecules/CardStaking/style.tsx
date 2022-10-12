@@ -72,15 +72,25 @@ export const Item = styled.div`
 `;
 
 export const TotalStaker = styled.div`
-  & > .label {
-    color: #2a3751;
-    font-weight: 400;
-    font-size: 10px;
-  }
-  & > .value {
-    color: #8c8c92;
-    font-weight: 600;
-    font-size: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  & > .item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & > .label {
+      color: #8c8c92;
+      font-weight: 400;
+      font-size: 10px;
+    }
+    & > .value {
+      color: #2a3751;
+      font-weight: 600;
+      font-size: 10px;
+    }
   }
 `;
 

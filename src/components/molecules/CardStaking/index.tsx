@@ -9,7 +9,7 @@ import {
   Logo,
   Mask,
   Percent,
-  TotalStaker
+  TotalStaker,
 } from "./style";
 export interface ICardStakingData {
   id: number;
@@ -59,8 +59,14 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       />
       <Line />
       <TotalStaker>
-        <span className="label">Total Staked: </span>
-        <span className="value">{data.totalStaked} GFT</span>
+        <div className="item">
+          <span className="label">Total Staked: </span>
+          <span className="value">{data.totalStaked} GFT</span>
+        </div>
+        <div className="item">
+          <span className="label">Locking period: </span>
+          <span className="value"> Months</span>
+        </div>
       </TotalStaker>
     </CardStakingWrapper>
   );

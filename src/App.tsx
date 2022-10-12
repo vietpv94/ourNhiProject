@@ -27,8 +27,7 @@ import { PersonalInformation } from "@Pages/Profile/Information";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
-  return <Component />;
-  // return isLoggedIn ? <Component /> : <Navigate to="/login" />;
+  return isLoggedIn ? <Component /> : <Navigate to="/login" />;
 }
 
 const App: FC = () => {

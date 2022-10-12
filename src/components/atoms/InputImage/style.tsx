@@ -72,8 +72,9 @@ export const Box = styled.div`
 
 export const QRModal = styled.div`
   position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 274px;
   background: #ffffff;
   border: 1px solid #f8fafc;
@@ -100,7 +101,6 @@ export const QRModal = styled.div`
   & > .qr-code {
     width: 100%;
     aspect-ratio: 1;
-    border: 1px solid #00a3ff;
     border-radius: 8px;
   }
   & > .save {

@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const DashboardWrapper = styled.div`
@@ -24,6 +25,7 @@ export const CardGroup = styled.div`
   width: 100%;
   gap: 30px;
   margin-bottom: 60px;
+  flex-wrap: wrap;
   filter: drop-shadow(32px 19px 15px rgba(28, 46, 64, 0.01))
     drop-shadow(18px 11px 13px rgba(28, 46, 64, 0.02))
     drop-shadow(8px 5px 9px rgba(28, 46, 64, 0.03))
@@ -42,6 +44,12 @@ export const CardGroup = styled.div`
       background: #dde2e8;
     }
   }
+  /* @media ${breakpoints.md} {
+    flex-direction: column;
+    & > div {
+      width: 100%;
+    }
+  } */
 `;
 
 export const Card = styled.div`
@@ -102,6 +110,7 @@ export const AffiliateLink = styled.div`
   align-items: center;
   gap: 15px;
   & > .label {
+    white-space: nowrap;
     color: #e6f6ff;
     font-weight: 600;
     font-size: 16px;
@@ -119,7 +128,7 @@ export const AffiliateLink = styled.div`
 export const System = styled.div`
   margin: 20px 0;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   grid-gap: 20px;
 `;
 
@@ -129,12 +138,16 @@ export const Info = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-right: 20px;
 `;
 
 export const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  min-width: 100px;
   & > .name {
     text-transform: capitalize;
     color: #8c8c92;

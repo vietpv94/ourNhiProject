@@ -75,7 +75,6 @@ export const Flex = styled.div`
 `;
 
 export const QR = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   gap: 5px;

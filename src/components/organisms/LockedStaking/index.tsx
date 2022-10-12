@@ -1,7 +1,7 @@
 import logo from "@Assets/images/molecules/card/sol-token.png";
 import {
   CardStaking,
-  ICardStakingData
+  ICardStakingData,
 } from "@Components/molecules/CardStaking";
 import { Duration } from "@Components/molecules/Duration";
 import { setModal } from "@Redux/actions/modal";
@@ -37,7 +37,7 @@ export function LockedStaking(props: ILockedStakingProps) {
     setPacks(data?.packs || []);
     setPoolStaked({
       currentStakeValue: data?.currentStakeValue | 0,
-      maxPoolValue: data?.maxPoolValue || 0
+      maxPoolValue: data?.maxPoolValue || 0,
     });
   };
 

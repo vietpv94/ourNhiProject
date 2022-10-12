@@ -15,12 +15,13 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Flex, ReviewTime, Title, UL, Wrapper, QR } from "./style";
 import qrCode from "@Assets/images/profile/qrcode.png";
+import { EyeIcon } from "@Components/atoms/icon/eye";
+import { ChangePass } from "./changePass";
 
 export interface IPersonalInformationProps {}
 
 export function PersonalInformation(props: IPersonalInformationProps) {
   const account = useSelector((state: RootState) => state.account);
-
   const is2FAEnabled = useSelector(
     (state: RootState) => state.account.is2FAEnabled
   );
@@ -29,15 +30,12 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   const [qr, setQr] = useState("");
   const [secret, setSecret] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [password, setPassword] = useState("");
-  const [changePassword, setChangePassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [changePass, setChangePass] = useState(false);
   const [active2FA, setActive2FA] = useState(false);
   const [activeKYC, setActiveKYC] = useState(false);
   const [code, setCode] = useState("");
   const [showQRCode, setShowQRCode] = useState(false);
-  const handleCheckPass = async () => {};
+
   return (
     <Wrapper>
       <div className="title">Profile</div>
@@ -60,30 +58,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
             />
           }
         />
-        {changePass && (
-          <>
-            <Input
-              label="Enter new password"
-              type="password"
-              placeholder="********"
-              onChange={(e) => setChangePassword(e.target.value)}
-              value={changePassword}
-            />
-            <Input
-              label="Confirm your password"
-              type="password"
-              placeholder="********"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              value={confirmPassword}
-            />
-            <Button
-              type="blue"
-              text="Save Change"
-              customStyle={"width: 100%;"}
-              onClick={() => handleCheckPass()}
-            />
-          </>
-        )}
+        {changePass && <ChangePass />}
         <Title>
           <span>2FA Authenticator</span>
           <ToggleIcon
@@ -93,7 +68,6 @@ export function PersonalInformation(props: IPersonalInformationProps) {
         </Title>
         {active2FA && (
           <>
-            {" "}
             <UL>
               <li>
                 Please note your Key down and keep it save. It will help you

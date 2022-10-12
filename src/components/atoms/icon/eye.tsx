@@ -3,19 +3,26 @@ import * as React from "react";
 export interface IEyeIconProps {
   type?: "slash" | "default";
   color?: string;
+  customStyle?: React.SVGProps<SVGSVGElement>;
+  onClick?: () => void;
 }
 
 export function EyeIcon({
   color = "#33B5FF",
   type = "default",
+  customStyle,
+  onClick,
 }: IEyeIconProps) {
   return (
     <svg
+      cursor={"pointer"}
+      onClick={onClick}
       width="16"
       height="16"
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
     >
       {type === "default" && (
         <>

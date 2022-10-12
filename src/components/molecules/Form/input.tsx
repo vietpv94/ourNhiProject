@@ -7,7 +7,6 @@ type Props = {
   label?: string;
   children?: React.ReactNode;
   icon?: React.ReactNode;
-  placeholder?: string;
   value?: string;
   onChange?: (value: any) => void;
   [key: string]: HTMLInputElement | string | React.ReactNode;
@@ -18,7 +17,6 @@ export const Input = ({
   type,
   children,
   icon,
-  placeholder,
   value,
   onChange,
   ...props
