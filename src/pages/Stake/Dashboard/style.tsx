@@ -44,12 +44,6 @@ export const CardGroup = styled.div`
       background: #dde2e8;
     }
   }
-  /* @media ${breakpoints.md} {
-    flex-direction: column;
-    & > div {
-      width: 100%;
-    }
-  } */
 `;
 
 export const Card = styled.div`
