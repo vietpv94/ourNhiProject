@@ -26,8 +26,6 @@ export type VerifyResetPass = {
 };
 
 export type enable2FAData = {
-  password: string;
-  verifyCode: string;
   twoFACode: string;
 };
 

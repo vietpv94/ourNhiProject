@@ -12,7 +12,6 @@ export const defaultState = {
 const account = (state = defaultState, action: AnyAction) => {
   switch (action.type) {
     case ACCOUNT_ACTION.AUTHEN_ENABLED:
-      const params = action.payload;
       return {
         ...state,
         is2FAEnabled: true
@@ -24,10 +23,11 @@ const account = (state = defaultState, action: AnyAction) => {
       };
     case ACCOUNT_ACTION.LOGIN_SUCCESS:
       const user = action.payload;
+      
       return {
         ...state,
         isLoggedIn: true,
-        userId: user.userId,
+        userId: user.id,
         email: user.email,
         ref: user.refCode,
         is2FAEnabled: user.active2fa

@@ -2,6 +2,7 @@ import service, { NonAuthService as nonAuthService } from "@Helpers/api";
 import { handleError, handleResponse } from "@Helpers/util";
 import { Token, User } from "@Types/index";
 import {
+  enable2FAData,
   SendMail,
   SetBinaryChild,
   UserChangePassword,
@@ -81,7 +82,7 @@ const verifyResetPassword = async (resetPasswordData: VerifyResetPass) => {
 
 const getQrCode2fa = async () => {
   try {
-    const { data } = await nonAuthService.get(`user/qrcode-2fa`);
+    const { data } = await service.get(`user/qrcode-2fa`);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while  get qrcode");
@@ -97,9 +98,9 @@ const sendMailConfirmEnable2fa = async () => {
   }
 };
 
-const enable2FA = async () => {
+const enable2FA = async (params: enable2FAData) => {
   try {
-    const { data } = await service.post(`user/enable-2fa`);
+    const { data } = await service.post(`user/enable-2fa`, params);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while enable2FA");
