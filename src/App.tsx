@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   Outlet,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -27,7 +27,8 @@ import { PersonalInformation } from "@Pages/Profile/Information";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
-  return isLoggedIn ? <Component /> : <Navigate to="/login" />;
+  return <Component />;
+  // return isLoggedIn ? <Component /> : <Navigate to="/login" />;
 }
 
 const App: FC = () => {

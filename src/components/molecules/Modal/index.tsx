@@ -18,6 +18,7 @@ export function withModal<T>(Component: React.ComponentType<any>) {
         <Mask className="right" src={mask} alt="mask" />
         <Close onClick={handleClose}>
           <CloseIcon
+            type="outline"
             color="#00A3FF"
             customStyle={{
               width: "20px",

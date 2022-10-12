@@ -3,14 +3,18 @@ import * as React from "react";
 export interface IToggleIconProps {
   color?: string;
   isToggle?: boolean;
+  onClick?: () => void;
 }
 
 export function ToggleIcon({
   color = "#4A65EF",
   isToggle = true,
+  onClick,
 }: IToggleIconProps) {
   return (
     <svg
+      cursor="pointer"
+      onClick={onClick}
       width="16"
       height="16"
       viewBox="0 0 16 16"

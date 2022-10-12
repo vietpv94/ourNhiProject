@@ -6,6 +6,7 @@ export interface IArrowIconProps {
   direction?: "up" | "down" | "left" | "right";
   style?: "outline" | "solid" | "default";
   customStyle?: React.SVGProps<SVGSVGElement>;
+  onClick?: () => void;
 }
 
 const Wrapper = styled.div<{ direction: "up" | "down" | "left" | "right" }>`
@@ -29,9 +30,10 @@ export function ArrowIcon({
   direction = "down",
   style = "default",
   customStyle,
+  onClick,
 }: IArrowIconProps) {
   return (
-    <Wrapper direction={direction}>
+    <Wrapper direction={direction} onClick={onClick}>
       {style === "default" && (
         <svg
           width="20"

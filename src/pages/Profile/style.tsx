@@ -8,6 +8,7 @@ export const ProfileWrapper = styled.div`
   flex-direction: column;
   background: #f5f5f5;
   overflow-y: auto;
+  overflow-x: hidden;
   & * {
     font-family: "SF Pro Display" !important;
   }

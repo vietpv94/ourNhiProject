@@ -1,5 +1,6 @@
+import { InputImage } from "@Components/atoms/InputImage";
 import React from "react";
-import { Box, FileWrapper, InputWrapper } from "./style";
+import { Box, FileWrapper, Flex, InputWrapper } from "./style";
 
 type Props = {
   type: "password" | "number" | "email" | "text" | "file" | undefined;
@@ -23,13 +24,25 @@ export const Input = ({
   ...props
 }: Props) => {
   return (
-    <InputWrapper>
-      <label>{label}</label>
-      <div className="input">
-        <input type={type} {...props} onChange={onChange} value={value} />
-        {icon}
-      </div>
-      {children}
-    </InputWrapper>
+    <>
+      {type !== "file" ? (
+        <InputWrapper>
+          <label>{label}</label>
+          <div className="input">
+            <input type={type} {...props} onChange={onChange} value={value} />
+            {icon}
+          </div>{" "}
+          {children}
+        </InputWrapper>
+      ) : (
+        <InputWrapper className="file">
+          <label>{label}</label>
+          <Flex>
+            <InputImage id="card-font" text="Front side of ID Card" />
+            <InputImage id="card-back" text="Back side of ID Card" />
+          </Flex>
+        </InputWrapper>
+      )}
+    </>
   );
 };
