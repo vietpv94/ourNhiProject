@@ -24,6 +24,7 @@ import { Stake } from "@Pages/Stake";
 import { dashboardRoutes } from "./routers/routers";
 import { Profile } from "@Pages/Profile";
 import { PersonalInformation } from "@Pages/Profile/Information";
+import { FAQ } from "@Pages/FAQ";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -45,6 +46,7 @@ const App: FC = () => {
         </Helmet>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="login" element={<Login />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route

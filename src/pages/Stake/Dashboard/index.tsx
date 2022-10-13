@@ -6,6 +6,7 @@ import { ProfileIcon } from "@Components/atoms/icon/profile";
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import { CardAffiliate } from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
+import { DataSummary, Summary } from "@Components/molecules/Summary";
 import { RootState } from "@Redux/reducers";
 import account from "@Redux/reducers/accounts";
 import { breakpoints } from "@Utils/theme";
@@ -15,7 +16,6 @@ import { useCopyToClipboard, useMedia } from "react-use";
 import { DataAffiliate, infoData, listAffiliate } from "./data";
 import {
   AffiliateLink,
-  Card,
   CardGroup,
   DashboardWrapper,
   Info,
@@ -27,7 +27,7 @@ import {
 
 export interface IDashboardProps {}
 
-export const dataCard = [
+export const dataCard: DataSummary[] = [
   {
     id: 1,
     title: "total members",
@@ -50,33 +50,6 @@ export const dataCard = [
   },
 ];
 
-export const CardItem = (data: any) => {
-  return (
-    <Card className="card">
-      <div className="icon">{data.icon}</div>
-      <div className="content">
-        <div className="title">{data.title}</div>
-        <div className="value">{data.value}</div>
-        {data.percent && (
-          <div className="percent">
-            <ArrowIcon
-              color={data.percent > 0 ? "#53BA95" : "#ff476a"}
-              direction={data.percent > 0 ? "up" : "down"}
-            />
-            <span
-              style={{
-                color: data.percent > 0 ? "#53BA95" : "#ff476a",
-              }}
-            >
-              {data.percent}%
-            </span>
-            this month
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-};
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
   const [state, copyToClipboard] = useCopyToClipboard();
@@ -87,7 +60,7 @@ export function Dashboard(props: IDashboardProps) {
       <Title>Dashboard</Title>
       <CardGroup>
         {dataCard.map((item, index) => (
-          <CardItem {...item} key={`card-item-${index}`} />
+          <Summary data={item} key={`card-item-${index}`} />
         ))}
         <AffiliateLink
           onClick={() => {

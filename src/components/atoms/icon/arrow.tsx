@@ -40,22 +40,22 @@ export function ArrowIcon({
           height="20"
           viewBox="0 0 20 20"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+          xmlns="http://www.w3.org/2000/ svg"
           {...customStyle}
         >
           <path
-            d="M10.6831 18.192L10.6831 5.63571"
+            d="M10.9238 3.54298L10.9238 16.0993"
             stroke={color}
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           />
           <path
-            d="M4.45654 10.8675L10.683 4.76376L16.9095 10.8675"
+            d="M17.1504 10.8675L10.9239 16.9712L4.69739 10.8675"
             stroke={color}
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           />
         </svg>
       )}
