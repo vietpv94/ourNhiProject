@@ -20,9 +20,9 @@ function* handleLoginRequest(data: any): any {
     const { data, success } = yield call(authServices.login, {
       email: body.email,
       password: body.password,
+      twoFaCode: body.twoFaCode,
       remember: body.remember
     } as SignInData);
-
 
     if (success) {
       if (data.is2FAEnabled) {
@@ -50,7 +50,7 @@ function* logout() {
   try {
     yield call(authServices.logout);
     yield call(sessionServices.deleteAccountSession);
-    yield call(removeToken)
+    yield call(removeToken);
     yield put(logoutSuccess());
   } catch (error) {
     console.log("error");

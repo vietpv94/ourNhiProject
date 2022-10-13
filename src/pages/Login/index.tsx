@@ -30,27 +30,28 @@ export const Login = ({ children }: ILoginProps) => {
   );
 
   const handleSubmit = async () => {
-    if (is2FAEnabled) {
+    const { data } = await authServices.check2FA({ email: userName });
+    const { enable2fa } = data;
+
+    if (enable2fa) {
       setShowModal(true);
     } else {
       dispatch(loginRequest({ email: userName, password, remember: false }));
     }
   };
   const handleVerify = async () => {
-    const response = await authServices.verify2FA({
-      userId: Number(userId),
-      otpToken: code
-    });
-    if (response?.success) {
-      sessionServices.saveAccountSession({
-        accessToken: response?.data as unknown as string
-      });
-      const user = await userServices.getProfile();
-      if (user) dispatch(loginSuccess(user?.data));
-    } else {
-      toast.error(response.message);
-    }
+    console.log(code);
+    
+    dispatch(
+      loginRequest({
+        email: userName,
+        password,
+        remember: false,
+        twoFaCode: code
+      })
+    );
   };
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/stake");

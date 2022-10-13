@@ -90,11 +90,11 @@ export const SignUp = () => {
             }
           });
         } else {
-          toast.error(response.message);
+          return toast.error(response.message);
         }
       })
       .catch((err: Error) => {
-        toast.error(err.message);
+        return toast.error(err.message);
       });
   };
 
@@ -250,7 +250,9 @@ export const SignUp = () => {
               <FormButton
                 onClick={() => {
                   if (!code) {
-                    toast.error("You haven't entered the verified code.");
+                    return toast.error(
+                      "You haven't entered the verified code."
+                    );
                   }
                   handleVerifyCode();
                 }}

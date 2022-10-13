@@ -1,15 +1,38 @@
 import { Button } from "@Components/atoms/Button";
 import { EyeIcon } from "@Components/atoms/icon/eye";
 import { Input } from "@Components/molecules/Form/input";
-import React, { useState } from "react";
+import { userServices } from "@Services/index";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-export interface IChangePassProps {}
+export interface IChangePassProps {
+  currentPass: string;
+  onSuccess: () => void;
+}
 
 export function ChangePass(props: IChangePassProps) {
-  const [password, setPassword] = useState("");
   const [changePassword, setChangePassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleCheckPass = async () => {};
+  
+  const handleCheckPass = async () => {
+    if (changePassword !== confirmPassword) {
+      return toast.error("Password and Confirm Password must match");
+    }
+
+    const res = await userServices.changePassword({
+      oldPassword: props.currentPass,
+      password: confirmPassword
+    });
+    if (res.success) {
+      toast.success("Password changed successfully");
+      setChangePassword("");
+      setConfirmPassword("");
+      props.onSuccess();
+    } else {
+      return toast.error(res.message);
+    }
+  };
+
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   return (

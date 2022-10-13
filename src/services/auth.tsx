@@ -42,14 +42,13 @@ const refreshToken = async (): Promise<Token> => {
   }
 };
 
-const verify2FA = async (params: any) => {
+const check2FA = async (params: { email: string }) => {
   try {
-    const response = await nonAuthService.get("auth/2fa", params);
-    const { status } = response;
-    const data = response.data;
-    return data;
+    const { data } = await nonAuthService.get("auth/2fa", params);
+
+    return handleResponse(data);
   } catch (error) {
-    return Promise.reject({ error: true, data: "exception" });
+    return handleError(error, "error happen while checking 2fa");
   }
 };
 
@@ -58,7 +57,7 @@ export const authServices = {
   logout,
   login,
   register,
-  verify2FA
+  check2FA
 };
 
 export default authServices;

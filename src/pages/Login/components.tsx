@@ -15,7 +15,7 @@ export const Link = styled(NavLink)`
 `;
 export const VerifyModal = styled.div`
   min-width: 400px;
-  background: #171717;
+  background: #ffffff;
   border-radius: 16px;
   padding: 24px;
   h2 {
@@ -24,7 +24,7 @@ export const VerifyModal = styled.div`
     font-weight: 600;
     font-size: 24px;
     line-height: 28px;
-    color: #ffffff;
+    color: #27272a;
     margin-bottom: 32px;
   }
   .label {
@@ -34,6 +34,6 @@ export const VerifyModal = styled.div`
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
-    color: #ffffff;
+    color: #27272a;
   }
 `;

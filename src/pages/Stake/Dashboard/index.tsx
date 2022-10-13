@@ -11,9 +11,11 @@ import { RootState } from "@Redux/reducers";
 import account from "@Redux/reducers/accounts";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useCopyToClipboard, useMedia } from "react-use";
 import { DataAffiliate, infoData, listAffiliate } from "./data";
+import { toast } from "react-toastify";
 import {
   AffiliateLink,
   CardGroup,
@@ -52,9 +54,14 @@ export const dataCard: DataSummary[] = [
 
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
-  const [state, copyToClipboard] = useCopyToClipboard();
+  const [copyState, copyToClipboard] = useCopyToClipboard();
   const isMobile = useMedia(breakpoints.xs);
   const link = `${window.location.origin}/sign-up?ref=${account.ref}`;
+  useEffect(() => {
+    if (copyState.noUserInteraction && !copyState.error && copyState.value) {
+      toast.success("copy success");
+    }
+  }, [copyState]);
   return (
     <DashboardWrapper>
       <Title>Dashboard</Title>

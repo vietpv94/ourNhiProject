@@ -3,8 +3,9 @@ import { LogoutIcon } from "@Components/atoms/icon/logout";
 import { ProfileIcon } from "@Components/atoms/icon/profile";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { logoutRequest } from "@Redux/actions/accounts";
+import { RootState } from "@Redux/reducers";
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Info, Item, Main, ProfileWrapper } from "./style";
 export interface IProfileProps {}
@@ -13,16 +14,17 @@ const dropdownList = [
   {
     name: "Profile",
     link: "/profile",
-    icon: <ProfileIcon />,
+    icon: <ProfileIcon />
   },
   {
     name: "Logout",
     link: "/logout",
-    icon: <LogoutIcon />,
-  },
+    icon: <LogoutIcon />
+  }
 ];
 export function Profile(props: IProfileProps) {
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const { nickName, level } = useSelector((state: RootState) => state.account);
   const ref = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,8 +43,8 @@ export function Profile(props: IProfileProps) {
       >
         <Avatar src={avatar} alt="avatar" />
         <Info>
-          <span className="name">Crazy Name</span>
-          <span className="level">Level 1</span>
+          <span className="name">{nickName}</span>
+          <span className="level">Level {level}</span>
         </Info>
       </Main>
       {showDropdown && (

@@ -11,12 +11,16 @@ import { Form } from "@Components/molecules/Form";
 import { Input } from "@Components/molecules/Form/input";
 import { RootState } from "@Redux/reducers";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Flex, ReviewTime, Title, UL, Wrapper, QR } from "./style";
 import qrCode from "@Assets/images/profile/qrcode.png";
 import { EyeIcon } from "@Components/atoms/icon/eye";
 import { ChangePass } from "./changePass";
+import { userServices } from "@Services/index";
+import { useCopyToClipboard } from "react-use";
+import { toast } from "react-toastify";
+import { enable2FA } from "@Redux/actions/accounts";
 
 export interface IPersonalInformationProps {}
 
@@ -27,15 +31,44 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   );
 
   const dispatch = useDispatch();
-  const [qr, setQr] = useState("");
-  const [secret, setSecret] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [changePass, setChangePass] = useState(false);
-  const [active2FA, setActive2FA] = useState(false);
-  const [activeKYC, setActiveKYC] = useState(false);
-  const [code, setCode] = useState("");
-  const [showQRCode, setShowQRCode] = useState(false);
+  const [qr, setQr] = useState<string>("");
+  const [secret, setSecret] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [changePass, setChangePass] = useState<boolean>(false);
+  const [active2FA, setActive2FA] = useState<boolean>(false);
+  const [activeKYC, setActiveKYC] = useState<boolean>(false);
+  const [code, setCode] = useState<string>("");
+  const [showQRCode, setShowQRCode] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>("");
+  const [copyState, copyToClipboard] = useCopyToClipboard();
 
+  const handleToggle = async () => {
+    if (!is2FAEnabled) {
+      setActive2FA(true);
+      const { data } = await userServices.getQrCode2fa();
+      setQr(data.qrCodeUrl);
+      setSecret(data.secret);
+    }
+  };
+  const handleVerify = async () => {
+    const { data } = await userServices.enable2FA({
+      twoFACode: code
+    });
+    if (data) {
+      setCode("");
+      setActive2FA(false);
+      dispatch(
+        enable2FA()
+      );
+      toast.info("2FA enabled");
+    }
+  };
+
+  useEffect(() => {
+    if (copyState.noUserInteraction && !copyState.error && copyState.value) {
+      toast.success("copy success");
+    }
+  }, [copyState]);
   return (
     <Wrapper>
       <div className="title">Profile</div>
@@ -49,7 +82,10 @@ export function PersonalInformation(props: IPersonalInformationProps) {
         <Input
           type="password"
           label="Password"
-          disabled
+          placeholder={!changePass ? "********" : "Input current password"}
+          disabled={!changePass}
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
           icon={
             <EditIcon
               onClick={() =>
@@ -58,13 +94,18 @@ export function PersonalInformation(props: IPersonalInformationProps) {
             />
           }
         />
-        {changePass && <ChangePass />}
+        {changePass && (
+          <ChangePass
+            currentPass={password}
+            onSuccess={() => {
+              setPassword("");
+              setChangePass(false);
+            }}
+          />
+        )}
         <Title>
           <span>2FA Authenticator</span>
-          <ToggleIcon
-            onClick={() => setActive2FA(!active2FA)}
-            isToggle={active2FA}
-          />
+          <ToggleIcon onClick={() => handleToggle()} isToggle={active2FA} />
         </Title>
         {active2FA && (
           <>
@@ -81,31 +122,57 @@ export function PersonalInformation(props: IPersonalInformationProps) {
             <Input
               type="text"
               label="Product Key"
+              value={secret}
+              disabled
               icon={
                 <QR>
                   <span>QR Code</span>
                   <QRCodeIcon onClick={() => setShowQRCode(!showQRCode)} />
                   {showQRCode && (
                     <QRModal>
-                      <CloseIcon
-                        color="#00A3FF"
-                        type="outline"
-                        onClick={() => setShowQRCode(false)}
-                      />
-                      <div className="title">Scan and send</div>
-                      <img className="qr-code" src={qrCode} alt="" />
-                      <div className="save">Save QR</div>
+                      {qr && (
+                        <>
+                          <CloseIcon
+                            color="#00A3FF"
+                            type="outline"
+                            onClick={() => setShowQRCode(false)}
+                          />
+                          <div className="title">Scan and send</div>
+                          <img
+                            className="qr-code"
+                            src={`${qr}`}
+                            alt="qr-code-img-lido"
+                          />
+                          <div className="save">Save QR</div>
+                        </>
+                      )}
                     </QRModal>
                   )}
                 </QR>
               }
             >
-              <Button customStyle={"height: 40px;"} type="blue" text="Copy" />
+              <Button
+                customStyle={"height: 40px;"}
+                type="blue"
+                text="Copy"
+                onClick={() => {
+                  copyToClipboard(secret);
+                }}
+              />
             </Input>
+            <Input
+              type="text"
+              label="Verify code"
+              placeholder="OTP code"
+              onChange={(e) => {
+                setCode(e.target.value);
+              }}
+            ></Input>
             <Button
               type="blue"
               text="Activate 2FA"
               customStyle={"width: 100%;"}
+              onClick={() => handleVerify()}
             />
           </>
         )}
@@ -116,7 +183,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               color="#FF9900"
               customStyle={{
                 height: 12,
-                width: 12,
+                width: 12
               }}
             />
           </span>
