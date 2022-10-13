@@ -3,6 +3,7 @@ import { handleError, handleResponse } from "@Helpers/util";
 import { Token, User } from "@Types/index";
 import {
   enable2FAData,
+  KYCData,
   SendMail,
   SetBinaryChild,
   UserChangePassword,
@@ -116,9 +117,9 @@ const disable2FA = async () => {
   }
 };
 
-const sendKyc = async () => {
+const sendKyc = async (params: KYCData) => {
   try {
-    const { data } = await service.post(`user/kyc`);
+    const { data } = await service.post(`user/kyc`, params);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while sending kyc");
