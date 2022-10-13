@@ -126,6 +126,24 @@ const sendKyc = async (params: KYCData) => {
   }
 };
 
+const getDashboard = async () => {
+  try {
+    const { data } = await service.get("user/dashboard");
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while sending kyc");
+  }
+};
+
+const getUserLevel = async () => {
+  try {
+    const { data } = await service.get("user/level");
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while sending kyc");
+  }
+};
+
 const getUserChild = async (filter: GetChildFilter) => {
   try {
     const { data } = await service.get(`user/child`, filter);
@@ -188,7 +206,9 @@ export const userServices = {
   getBinaryChild,
   getUserParent,
   getUserTree,
-  setBinaryChild
+  setBinaryChild,
+  getDashboard,
+  getUserLevel
 };
 
 export default userServices;

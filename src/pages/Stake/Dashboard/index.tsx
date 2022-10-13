@@ -11,7 +11,7 @@ import { RootState } from "@Redux/reducers";
 import account from "@Redux/reducers/accounts";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useCopyToClipboard, useMedia } from "react-use";
 import { DataAffiliate, DataLevel, infoData, listAffiliate } from "./data";
@@ -25,38 +25,23 @@ import {
   Level,
   ListAffiliate,
   System,
-  Title,
+  Title
 } from "./style";
 import { CardLevel } from "@Components/molecules/CardLevel";
-
+import { userServices } from "@Services/index";
 export interface IDashboardProps {}
 
-export const dataCard: DataSummary[] = [
-  {
-    id: 1,
-    title: "total members",
-    value: "5,432",
-    percent: 16,
-    icon: <MemberIcon />,
-  },
-  {
-    id: 2,
-    title: "total profit",
-    value: "1,893",
-    percent: -1,
-    icon: <DollarIcon />,
-  },
-  {
-    id: 3,
-    title: "total transaction",
-    value: "V",
-    icon: <ProfileTickIcon />,
-  },
-];
-
+export interface DashboardData {
+  totalMember: number;
+  totalProfit: number;
+  totalTransaction: number;
+  percentProfitChange: number;
+  newMemberJoinRate: number;
+}
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
   const [copyState, copyToClipboard] = useCopyToClipboard();
+  const [dashboardInfo, setDashboardInfo] = useState<DashboardData>();
   const isMobile = useMedia(breakpoints.xs);
   const link = `${window.location.origin}/sign-up?ref=${account.ref}`;
   useEffect(() => {
@@ -64,11 +49,69 @@ export function Dashboard(props: IDashboardProps) {
       toast.success("copy success");
     }
   }, [copyState]);
+
+  const loadDashboardInfo = async () => {
+    const { data } = await userServices.getDashboard();
+
+    const {
+      totalChild,
+      totalProfit,
+      profitThisMonth,
+      profitLastMonth,
+      level,
+      childThisMonth,
+      childLastMonth
+    } = data;
+
+    setDashboardInfo({
+      totalMember: totalChild,
+      totalProfit: totalProfit,
+      totalTransaction: 0,
+      newMemberJoinRate:
+        childThisMonth === 0 || childLastMonth === 0
+          ? 0
+          : childThisMonth / childLastMonth,
+      percentProfitChange:
+        profitThisMonth === 0 || profitThisMonth === 0
+          ? 0
+          : profitThisMonth / profitLastMonth
+    });
+    console.log(data);
+  };
+
+  const cardData: DataSummary[] = useMemo(() => {
+    return [
+      {
+        id: 1,
+        title: "total members",
+        value: dashboardInfo?.totalMember || 0,
+        percent: dashboardInfo?.newMemberJoinRate,
+        icon: <MemberIcon />
+      },
+      {
+        id: 2,
+        title: "total profit",
+        value: dashboardInfo?.totalProfit || 0,
+        percent: dashboardInfo?.percentProfitChange,
+        icon: <DollarIcon />
+      },
+      {
+        id: 3,
+        title: "total transaction",
+        value: dashboardInfo?.totalTransaction || 0,
+        icon: <ProfileTickIcon />
+      }
+    ];
+  }, [dashboardInfo]);
+
+  useEffect(() => {
+    loadDashboardInfo();
+  }, []);
   return (
     <DashboardWrapper>
       <Title>Dashboard</Title>
       <CardGroup>
-        {dataCard.map((item, index) => (
+        {cardData.map((item, index) => (
           <Summary data={item} key={`card-item-${index}`} />
         ))}
         <AffiliateLink

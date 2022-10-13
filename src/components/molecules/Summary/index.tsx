@@ -20,15 +20,15 @@ export function Summary({ data }: ISummaryProps) {
       <div className="content">
         <div className="title">{data.title}</div>
         <div className="value">{data.value}</div>
-        {data.percent && (
+        {data.percent !== undefined && (
           <div className="percent">
             <ArrowIcon
-              color={data.percent > 0 ? "#53BA95" : "#ff476a"}
-              direction={data.percent > 0 ? "up" : "down"}
+              color={data.percent >= 0 ? "#53BA95" : "#ff476a"}
+              direction={data.percent >= 0 ? "up" : "down"}
             />
             <span
               style={{
-                color: data.percent > 0 ? "#53BA95" : "#ff476a",
+                color: data.percent >= 0 ? "#53BA95" : "#ff476a"
               }}
             >
               {data.percent}%
