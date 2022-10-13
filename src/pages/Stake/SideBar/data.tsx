@@ -38,7 +38,7 @@ export const dataSideBar: DataSideBar[] = [
   },
   {
     name: "Affiliate",
-    link: "/affiliate",
+    link: "/stake/affiliate",
     icon: <TeamIcon />,
   },
 ];

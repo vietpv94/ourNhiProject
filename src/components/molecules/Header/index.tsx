@@ -16,7 +16,7 @@ import {
   LeftMenu,
   Logo,
   Main,
-  RightMenu
+  RightMenu,
 } from "./style";
 export interface IHeaderProps {}
 
@@ -29,18 +29,23 @@ const dataMenu: IMenuItem[] = [
   {
     id: 1,
     name: "Home",
-    link: "/stake"
+    link: "/stake",
   },
   {
     id: 2,
     name: "marketing",
-    link: "/marketing"
+    link: "/marketing",
   },
   {
     id: 3,
     name: "support",
-    link: "/support"
-  }
+    link: "/support",
+  },
+  {
+    id: 4,
+    name: "FAQ",
+    link: "/faq",
+  },
 ];
 export function Header(props: IHeaderProps) {
   const isTablet = useMedia(breakpoints.xs);

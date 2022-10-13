@@ -1,6 +1,7 @@
 import { History } from "@Components/organisms/History";
 import HomePage from "@Pages/Home";
 import { Stake } from "@Pages/Stake";
+import { Affiliate } from "@Pages/Stake/Affiliate";
 import { Dashboard } from "@Pages/Stake/Dashboard";
 import { DefiStaking } from "@Pages/Stake/DefiStaking";
 
@@ -14,18 +15,22 @@ export interface Router {
 export const dashboardRoutes: Router[] = [
   {
     path: "defi-staking",
-    component: DefiStaking
+    component: DefiStaking,
   },
   {
     path: "",
-    component: DefiStaking
+    component: DefiStaking,
   },
   {
     path: "dashboard",
-    component: Dashboard
+    component: Dashboard,
   },
   {
     path: "history",
-    component: History
-  }
+    component: History,
+  },
+  {
+    path: "affiliate",
+    component: Affiliate,
+  },
 ];

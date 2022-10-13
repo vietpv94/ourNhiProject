@@ -6,6 +6,7 @@ import { ProfileIcon } from "@Components/atoms/icon/profile";
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import { CardAffiliate } from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
+import { DataSummary, Summary } from "@Components/molecules/Summary";
 import { RootState } from "@Redux/reducers";
 import account from "@Redux/reducers/accounts";
 import { breakpoints } from "@Utils/theme";
@@ -13,72 +14,46 @@ import * as React from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useCopyToClipboard, useMedia } from "react-use";
-import { DataAffiliate, infoData, listAffiliate } from "./data";
+import { DataAffiliate, DataLevel, infoData, listAffiliate } from "./data";
 import { toast } from "react-toastify";
 import {
   AffiliateLink,
-  Card,
   CardGroup,
   DashboardWrapper,
   Info,
   ItemInfo,
+  Level,
   ListAffiliate,
   System,
-  Title
+  Title,
 } from "./style";
+import { CardLevel } from "@Components/molecules/CardLevel";
 
 export interface IDashboardProps {}
 
-export const dataCard = [
+export const dataCard: DataSummary[] = [
   {
     id: 1,
     title: "total members",
     value: "5,432",
     percent: 16,
-    icon: <MemberIcon />
+    icon: <MemberIcon />,
   },
   {
     id: 2,
     title: "total profit",
     value: "1,893",
     percent: -1,
-    icon: <DollarIcon />
+    icon: <DollarIcon />,
   },
   {
     id: 3,
     title: "total transaction",
     value: "V",
-    icon: <ProfileTickIcon />
-  }
+    icon: <ProfileTickIcon />,
+  },
 ];
 
-export const CardItem = (data: any) => {
-  return (
-    <Card className="card">
-      <div className="icon">{data.icon}</div>
-      <div className="content">
-        <div className="title">{data.title}</div>
-        <div className="value">{data.value}</div>
-        {data.percent && (
-          <div className="percent">
-            <ArrowIcon
-              color={data.percent > 0 ? "#53BA95" : "#ff476a"}
-              direction={data.percent > 0 ? "up" : "down"}
-            />
-            <span
-              style={{
-                color: data.percent > 0 ? "#53BA95" : "#ff476a"
-              }}
-            >
-              {data.percent}%
-            </span>
-            this month
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-};
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
   const [copyState, copyToClipboard] = useCopyToClipboard();
@@ -94,7 +69,7 @@ export function Dashboard(props: IDashboardProps) {
       <Title>Dashboard</Title>
       <CardGroup>
         {dataCard.map((item, index) => (
-          <CardItem {...item} key={`card-item-${index}`} />
+          <Summary data={item} key={`card-item-${index}`} />
         ))}
         <AffiliateLink
           onClick={() => {
@@ -121,6 +96,12 @@ export function Dashboard(props: IDashboardProps) {
           <CardAffiliate {...item} key={`card-affiliate-${index}`} />
         ))}
       </System>
+      <Title>Level</Title>
+      <Level>
+        {DataLevel.map((item, index) => (
+          <CardLevel data={item} key={`card-level-${index}`} />
+        ))}
+      </Level>
       <Title>Members</Title>
       <Info>
         {Object.keys(infoData).map((item: any, index) => (
