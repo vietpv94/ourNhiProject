@@ -121,3 +121,10 @@ export const ListAffiliate = styled.div`
   overflow-y: hidden;
   overflow-x: auto;
 `;
+
+export const Level = styled.div`
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+`;

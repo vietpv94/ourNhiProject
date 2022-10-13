@@ -14,7 +14,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useCopyToClipboard, useMedia } from "react-use";
-import { DataAffiliate, infoData, listAffiliate } from "./data";
+import { DataAffiliate, DataLevel, infoData, listAffiliate } from "./data";
 import { toast } from "react-toastify";
 import {
   AffiliateLink,
@@ -22,10 +22,12 @@ import {
   DashboardWrapper,
   Info,
   ItemInfo,
+  Level,
   ListAffiliate,
   System,
   Title,
 } from "./style";
+import { CardLevel } from "@Components/molecules/CardLevel";
 
 export interface IDashboardProps {}
 
@@ -94,6 +96,12 @@ export function Dashboard(props: IDashboardProps) {
           <CardAffiliate {...item} key={`card-affiliate-${index}`} />
         ))}
       </System>
+      <Title>Level</Title>
+      <Level>
+        {DataLevel.map((item, index) => (
+          <CardLevel data={item} key={`card-level-${index}`} />
+        ))}
+      </Level>
       <Title>Members</Title>
       <Info>
         {Object.keys(infoData).map((item: any, index) => (
