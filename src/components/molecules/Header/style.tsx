@@ -67,3 +67,12 @@ export const RightMenu = styled.div`
   justify-content: flex-end;
   gap: 14px;
 `;
+
+export const Flex = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+`;

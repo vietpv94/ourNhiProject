@@ -25,6 +25,7 @@ import { dashboardRoutes } from "./routers/routers";
 import { Profile } from "@Pages/Profile";
 import { PersonalInformation } from "@Pages/Profile/Information";
 import { FAQ } from "@Pages/FAQ";
+import { Notification } from "@Pages/Notification";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -84,6 +85,12 @@ const App: FC = () => {
           >
             <Route path="" element={<PersonalInformation />}></Route>
           </Route>
+          <Route
+            path="notifications"
+            element={ProtectedRoute(() => {
+              return <Notification />;
+            })}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Header, Main, Mask, Range, Wrapper } from "./style";
+import { Header, Item, List, Main, Mask, Range, Wrapper } from "./style";
 import mask from "@Assets/images/molecules/level/mask.png";
 import { StarIcon } from "./starIcon";
 import { SmallStarIcon } from "@Components/atoms/icon/star";
@@ -36,11 +36,22 @@ export function CardLevel({ data }: ICardLevelProps) {
             </div>
           </div>
         </Header>
-        <Range completed={data.completed / data.total}>
+        <Range completed={data.completed / data.total} status={data.status}>
           <div className="base"></div>
           <div className="text">
             <SmallStarIcon />
-            <span>{`${data.completed} / ${data.total}`}</span>
+            <span>
+              <span
+                className={
+                  data.completed < data.total && data.completed
+                    ? "hight-light"
+                    : ""
+                }
+              >
+                {data.completed}
+              </span>
+              /{data.total}
+            </span>
           </div>
           <div className="from">
             <span>{data.level}</span>
@@ -50,6 +61,39 @@ export function CardLevel({ data }: ICardLevelProps) {
             <span>{data.level + 1}</span>
           </div>
         </Range>
+        <List>
+          {data.data.map((item, index) => {
+            var [accomplished, target] = item.value.split("/");
+            return (
+              <Item key={index}>
+                <SmallStarIcon
+                  color={
+                    data.status === "disabled"
+                      ? "#C1CBD7"
+                      : item.done
+                      ? "#4A66EF"
+                      : "#CCEDFF"
+                  }
+                />
+                <div
+                  className={
+                    data.status === "disabled" ? "main disable" : "main"
+                  }
+                >
+                  <span className={item.done ? "name done" : "name"}>
+                    {item.name}
+                  </span>
+                  <span className="value">
+                    <span className={item.done ? "" : "hight-light"}>
+                      {accomplished}
+                    </span>
+                    /{target}
+                  </span>
+                </div>
+              </Item>
+            );
+          })}
+        </List>
       </Main>
     </Wrapper>
   );
