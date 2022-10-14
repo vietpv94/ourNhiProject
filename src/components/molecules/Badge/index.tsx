@@ -6,7 +6,12 @@ import * as React from "react";
 import { useMedia } from "react-use";
 import { INotification, Notification } from "../Notification";
 import { Bell } from "./bell";
-import { BadgeWrapper, NotificationDetail, Number } from "./style";
+import {
+  BadgeWrapper,
+  DetailWrapper,
+  NotificationDetail,
+  Number,
+} from "./style";
 
 export interface IBadgeProps {
   num: number;
@@ -40,23 +45,25 @@ export function Badge({ num }: IBadgeProps) {
         />
       )}
       {selectedNotify !== null && (
-        <NotificationDetail ref={refDetail}>
-          <div className="svg">
-            <CloseIcon
-              type="outline"
-              color="#00A3FF"
-              onClick={() => {
-                setSelectedNotify(null);
-              }}
-            />
-          </div>
-          <div className="title">Notification Detail</div>
-          <div className="content">
-            <div className="title">{selectedNotify.title}</div>
-            <div className="time">{getTimeAgo(selectedNotify.time)}</div>
-            <div className="description">{selectedNotify.description}</div>
-          </div>
-        </NotificationDetail>
+        <DetailWrapper>
+          <NotificationDetail ref={refDetail}>
+            <div className="svg">
+              <CloseIcon
+                type="outline"
+                color="#00A3FF"
+                onClick={() => {
+                  setSelectedNotify(null);
+                }}
+              />
+            </div>
+            <div className="title">Notification Detail</div>
+            <div className="content">
+              <div className="title">{selectedNotify.title}</div>
+              <div className="time">{getTimeAgo(selectedNotify.time)}</div>
+              <div className="description">{selectedNotify.description}</div>
+            </div>
+          </NotificationDetail>
+        </DetailWrapper>
       )}
     </div>
   );

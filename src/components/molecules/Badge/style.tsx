@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const BadgeWrapper = styled.div`
@@ -31,11 +32,24 @@ export const Number = styled.div`
   }
 `;
 
+export const DetailWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100vw;
+  height: calc(100vh - 100%);
+  background: transparent;
+  background: rgba(217, 217, 217, 0.7);
+  @media ${breakpoints.sm} {
+    right: -20px;
+  }
+`;
+
 export const NotificationDetail = styled.div`
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(50% - 80px);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: #ffffff;
   border: 1px solid #ccedff;
   box-shadow: 32px 19px 15px rgba(28, 46, 64, 0.01),

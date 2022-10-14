@@ -59,7 +59,6 @@ export function SideBar(props: ISideBarProps) {
     >
       {isMobile && (
         <SideBarHeader>
-          {/* <Badge num={10} /> */}
           {isLogin ? (
             <Profile />
           ) : (

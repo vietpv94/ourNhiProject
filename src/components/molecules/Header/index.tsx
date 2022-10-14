@@ -49,7 +49,7 @@ const dataMenu: IMenuItem[] = [
   },
 ];
 export function Header(props: IHeaderProps) {
-  const isTablet = useMedia(breakpoints.xs);
+  const isTablet = useMedia(breakpoints.sm);
   return (
     <Container>
       <HeaderWrapper>
