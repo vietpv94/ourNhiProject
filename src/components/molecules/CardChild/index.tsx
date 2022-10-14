@@ -30,7 +30,7 @@ export function CardChild({ cardInfo, layer, onClickItem }: ICardChildProps) {
         {cardInfo.map((item: IChildInfo, index) => (
           <Item
             key={`${item}-${index}`}
-            onClick={() => onClickItem && onClickItem(item.email, index)}
+            onClick={() => onClickItem && onClickItem(item.email, layer - 1)}
           >
             <span className="text">#{item.refCode}</span>
             {item.child.length > 0 && (

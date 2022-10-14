@@ -81,7 +81,7 @@ export function Dashboard(props: IDashboardProps) {
   };
 
   const loadUserChild = async () => {
-    const { data } = await userServices.getUserChild({ depth: 0 });
+    const { data } = await userServices.getUserChild({ maxDepth: 0 });
     console.log(data);
 
     memberData[0] = data;
@@ -123,17 +123,17 @@ export function Dashboard(props: IDashboardProps) {
             cardInfo={item}
             layer={index + 1}
             activeChild={activeChild}
-            onClickItem={async (email: string, index: number) => {
-              if (index !== 14) {
+            onClickItem={async (email: string, i: number) => {
+              if (i !== 14) {
                 const nextResult = await userServices.getUserChild({
-                  depth: 0,
+                  maxDepth: 0,
                   from: email
                 });
 
-                memberData[index + 1] = nextResult.data;
-                if (index !== 13 && memberData[index + 2].length !== 0) {
-                  const newMembers = memberData.slice(0, index - 13);
-                  const remain = new Array(13 - index).fill([]);
+                memberData[i + 1] = nextResult.data;
+                if (i !== 13 && memberData[i + 2].length !== 0) {
+                  const newMembers = memberData.slice(0, i - 13);
+                  const remain = new Array(13 - i).fill([]);
                   setMemberData(newMembers.concat(remain));
                 } else {
                   setMemberData(memberData);
