@@ -54,7 +54,10 @@ export const Header = styled.div`
   }
 `;
 
-export const Range = styled.div<{ completed: number }>`
+export const Range = styled.div<{
+  completed: number;
+  status: "done" | "pending" | "disabled";
+}>`
   position: relative;
   width: 100%;
   height: 25px;
@@ -62,7 +65,10 @@ export const Range = styled.div<{ completed: number }>`
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #4a65ef;
+    background: ${({ status }) => {
+      if (status === "disabled") return "#8D8D8D";
+      return "#4a66ef97";
+    }};
     opacity: 0.2;
     backdrop-filter: blur(135.926px);
     border-radius: 95.2883px;
@@ -73,10 +79,9 @@ export const Range = styled.div<{ completed: number }>`
     z-index: 1;
     height: calc(100% - 4px);
     top: 50%;
-    left: 0%;
+    left: 3px;
     transform: translateY(-50%);
     aspect-ratio: 1;
-    /* background: linear-gradient(340.48deg, #4a65ef 9.32%, #33b5ff 83.24%); */
     background: ${({ completed }) => {
       if (completed > 0)
         return "linear-gradient(340.48deg, #4a65ef 9.32%, #33b5ff 83.24%)";
@@ -94,7 +99,7 @@ export const Range = styled.div<{ completed: number }>`
     }
   }
   & > .to {
-    right: 0%;
+    right: 3px;
     left: unset;
     z-index: ${({ completed }) => (completed < 1 ? -1 : 0)};
   }
@@ -102,9 +107,9 @@ export const Range = styled.div<{ completed: number }>`
     position: absolute;
     z-index: 0;
     height: calc(100% - 4px);
-    width: ${({ completed }) => completed * 100}%;
+    width: calc(${({ completed }) => completed} * 100% - 6px);
     top: 50%;
-    left: 0%;
+    left: 3px;
     transform: translateY(-50%);
     aspect-ratio: 1;
     background: #4a65ef;
@@ -125,6 +130,54 @@ export const Range = styled.div<{ completed: number }>`
       opacity: 0.8;
       font-weight: 600;
       font-size: 10px;
+      & > .hight-light {
+        color: #f8fafc;
+      }
+    }
+  }
+`;
+
+export const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+
+export const Item = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  & > .main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+    & > .name {
+      color: #2a3751;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      &.done {
+        color: #c1cbd7;
+        text-decoration-line: line-through;
+      }
+    }
+    & > .value {
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 12px;
+      color: #c1cbd7;
+      & > .hight-light {
+        color: #37373b;
+      }
+    }
+  }
+  & > .disable {
+    & * {
+      color: #c1cbd7 !important;
     }
   }
 `;
