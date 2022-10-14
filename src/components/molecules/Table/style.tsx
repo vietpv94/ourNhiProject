@@ -81,6 +81,9 @@ export const TableWrapper = styled.div`
           bottom: 0;
           left: 0;
         }
+        @media ${breakpoints.sm} {
+          width: max-content;
+        }
       }
     }
   }

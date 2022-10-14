@@ -1,3 +1,4 @@
+import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -81,11 +82,15 @@ export const RewardHistory = styled.div`
     }
     & > .sort-by {
     }
+    @media ${breakpoints.xs} {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
   }
 `;
 
 export const BoxHistory = styled.div`
-  margin-top: 20px;
   width: 100%;
   padding: 20px 50px;
   background: #ffffff;

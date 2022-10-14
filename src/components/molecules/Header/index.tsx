@@ -12,6 +12,7 @@ import { WalletSelector } from "../../../pages/Stake/style";
 import { Hamburger } from "../HeaderHomePage/hamburger";
 import {
   Container,
+  Flex,
   HeaderWrapper,
   LeftMenu,
   Logo,
@@ -54,7 +55,10 @@ export function Header(props: IHeaderProps) {
       <HeaderWrapper>
         <Logo src={logo} alt="logo" />
         {isTablet ? (
-          <Hamburger />
+          <Flex>
+            <Badge num={10} />
+            <Hamburger />
+          </Flex>
         ) : (
           <Main>
             <LeftMenu>
@@ -67,7 +71,6 @@ export function Header(props: IHeaderProps) {
             <RightMenu>
               <Badge num={10} />
               <Profile />
-
               <WalletSelector>
                 <WalletIcon color="#00a3ff" />
               </WalletSelector>
