@@ -38,7 +38,6 @@ export const DetailWrapper = styled.div`
   right: 0;
   width: 100vw;
   height: calc(100vh - 100%);
-  background: transparent;
   background: rgba(217, 217, 217, 0.7);
   @media ${breakpoints.sm} {
     right: -20px;
