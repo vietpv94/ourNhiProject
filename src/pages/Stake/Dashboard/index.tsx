@@ -40,6 +40,8 @@ export interface DashboardData {
 }
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
+  const [memberData, setMemberData] = useState<any[]>(new Array(15).fill([]));
+  const [activeChild, setActiveChild] = React.useState<string>("");
   const [copyState, copyToClipboard] = useCopyToClipboard();
   const [dashboardInfo, setDashboardInfo] = useState<DashboardData>();
   const isMobile = useMedia(breakpoints.xs);
@@ -76,7 +78,14 @@ export function Dashboard(props: IDashboardProps) {
           ? 0
           : profitThisMonth / profitLastMonth
     });
+  };
+
+  const loadUserChild = async () => {
+    const { data } = await userServices.getUserChild({ depth: 0 });
     console.log(data);
+
+    memberData[0] = data;
+    setMemberData(memberData);
   };
 
   const cardData: DataSummary[] = useMemo(() => {
@@ -104,8 +113,44 @@ export function Dashboard(props: IDashboardProps) {
     ];
   }, [dashboardInfo]);
 
+  const renderChild = React.useCallback(() => {
+    console.log(memberData);
+
+    return (
+      <>
+        {memberData.map((item, index) => (
+          <CardChild
+            cardInfo={item}
+            layer={index + 1}
+            activeChild={activeChild}
+            onClickItem={async (email: string, index: number) => {
+              if (index !== 14) {
+                const nextResult = await userServices.getUserChild({
+                  depth: 0,
+                  from: email
+                });
+
+                memberData[index + 1] = nextResult.data;
+                if (index !== 13 && memberData[index + 2].length !== 0) {
+                  const newMembers = memberData.slice(0, index - 13);
+                  const remain = new Array(13 - index).fill([]);
+                  setMemberData(newMembers.concat(remain));
+                } else {
+                  setMemberData(memberData);
+                }
+              }
+              setActiveChild(email);
+            }}
+            key={`list-affiliate-${index}`}
+          />
+        ))}
+      </>
+    );
+  }, [activeChild]);
+
   useEffect(() => {
     loadDashboardInfo();
+    loadUserChild();
   }, []);
   return (
     <DashboardWrapper>
@@ -156,11 +201,7 @@ export function Dashboard(props: IDashboardProps) {
           </ItemInfo>
         ))}
       </Info>
-      <ListAffiliate>
-        {listAffiliate.map((item, index) => (
-          <CardChild data={item} key={`list-affiliate-${index}`} />
-        ))}
-      </ListAffiliate>
+      <ListAffiliate>{renderChild()}</ListAffiliate>
     </DashboardWrapper>
   );
 }

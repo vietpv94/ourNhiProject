@@ -3,24 +3,39 @@ import * as React from "react";
 import { CardChildWrapper, Header, Item, Main } from "./style";
 
 export interface ICardChildProps {
-  data: {
-    id: number;
-    name: string;
-    list: string[];
-  };
+  layer: number;
+  activeChild: string;
+  cardInfo: IChildInfo[];
+  onClickItem?: (email: string, index: number) => void;
 }
 
-export function CardChild({ data }: ICardChildProps) {
+export interface IChildInfo {
+  email: string;
+  parentEmail: string;
+  refCode: string;
+  parentRefCode: string;
+  child: [];
+  depth: number;
+}
+
+export function CardChild({ cardInfo, layer, onClickItem }: ICardChildProps) {
+  console.log("render");
+
   return (
     <CardChildWrapper>
       <Header>
-        <span>{data.name}</span>
+        <span> F {layer}</span>
       </Header>
       <Main>
-        {data.list.map((item, index) => (
-          <Item key={`${item}-${index}`}>
-            <span className="text">#{item}</span>
-            <ArrowIcon direction="left" style="solid" />
+        {cardInfo.map((item: IChildInfo, index) => (
+          <Item
+            key={`${item}-${index}`}
+            onClick={() => onClickItem && onClickItem(item.email, index)}
+          >
+            <span className="text">#{item.refCode}</span>
+            {item.child.length > 0 && (
+              <ArrowIcon direction="left" style="solid" />
+            )}
           </Item>
         ))}
       </Main>

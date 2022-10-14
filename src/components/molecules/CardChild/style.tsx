@@ -13,7 +13,7 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 200px;
   & > span {
     text-transform: capitalize;
     color: #4a65ef;
