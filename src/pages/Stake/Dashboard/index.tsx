@@ -4,7 +4,10 @@ import { DollarIcon } from "@Components/atoms/icon/dollar";
 import { MemberIcon } from "@Components/atoms/icon/member";
 import { ProfileIcon } from "@Components/atoms/icon/profile";
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
-import { CardAffiliate } from "@Components/molecules/CardAffiliate";
+import {
+  CardAffiliate,
+  ICardAffiliateProps
+} from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
 import { DataSummary, Summary } from "@Components/molecules/Summary";
 import { RootState } from "@Redux/reducers";
@@ -14,7 +17,7 @@ import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useCopyToClipboard, useMedia } from "react-use";
-import { DataAffiliate, DataLevel, infoData, listAffiliate } from "./data";
+import { DataLevel, infoData, listAffiliate } from "./data";
 import { toast } from "react-toastify";
 import {
   AffiliateLink,
@@ -38,10 +41,23 @@ export interface DashboardData {
   percentProfitChange: number;
   newMemberJoinRate: number;
 }
+
+interface ChildInfo {
+  id: number;
+  level: number;
+  package: number;
+  partner: number;
+  profit: number;
+  createdAt: string;
+}
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
   const [memberData, setMemberData] = useState<any[]>(new Array(15).fill([]));
   const [activeChild, setActiveChild] = React.useState<string>("");
+  const [currentChildData, setCurrentChildData] = useState<ChildInfo>();
+  const [affiliateLevelData, setAffiliateLevelData] = useState<
+    ICardAffiliateProps[]
+  >([]);
   const [copyState, copyToClipboard] = useCopyToClipboard();
   const [dashboardInfo, setDashboardInfo] = useState<DashboardData>();
   const isMobile = useMedia(breakpoints.xs);
@@ -80,10 +96,28 @@ export function Dashboard(props: IDashboardProps) {
     });
   };
 
+  const loadCurrentChildData = async (email: string) => {
+    const { data } = await userServices.getChildDetail(email);
+    setCurrentChildData(data);
+  };
+
+  useEffect(() => {
+    if (activeChild) {
+      loadCurrentChildData(activeChild);
+    }
+  }, [activeChild]);
+
+  const loadUserSummary = async () => {
+    const { data } = await userServices.getUserChildSummary();
+    const affData = data.map((item: ICardAffiliateProps) => {
+      return { ...item, status: "active" };
+    });
+
+    setAffiliateLevelData(affData);
+  };
+
   const loadUserChild = async () => {
     const { data } = await userServices.getUserChild({ maxDepth: 0 });
-    console.log(data);
-
     memberData[0] = data;
     setMemberData(memberData);
   };
@@ -114,8 +148,6 @@ export function Dashboard(props: IDashboardProps) {
   }, [dashboardInfo]);
 
   const renderChild = React.useCallback(() => {
-    console.log(memberData);
-
     return (
       <>
         {memberData.map((item, index) => (
@@ -151,6 +183,7 @@ export function Dashboard(props: IDashboardProps) {
   useEffect(() => {
     loadDashboardInfo();
     loadUserChild();
+    loadUserSummary();
   }, []);
   return (
     <DashboardWrapper>
@@ -180,9 +213,10 @@ export function Dashboard(props: IDashboardProps) {
       </CardGroup>
       <Title>System</Title>
       <System>
-        {DataAffiliate.map((item, index) => (
-          <CardAffiliate {...item} key={`card-affiliate-${index}`} />
-        ))}
+        {affiliateLevelData &&
+          affiliateLevelData.map((item, index) => (
+            <CardAffiliate {...item} key={`card-affiliate-${index}`} />
+          ))}
       </System>
       <Title>Level</Title>
       <Level>
@@ -192,14 +226,17 @@ export function Dashboard(props: IDashboardProps) {
       </Level>
       <Title>Members</Title>
       <Info>
-        {Object.keys(infoData).map((item: any, index) => (
-          <ItemInfo key={`item-info-${index}`}>
-            <div className="name">{item}</div>
-            <div className="value">
-              {infoData[item as keyof typeof infoData]}
-            </div>
-          </ItemInfo>
-        ))}
+        {currentChildData &&
+          Object.keys(currentChildData).map((item: any, index) => (
+            <ItemInfo key={`item-info-${index}`}>
+              <div className="name">
+                {item === "createdAt" ? "Date of Registration" : item}
+              </div>
+              <div className="value">
+                {currentChildData[item as keyof typeof currentChildData]}
+              </div>
+            </ItemInfo>
+          ))}
       </Info>
       <ListAffiliate>{renderChild()}</ListAffiliate>
     </DashboardWrapper>

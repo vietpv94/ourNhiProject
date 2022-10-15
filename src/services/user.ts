@@ -153,6 +153,15 @@ const getUserChild = async (filter: GetChildFilter) => {
   }
 };
 
+const getChildDetail = async (email: string) => {
+  try {
+    const { data } = await service.get(`user/child/${email}`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while getting detail child");
+  }
+};
+
 const setBinaryChild = async (child: SetBinaryChild) => {
   try {
     const { data } = await service.post("user/child", child);
@@ -168,6 +177,15 @@ const getBinaryChild = async (filter: GetChildFilter) => {
     return handleResponse(data);
   } catch (error) {
     return handleError(error, "Error while get binary child");
+  }
+};
+
+const getUserChildSummary = async () => {
+  try {
+    const { data } = await service.get(`user/child/summary`);
+    return handleResponse(data);
+  } catch (error) {
+    return handleError(error, "Error while get binary summary");
   }
 };
 
@@ -208,7 +226,9 @@ export const userServices = {
   getUserTree,
   setBinaryChild,
   getDashboard,
-  getUserLevel
+  getUserLevel,
+  getUserChildSummary,
+  getChildDetail
 };
 
 export default userServices;

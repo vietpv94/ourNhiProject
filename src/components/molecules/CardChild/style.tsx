@@ -41,7 +41,12 @@ export const Item = styled.div`
     font-weight: 400;
     font-size: 14px;
   }
-  &.active,
+  &.active {
+    background: #33B5FF;
+    & > div > svg > path {
+      fill: #4a65ef;
+    }
+  }
   &:hover {
     background: #ccedff;
     & > div > svg > path {

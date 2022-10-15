@@ -18,9 +18,12 @@ export interface IChildInfo {
   depth: number;
 }
 
-export function CardChild({ cardInfo, layer, onClickItem }: ICardChildProps) {
-  console.log("render");
-
+export function CardChild({
+  cardInfo,
+  layer,
+  activeChild,
+  onClickItem
+}: ICardChildProps) {
   return (
     <CardChildWrapper>
       <Header>
@@ -30,6 +33,7 @@ export function CardChild({ cardInfo, layer, onClickItem }: ICardChildProps) {
         {cardInfo.map((item: IChildInfo, index) => (
           <Item
             key={`${item}-${index}`}
+            className={`${activeChild === item.email ? "active" : ""}`}
             onClick={() => onClickItem && onClickItem(item.email, layer - 1)}
           >
             <span className="text">#{item.refCode}</span>

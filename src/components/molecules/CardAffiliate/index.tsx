@@ -4,21 +4,21 @@ import { CardAffiliateWrapper, Header, Amount } from "./style";
 
 export interface ICardAffiliateProps {
   status: "disabled" | "active" | "pending";
-  index: number;
-  members: number;
-  amount: number;
+  depth: number;
+  childNum: number;
+  totalRevenue: number;
 }
 
 export function CardAffiliate({
   status,
-  index,
-  members,
-  amount,
+  depth,
+  childNum,
+  totalRevenue,
 }: ICardAffiliateProps) {
   return (
     <CardAffiliateWrapper status={status}>
       <Header status={status}>
-        <div className="f">F{index}</div>
+        <div className="f">F{depth}</div>
         <div className="member">
           <MemberIcon
             style="small"
@@ -30,11 +30,11 @@ export function CardAffiliate({
                 : "#8C8C92"
             }
           />
-          {members}
+          {childNum}
         </div>
       </Header>
       <Amount status={status}>
-        <span>${amount}</span>
+        <span>${totalRevenue}</span>
       </Amount>
     </CardAffiliateWrapper>
   );
