@@ -4,6 +4,7 @@ import { Stake } from "@Pages/Stake";
 import { Affiliate } from "@Pages/Stake/Affiliate";
 import { Dashboard } from "@Pages/Stake/Dashboard";
 import { DefiStaking } from "@Pages/Stake/DefiStaking";
+import { YourStaking } from "@Pages/Stake/YourStaking";
 
 export interface Router {
   path: string;
@@ -15,22 +16,26 @@ export interface Router {
 export const dashboardRoutes: Router[] = [
   {
     path: "defi-staking",
-    component: DefiStaking,
+    component: DefiStaking
   },
   {
     path: "",
-    component: DefiStaking,
+    component: DefiStaking
+  },
+  {
+    path: "your-staking",
+    component: YourStaking
   },
   {
     path: "dashboard",
-    component: Dashboard,
+    component: Dashboard
   },
   {
     path: "history",
-    component: History,
+    component: History
   },
   {
     path: "affiliate",
-    component: Affiliate,
-  },
+    component: Affiliate
+  }
 ];

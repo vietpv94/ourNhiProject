@@ -16,7 +16,7 @@ import {
   Item,
   Main,
   SideBarHeader,
-  SideBarWrapper,
+  SideBarWrapper
 } from "./style";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { useDispatch } from "react-redux";
@@ -97,7 +97,11 @@ export function SideBar(props: ISideBarProps) {
               {item.children &&
                 activeChild.includes(item.name) &&
                 item.children.map((item, index) => (
-                  <ChildItem key={`sidebar-child-${index}`}>
+                  <ChildItem
+                    key={`sidebar-child-${index}`}
+                    className={pathname.includes(item.link) ? "active" : ""}
+                    onClick={() => handleActiveChild(item.name, item.link)}
+                  >
                     <LineSvg />
                     <span className="name">{item.name}</span>
                   </ChildItem>
@@ -108,7 +112,7 @@ export function SideBar(props: ISideBarProps) {
       </Main>
       <div
         style={{
-          padding: "20px",
+          padding: "20px"
         }}
       >
         <TokenSelector />

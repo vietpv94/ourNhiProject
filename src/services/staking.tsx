@@ -58,7 +58,7 @@ const getDetailStakingHistory = async (id: number) => {
 
 const doUnStake = async (id: number) => {
   try {
-    const { data } = await service.post(`staking/history/${id}/unstake`);
+    const { data } = await service.post(`staking/${id}/unstake`);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while unstaking");

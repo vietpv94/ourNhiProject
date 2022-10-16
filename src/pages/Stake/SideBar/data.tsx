@@ -13,16 +13,16 @@ interface DataSideBar {
 export const dataSideBar: DataSideBar[] = [
   {
     name: "Defi Staking",
-    link: "/stake/defi-staking",
+    link: "/stake",
     icon: <BlockAddIcon />,
     children: [
       {
         name: "Staking",
-        link: "/staking",
+        link: "/stake/defi-staking",
       },
       {
         name: "Your Staking",
-        link: "/your-staking",
+        link: "/stake/your-staking",
       },
     ],
   },

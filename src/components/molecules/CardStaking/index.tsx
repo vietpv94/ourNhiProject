@@ -9,8 +9,10 @@ import {
   Logo,
   Mask,
   Percent,
-  TotalStaker,
+  TotalStaker
 } from "./style";
+import { useMemo } from "react";
+import moment from "moment";
 export interface ICardStakingData {
   id: number;
   duration: number;
@@ -20,6 +22,24 @@ export interface ICardStakingData {
   maxProfit?: number;
   poolMaxStakeValue?: number;
   totalStaked: number;
+}
+
+export interface IYourStakingCardData {
+  id: number;
+  startTime: number;
+  endTime: number;
+  claimRewardTime: number;
+  stakeValue: number;
+  status: number;
+  packageId: number;
+  packageDuration: number;
+  packagePercentProfitPerMonth: number;
+  packagePercentProfitPerDay: number;
+}
+
+export interface IYourStakingCardProps {
+  data: IYourStakingCardData;
+  onClick?: (pack: IYourStakingCardData) => void;
 }
 export interface ICardStakingProps {
   data: ICardStakingData;
@@ -66,6 +86,68 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
         <div className="item">
           <span className="label">Locking period: </span>
           <span className="value"> Months</span>
+        </div>
+      </TotalStaker>
+    </CardStakingWrapper>
+  );
+}
+
+export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
+  const stakedData = useMemo(() => {
+    const startTime = moment.unix(data?.startTime || moment().unix());
+    const endTime = moment.unix(data?.endTime)
+
+    const isAllowUnstake = endTime.isBefore(moment.now());
+
+    return {
+      ...data,
+      isAllowUnstake,
+      startTime: startTime.format("YYYY-MM-DD HH:mm")
+    };
+  }, [data]);
+  return (
+    <CardStakingWrapper>
+      <Mask className="left" src={mask} alt="mask" />
+      <Mask className="right" src={mask} alt="mask" />
+      <Logo src={logo} alt="logo" />
+      <Amount>{Number(stakedData.stakeValue)}$</Amount>
+      <Percent>
+        <Item className="day">
+          <div className="percent day">
+            +{Number(stakedData.packagePercentProfitPerDay).toFixed(2)}%
+          </div>
+          <div className="label">Day</div>
+        </Item>
+        <Item>
+          <div className="percent month">
+            +{Number(stakedData.packagePercentProfitPerMonth).toFixed(2)}%
+          </div>
+          <div className="label">Month</div>
+        </Item>
+      </Percent>
+      <Button
+        onClick={() => {
+          onClick && stakedData.isAllowUnstake && onClick(data);
+        }}
+        customStyle={
+          "width: 100%; height: 32px; font-weight: 600;font-size: 10px; "
+        }
+        disabled
+        type={stakedData.isAllowUnstake ? "blue" : "disabledBlue"}
+        text="Unstake"
+      />
+      <Line />
+      <TotalStaker>
+        <div className="item">
+          <span className="label">Stake Date: </span>
+          <span className="value">{stakedData.startTime}</span>
+        </div>
+        <div className="item">
+          <span className="label">Locking period: </span>
+          <span className="value">
+            {Number(stakedData?.packageDuration || 0) / (60 * 60 * 24 * 30)}{" "}
+            Months
+          </span>
         </div>
       </TotalStaker>
     </CardStakingWrapper>

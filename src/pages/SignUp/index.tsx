@@ -31,8 +31,7 @@ import {
   ButtonGroup
 } from "./components";
 import { breakpoints } from "@Utils/theme";
-import { Header } from "@Components/molecules/Header";
-
+import { Link } from "@Pages/Login/components";
 export const SignUp = () => {
   const [step, setStep] = useState(1);
   const [check, setCheck] = useState(false); // checkbox
@@ -221,6 +220,17 @@ export const SignUp = () => {
               >
                 Next
               </FormButton>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center"
+                }}
+              >
+                <Link to="/login">
+                  Already have an account? <span>Sign in</span>
+                </Link>
+              </div>
             </Form>
           </Options>
         )}

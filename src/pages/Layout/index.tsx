@@ -17,7 +17,6 @@ export function Layout(props: LayoutProps): React.ReactElement {
         <title>{title}</title>
         <meta {...meta} />
       </Helmet>
-      <NavBar />
       <PageWrapper>{children}</PageWrapper>
     </>
   );

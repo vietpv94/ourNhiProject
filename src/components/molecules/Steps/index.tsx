@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Content = styled.div`
   padding: 24px;
   .number {
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-size: 12px;
     line-height: 16px;
     background: #232323;
@@ -44,7 +44,7 @@ const Item = styled.div`
   cursor: pointer;
   h3 {
     color: #9a9a9a;
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;

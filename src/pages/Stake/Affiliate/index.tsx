@@ -13,9 +13,11 @@ import {
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper,
+  Wrapper
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
+import { userServices } from "@Services/index";
+import { useEffect, useMemo, useState } from "react";
 
 export interface IAffiliateProps {}
 
@@ -25,21 +27,21 @@ export const dataCard: DataSummary[] = [
     title: "total members",
     value: "5,432",
     percent: 16,
-    icon: <MemberIcon />,
+    icon: <MemberIcon />
   },
   {
     id: 2,
     title: "total profit",
     value: "1,893",
     percent: -1,
-    icon: <DollarIcon />,
+    icon: <DollarIcon />
   },
   {
     id: 3,
     title: "Daily profits",
     value: "$18",
-    icon: <RankingIcon />,
-  },
+    icon: <RankingIcon />
+  }
 ];
 
 const dataSortBy = {
@@ -47,21 +49,21 @@ const dataSortBy = {
   data: [
     {
       id: 1,
-      name: "All",
+      name: "All"
     },
     {
       id: 2,
-      name: "Latest",
+      name: "Latest"
     },
     {
       id: 3,
-      name: "Oldest",
+      name: "Oldest"
     },
     {
       id: 4,
-      name: "Highest",
-    },
-  ],
+      name: "Highest"
+    }
+  ]
 };
 
 const renderDataRewardHistory = (data: DataRewardHistory[]) => {
@@ -75,21 +77,86 @@ const renderDataRewardHistory = (data: DataRewardHistory[]) => {
           <span>{item.token || "SOL"}</span>
         </div>
       ),
-      time: <div className="time">{item.time}</div>,
+      time: <div className="time">{item.time}</div>
     };
   });
 };
 
 const dataTable = {
   header: ["ID", "Balance Profit", "Token", "time"],
-  data: renderDataRewardHistory(dataRewardHistory),
+  data: renderDataRewardHistory(dataRewardHistory)
 };
 
+interface BinaryDashboardData {
+  totalMember: number;
+  totalProfit: number;
+  totalTransaction: number;
+  percentProfitChange: number;
+  newMemberJoinRate: number;
+}
+
 export function Affiliate(props: IAffiliateProps) {
+  const [dashboardInfo, setDashboardInfo] = useState<BinaryDashboardData>();
+  const loadDashboardInfo = async () => {
+    const { data } = await userServices.getBinaryDashboard();
+
+    const {
+      totalChild,
+      totalProfit,
+      profitThisMonth,
+      profitLastMonth,
+      level,
+      childThisMonth,
+      childLastMonth
+    } = data;
+
+    setDashboardInfo({
+      totalMember: totalChild,
+      totalProfit: totalProfit,
+      totalTransaction: 0,
+      newMemberJoinRate:
+        childThisMonth === 0 || childLastMonth === 0
+          ? 0
+          : childThisMonth / childLastMonth,
+      percentProfitChange:
+        profitThisMonth === 0 || profitThisMonth === 0
+          ? 0
+          : profitThisMonth / profitLastMonth
+    });
+  };
+  const cardData: DataSummary[] = useMemo(() => {
+    return [
+      {
+        id: 1,
+        title: "total members",
+        value: dashboardInfo?.totalMember || 0,
+        percent: dashboardInfo?.newMemberJoinRate,
+        icon: <MemberIcon />
+      },
+      {
+        id: 2,
+        title: "total profit",
+        value: dashboardInfo?.totalProfit || 0,
+        percent: dashboardInfo?.percentProfitChange,
+        icon: <DollarIcon />
+      },
+      {
+        id: 3,
+        title: "total transaction",
+        value: dashboardInfo?.totalTransaction || 0,
+        icon: <ProfileTickIcon />
+      }
+    ];
+  }, [dashboardInfo]);
+
+  useEffect(() => {
+    loadDashboardInfo();
+  }, []);
+
   return (
     <Wrapper>
       <Header>
-        {dataCard.map((item, index) => (
+        {cardData.map((item, index) => (
           <Summary data={item} key={`summary-item-affiliate=${index}`} />
         ))}
       </Header>
