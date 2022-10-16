@@ -74,6 +74,15 @@ const doHarvest = async (id: number) => {
   }
 };
 
+const getStakingPayout = async () => {
+  try {
+    const { data } = await service.get(`staking/profit`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while get Staking Payout");
+  }
+};
+
 export const stakingServices = {
   getStakingDuration,
   getStakingPack,
@@ -82,7 +91,8 @@ export const stakingServices = {
   getStakingHistory,
   getDetailStakingHistory,
   doUnStake,
-  doHarvest
+  doHarvest,
+  getStakingPayout
 };
 
 export default stakingServices;

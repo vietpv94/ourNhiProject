@@ -33,7 +33,6 @@ function* handleLoginRequest(data: any): any {
         });
 
         const profileData = yield call(userServices.getProfile);
-        console.log(profileData);
 
         yield put(loginSuccess(profileData.data));
       }

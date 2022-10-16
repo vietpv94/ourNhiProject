@@ -33,7 +33,7 @@ const dataToken: ITokenData[] = [
   },
 ];
 export function TokenSelector(props: ITokenSelectorProps) {
-  const [activeToken, setActiveToken] = React.useState(dataToken[2]);
+  const [activeToken, setActiveToken] = React.useState(dataToken[0]);
   return (
     <TokenSelectorWrapper>
       <Main>

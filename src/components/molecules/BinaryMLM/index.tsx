@@ -19,7 +19,7 @@ export function BinaryMLM(props: IBinaryMLMProps) {
   const [isMoveable, setIsMoveable] = React.useState<boolean>(false);
   const updateXarrow = useXarrow();
   const [boxes, setBoxes] = React.useState<{ [key: string]: IBox }>({
-    [box0.id]: box0,
+    [box0.id]: box0
   });
   const [allBox, setAllBox] = React.useState<IBox[][]>([[box0]]);
   const boxWidth = 200;
@@ -29,7 +29,9 @@ export function BinaryMLM(props: IBinaryMLMProps) {
   const centerX = 500;
   const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
+    if (boxPrev.children.length > 1) return;
     const maxId = Math.max(...Object.keys(boxes).map((id) => parseInt(id)));
+
     const id = maxId + 1;
     const level = boxPrev.level + 1;
     if (level >= allBox.length) {
@@ -50,15 +52,15 @@ export function BinaryMLM(props: IBinaryMLMProps) {
         title: id.toString(),
         left: {
           num: 0,
-          sum: 0,
+          sum: 0
         },
         right: {
           num: 0,
-          sum: 0,
+          sum: 0
         },
         packageValue: 0,
-        total: 0,
-      },
+        total: 0
+      }
     };
     allBoxLevel.push(newBox);
     allBoxLevel.sort((a, b) => {
@@ -79,7 +81,7 @@ export function BinaryMLM(props: IBinaryMLMProps) {
     setBoxes((prev) => {
       return {
         ...prev,
-        [newBox.id]: newBox,
+        [newBox.id]: newBox
       };
     });
     setAllBox([...allBox]);
@@ -92,7 +94,7 @@ export function BinaryMLM(props: IBinaryMLMProps) {
     curveness: 0.8,
     strokeWidth: 3,
     headSize: 5,
-    dashness: true,
+    dashness: true
   };
   return (
     <>
@@ -119,7 +121,7 @@ export function BinaryMLM(props: IBinaryMLMProps) {
                 height: "650px",
                 width: "100%",
                 display: "flex",
-                background: "#94949413",
+                background: "#94949413"
               }}
             >
               <div>

@@ -6,19 +6,20 @@ import { Dropdown } from "@Components/molecules/Dropdown";
 import { DataSummary, Summary } from "@Components/molecules/Summary";
 import { Table } from "@Components/molecules/Table";
 import * as React from "react";
-import { dataRewardHistory, DataRewardHistory } from "./dataTable";
+import { DataRewardHistory } from "./dataTable";
 import {
   BinaryMLMWrapper,
   Board,
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper,
+  Wrapper
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { BinaryMLM } from "@Components/molecules/BinaryMLM";
 import { userServices } from "@Services/index";
 import { useEffect, useMemo, useState } from "react";
+import commissionServices from "@Services/commission";
 
 export interface IAffiliateProps {}
 
@@ -28,21 +29,21 @@ export const dataCard: DataSummary[] = [
     title: "total members",
     value: "5,432",
     percent: 16,
-    icon: <MemberIcon />,
+    icon: <MemberIcon />
   },
   {
     id: 2,
     title: "total profit",
     value: "1,893",
     percent: -1,
-    icon: <DollarIcon />,
+    icon: <DollarIcon />
   },
   {
     id: 3,
     title: "Daily profits",
     value: "$18",
-    icon: <RankingIcon />,
-  },
+    icon: <RankingIcon />
+  }
 ];
 
 const dataSortBy = {
@@ -50,42 +51,46 @@ const dataSortBy = {
   data: [
     {
       id: 1,
-      name: "All",
+      name: "All"
     },
     {
       id: 2,
-      name: "Latest",
+      name: "Latest"
     },
     {
       id: 3,
-      name: "Oldest",
+      name: "Oldest"
     },
     {
       id: 4,
-      name: "Highest",
-    },
-  ],
+      name: "Highest"
+    }
+  ]
 };
 
 const renderDataRewardHistory = (data: DataRewardHistory[]) => {
   return data.map((item: DataRewardHistory, index: number) => {
+    const profitFrom =
+      item.type === 1
+        ? "Sun Affiliate"
+        : item.type === 2
+        ? "Binary Affiliate"
+        : "Staking Profit";
     return {
       id: `#${item.id + 1}`,
-      balanceProfit: <div className="balanceProfit">${item.balanceProfit}</div>,
+      profitFrom: <div className="balanceProfit">{profitFrom}</div>,
+      balanceProfit: (
+        <div className="balanceProfit">${item.commissionValue}</div>
+      ),
       token: (
         <div className="token">
           <img src={sol} alt="sol" />
-          <span>{item.token || "SOL"}</span>
+          <span>{"SOL"}</span>
         </div>
       ),
-      time: <div className="time">{item.time}</div>,
+      time: <div className="time">{item.createdAt}</div>
     };
   });
-};
-
-const dataTable = {
-  header: ["ID", "Balance Profit", "Token", "time"],
-  data: renderDataRewardHistory(dataRewardHistory),
 };
 
 interface BinaryDashboardData {
@@ -98,6 +103,9 @@ interface BinaryDashboardData {
 
 export function Affiliate(props: IAffiliateProps) {
   const [dashboardInfo, setDashboardInfo] = useState<BinaryDashboardData>();
+  const [commissionHistory, setCommissionHistory] = useState<
+    DataRewardHistory[]
+  >([]);
   const loadDashboardInfo = async () => {
     const { data } = await userServices.getBinaryDashboard();
 
@@ -108,7 +116,7 @@ export function Affiliate(props: IAffiliateProps) {
       profitLastMonth,
       level,
       childThisMonth,
-      childLastMonth,
+      childLastMonth
     } = data;
 
     setDashboardInfo({
@@ -122,9 +130,21 @@ export function Affiliate(props: IAffiliateProps) {
       percentProfitChange:
         profitThisMonth === 0 || profitThisMonth === 0
           ? 0
-          : profitThisMonth / profitLastMonth,
+          : profitThisMonth / profitLastMonth
     });
   };
+
+  const loadCommissionHistory = async () => {
+    const { data } = await commissionServices.getCommissionHistory();
+    setCommissionHistory(data);
+  };
+
+  const dataTable = useMemo(() => {
+    return {
+      header: ["ID", "Profit From", "Amount", "Token", "time"],
+      data: renderDataRewardHistory(commissionHistory)
+    };
+  }, [commissionHistory]);
   const cardData: DataSummary[] = useMemo(() => {
     return [
       {
@@ -132,26 +152,27 @@ export function Affiliate(props: IAffiliateProps) {
         title: "total members",
         value: dashboardInfo?.totalMember || 0,
         percent: dashboardInfo?.newMemberJoinRate,
-        icon: <MemberIcon />,
+        icon: <MemberIcon />
       },
       {
         id: 2,
         title: "total profit",
         value: dashboardInfo?.totalProfit || 0,
         percent: dashboardInfo?.percentProfitChange,
-        icon: <DollarIcon />,
+        icon: <DollarIcon />
       },
       {
         id: 3,
         title: "total transaction",
         value: dashboardInfo?.totalTransaction || 0,
-        icon: <ProfileTickIcon />,
-      },
+        icon: <ProfileTickIcon />
+      }
     ];
   }, [dashboardInfo]);
 
   useEffect(() => {
     loadDashboardInfo();
+    loadCommissionHistory();
   }, []);
 
   return (

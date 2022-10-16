@@ -4,8 +4,10 @@ import { WalletIcon } from "@Components/atoms/icon/wallet";
 import { Badge } from "@Components/molecules/Badge";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
+import { userServices } from "@Services/index";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
+import { useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import { WalletSelector } from "../../../pages/Stake/style";
@@ -50,6 +52,10 @@ const dataMenu: IMenuItem[] = [
 ];
 export function Header(props: IHeaderProps) {
   const isTablet = useMedia(breakpoints.sm);
+  const loadProfile = async () => {
+    await userServices.getProfile()
+  }
+  useEffect(() => {loadProfile()}, [])
   return (
     <Container>
       <HeaderWrapper>

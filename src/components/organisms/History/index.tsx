@@ -4,7 +4,6 @@ import { Table } from "@Components/molecules/Table";
 import * as React from "react";
 import {
   DataPayout,
-  dataPayout,
   dataSortBy,
   dataSortTime,
   DataStaking,
@@ -68,15 +67,15 @@ const renderDataPayout = (data: DataPayout[]) => {
       id: item.id,
       profit: (
         <div className="profit">
-          {item.profit > 0 ? (
-            <span style={{ color: "#53BA95" }}>+{item.profit}$</span>
+          {item.value > 0 ? (
+            <span style={{ color: "#53BA95" }}>+${item.value}</span>
           ) : (
-            <span style={{ color: "#ff476a" }}>{item.profit}$</span>
+            <span style={{ color: "#ff476a" }}>${item.value}</span>
           )}
         </div>
       ),
-      package: <div className="package">${item.package}</div>,
-      time: <div className="time">{item.time}</div>
+      package: <div className="package">${item.stakingValue}</div>,
+      time: <div className="time">{item.createdAt}</div>
     };
   });
 };
@@ -108,6 +107,7 @@ export function History(props: IHistoryProps) {
   const tabs = ["staking", "payout", "transactions"];
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [stakingHistory, setStakingHistory] = useState<IStakingHistory[]>([]);
+  const [payoutData, setPayoutData] = useState<DataPayout[]>([]);
   const headerStaking = ["ID", "package", "token", "date of registration"];
   const headerPayout = ["ID", "profit", "package", "time"];
   const headerTransactions = [
@@ -120,11 +120,18 @@ export function History(props: IHistoryProps) {
 
   useEffect(() => {
     loadStakingHistory();
+    loadPayoutData();
   }, []);
 
   const loadStakingHistory = async () => {
     const { data } = await stakingServices.getStakingHistory();
     setStakingHistory(data);
+  };
+  const loadPayoutData = async () => {
+    const { data } = await stakingServices.getStakingPayout();
+    console.log(data);
+
+    setPayoutData(data);
   };
   return (
     <HistoryWrapper>
@@ -148,7 +155,7 @@ export function History(props: IHistoryProps) {
       )}
       {currentTab === "payout" && (
         <BoxPayout>
-          <Table header={headerPayout} data={renderDataPayout(dataPayout)} />
+          <Table header={headerPayout} data={renderDataPayout(payoutData)} />
         </BoxPayout>
       )}
       {currentTab === "transactions" && (
