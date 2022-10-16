@@ -46,16 +46,16 @@ export function ArrowIcon({
           <path
             d="M10.9238 3.54298L10.9238 16.0993"
             stroke={color}
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M17.1504 10.8675L10.9239 16.9712L4.69739 10.8675"
             stroke={color}
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       )}

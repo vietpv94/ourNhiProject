@@ -8,14 +8,15 @@ import { Table } from "@Components/molecules/Table";
 import * as React from "react";
 import { dataRewardHistory, DataRewardHistory } from "./dataTable";
 import {
-  BinaryMLM,
+  BinaryMLMWrapper,
   Board,
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper
+  Wrapper,
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
+import { BinaryMLM } from "@Components/molecules/BinaryMLM";
 import { userServices } from "@Services/index";
 import { useEffect, useMemo, useState } from "react";
 
@@ -27,21 +28,21 @@ export const dataCard: DataSummary[] = [
     title: "total members",
     value: "5,432",
     percent: 16,
-    icon: <MemberIcon />
+    icon: <MemberIcon />,
   },
   {
     id: 2,
     title: "total profit",
     value: "1,893",
     percent: -1,
-    icon: <DollarIcon />
+    icon: <DollarIcon />,
   },
   {
     id: 3,
     title: "Daily profits",
     value: "$18",
-    icon: <RankingIcon />
-  }
+    icon: <RankingIcon />,
+  },
 ];
 
 const dataSortBy = {
@@ -49,21 +50,21 @@ const dataSortBy = {
   data: [
     {
       id: 1,
-      name: "All"
+      name: "All",
     },
     {
       id: 2,
-      name: "Latest"
+      name: "Latest",
     },
     {
       id: 3,
-      name: "Oldest"
+      name: "Oldest",
     },
     {
       id: 4,
-      name: "Highest"
-    }
-  ]
+      name: "Highest",
+    },
+  ],
 };
 
 const renderDataRewardHistory = (data: DataRewardHistory[]) => {
@@ -77,14 +78,14 @@ const renderDataRewardHistory = (data: DataRewardHistory[]) => {
           <span>{item.token || "SOL"}</span>
         </div>
       ),
-      time: <div className="time">{item.time}</div>
+      time: <div className="time">{item.time}</div>,
     };
   });
 };
 
 const dataTable = {
   header: ["ID", "Balance Profit", "Token", "time"],
-  data: renderDataRewardHistory(dataRewardHistory)
+  data: renderDataRewardHistory(dataRewardHistory),
 };
 
 interface BinaryDashboardData {
@@ -107,7 +108,7 @@ export function Affiliate(props: IAffiliateProps) {
       profitLastMonth,
       level,
       childThisMonth,
-      childLastMonth
+      childLastMonth,
     } = data;
 
     setDashboardInfo({
@@ -121,7 +122,7 @@ export function Affiliate(props: IAffiliateProps) {
       percentProfitChange:
         profitThisMonth === 0 || profitThisMonth === 0
           ? 0
-          : profitThisMonth / profitLastMonth
+          : profitThisMonth / profitLastMonth,
     });
   };
   const cardData: DataSummary[] = useMemo(() => {
@@ -131,21 +132,21 @@ export function Affiliate(props: IAffiliateProps) {
         title: "total members",
         value: dashboardInfo?.totalMember || 0,
         percent: dashboardInfo?.newMemberJoinRate,
-        icon: <MemberIcon />
+        icon: <MemberIcon />,
       },
       {
         id: 2,
         title: "total profit",
         value: dashboardInfo?.totalProfit || 0,
         percent: dashboardInfo?.percentProfitChange,
-        icon: <DollarIcon />
+        icon: <DollarIcon />,
       },
       {
         id: 3,
         title: "total transaction",
         value: dashboardInfo?.totalTransaction || 0,
-        icon: <ProfileTickIcon />
-      }
+        icon: <ProfileTickIcon />,
+      },
     ];
   }, [dashboardInfo]);
 
@@ -160,10 +161,12 @@ export function Affiliate(props: IAffiliateProps) {
           <Summary data={item} key={`summary-item-affiliate=${index}`} />
         ))}
       </Header>
-      <BinaryMLM>
+      <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board></Board>
-      </BinaryMLM>
+        <Board>
+          <BinaryMLM />
+        </Board>
+      </BinaryMLMWrapper>
       <RewardHistory>
         <div className="header">
           <div className="title">Reward History</div>

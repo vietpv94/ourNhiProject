@@ -39,7 +39,7 @@ export const Header = styled.div`
   }
 `;
 
-export const BinaryMLM = styled.div`
+export const BinaryMLMWrapper = styled.div`
   margin-top: 20px;
   position: relative;
   width: 100%;
@@ -61,6 +61,8 @@ export const Board = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
   border: 1px solid #00a3ff;
   border-radius: 16px;
+  display: flex;
+  overflow: hidden;
 `;
 
 export const RewardHistory = styled.div`
