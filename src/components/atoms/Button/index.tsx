@@ -3,7 +3,7 @@ import { ButtonWrapper } from "./style";
 
 export interface IButtonProps {
   className?: string;
-  type: "silver" | "blue" | 'outline';
+  type: "silver" | "blue" | "outline" | "disabledBlue";
   text?: string;
   onClick?: () => void;
   customStyle?: string;
@@ -14,17 +14,22 @@ export interface IButtonProps {
 const background = {
   silver: {
     backgroundColor: "rgb(39, 56, 82)",
-    color: "#ffffff",
+    color: "#ffffff"
   },
   blue: {
     backgroundColor: "rgb(0, 163, 255)",
+    color: "#ffffff"
+  },
+  disabledBlue: {
+    backgroundColor: "#99DAFF",
     color: "#ffffff",
+    cursor: "not-allowed"
   },
   outline: {
     backgroundColor: "transparent",
     color: "rgb(39, 56, 82)",
-    border: "1px solid rgb(39, 56, 82)",
-  },
+    border: "1px solid rgb(39, 56, 82)"
+  }
 };
 export function Button({
   type,
@@ -46,4 +51,3 @@ export function Button({
     </ButtonWrapper>
   );
 }
- 

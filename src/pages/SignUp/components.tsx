@@ -24,7 +24,7 @@ export const Item = styled.div`
     margin-bottom: 24px;
   }
   h3 {
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-weight: 600;
     font-size: 24px;
     line-height: 28px;
@@ -32,7 +32,7 @@ export const Item = styled.div`
     margin-bottom: 16px;
   }
   p {
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
@@ -66,7 +66,7 @@ export const StyledCheckbox = styled(Checkbox)`
     }
   }
   .content {
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-size: 11px;
     line-height: 15px;
     color: #7b7b7b;

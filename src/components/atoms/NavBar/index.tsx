@@ -21,7 +21,7 @@ const Wrapper = styled.header`
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-family: "DM Sans", "Roboto", "Helvetica Neue", Helvetica, Arial,
+    font-family: "DM Sans", "SF Pro Display", "Helvetica Neue", Helvetica, Arial,
       sans-serif;
     font-size: 16px;
     font-weight: 600;

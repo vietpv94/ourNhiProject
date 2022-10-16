@@ -41,7 +41,7 @@ export const Login = ({ children }: ILoginProps) => {
   };
   const handleVerify = async () => {
     console.log(code);
-    
+
     dispatch(
       loginRequest({
         email: userName,
@@ -209,19 +209,28 @@ export const Login = ({ children }: ILoginProps) => {
             Wrong email or password.
           </div>
         </div>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleSubmit();
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            flexDirection: "column"
           }}
         >
-          Login
-        </Button>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSubmit();
+            }}
+          >
+            Login
+          </Button>
+          <Link to="/sign-up">
+            Don’t have an account? <span>Sign up</span>
+          </Link>
+        </div>
       </Form>
-      <Link to="/sign-up">
-        {" "}
-        Don’t have an account? <span>Sign up</span>
-      </Link>
+
       {showModal && (
         <Modal>
           <VerifyModal onClick={(e) => e.stopPropagation()}>

@@ -185,6 +185,15 @@ const getUserChildSummary = async () => {
     const { data } = await service.get(`user/child/summary`);
     return handleResponse(data);
   } catch (error) {
+    return handleError(error, "Error while get user summary");
+  }
+};
+
+const getBinaryDashboard = async () => {
+  try {
+    const { data } = await service.get(`user/child/binary/summary`);
+    return handleResponse(data);
+  } catch (error) {
     return handleError(error, "Error while get binary summary");
   }
 };
@@ -228,7 +237,8 @@ export const userServices = {
   getDashboard,
   getUserLevel,
   getUserChildSummary,
-  getChildDetail
+  getChildDetail,
+  getBinaryDashboard
 };
 
 export default userServices;

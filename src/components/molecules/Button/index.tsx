@@ -91,7 +91,7 @@ const StyledButton = styled.button((props: IBtnProps) => {
     ...VariantStyles[props.VariantStyles],
     ...VariantSizes[props.VariantSizes],
     borderRadius: "4px",
-    fontFamily: "Roboto",
+    fontFamily: "SF Pro Display",
     fontSize: "14px",
     lineHeight: "16px",
     letterSpacing: "0.01em",

@@ -17,6 +17,8 @@ import {
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { BinaryMLM } from "@Components/molecules/BinaryMLM";
+import { userServices } from "@Services/index";
+import { useEffect, useMemo, useState } from "react";
 
 export interface IAffiliateProps {}
 
@@ -86,11 +88,76 @@ const dataTable = {
   data: renderDataRewardHistory(dataRewardHistory),
 };
 
+interface BinaryDashboardData {
+  totalMember: number;
+  totalProfit: number;
+  totalTransaction: number;
+  percentProfitChange: number;
+  newMemberJoinRate: number;
+}
+
 export function Affiliate(props: IAffiliateProps) {
+  const [dashboardInfo, setDashboardInfo] = useState<BinaryDashboardData>();
+  const loadDashboardInfo = async () => {
+    const { data } = await userServices.getBinaryDashboard();
+
+    const {
+      totalChild,
+      totalProfit,
+      profitThisMonth,
+      profitLastMonth,
+      level,
+      childThisMonth,
+      childLastMonth,
+    } = data;
+
+    setDashboardInfo({
+      totalMember: totalChild,
+      totalProfit: totalProfit,
+      totalTransaction: 0,
+      newMemberJoinRate:
+        childThisMonth === 0 || childLastMonth === 0
+          ? 0
+          : childThisMonth / childLastMonth,
+      percentProfitChange:
+        profitThisMonth === 0 || profitThisMonth === 0
+          ? 0
+          : profitThisMonth / profitLastMonth,
+    });
+  };
+  const cardData: DataSummary[] = useMemo(() => {
+    return [
+      {
+        id: 1,
+        title: "total members",
+        value: dashboardInfo?.totalMember || 0,
+        percent: dashboardInfo?.newMemberJoinRate,
+        icon: <MemberIcon />,
+      },
+      {
+        id: 2,
+        title: "total profit",
+        value: dashboardInfo?.totalProfit || 0,
+        percent: dashboardInfo?.percentProfitChange,
+        icon: <DollarIcon />,
+      },
+      {
+        id: 3,
+        title: "total transaction",
+        value: dashboardInfo?.totalTransaction || 0,
+        icon: <ProfileTickIcon />,
+      },
+    ];
+  }, [dashboardInfo]);
+
+  useEffect(() => {
+    loadDashboardInfo();
+  }, []);
+
   return (
     <Wrapper>
       <Header>
-        {dataCard.map((item, index) => (
+        {cardData.map((item, index) => (
           <Summary data={item} key={`summary-item-affiliate=${index}`} />
         ))}
       </Header>

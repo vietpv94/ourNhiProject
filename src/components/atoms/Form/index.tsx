@@ -11,7 +11,7 @@ export const Form = styled.div`
     min-width: 100vw;
   }
   span {
-    font-family: "Roboto";
+    font-family: "SF Pro Display";
     font-style: italic;
     font-weight: 400;
     font-size: 14px;
@@ -19,14 +19,14 @@ export const Form = styled.div`
     color: #27272a;
   }
   .label {
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-size: 14px;
     line-height: 20px;
     color: #27272a;
     margin-bottom: 8px;
   }
   & > div > .wrong-email-pass {
-    font-family: Roboto;
+    font-family: SF Pro Display;
     color: #880404;
     visibility: hidden;
     font-size: 14px;
@@ -36,7 +36,7 @@ export const Form = styled.div`
   }
 `;
 export const Heading = styled.div`
-  font-family: Roboto;
+  font-family: SF Pro Display;
   font-weight: 600;
   font-size: 24px;
   line-height: 28px;
@@ -45,7 +45,7 @@ export const Heading = styled.div`
 `;
 
 export const Details = styled.div`
-  font-family: Roboto;
+  font-family: SF Pro Display;
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
@@ -71,7 +71,7 @@ export const Input = styled.div`
     border: none;
     color: rgba(39, 39, 42, 0.5);
     width: 100%;
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-size: 16px;
     line-height: 20px;
     &:focus {
@@ -86,7 +86,7 @@ export const Input = styled.div`
     cursor: pointer;
     display: flex;
     gap: 15px;
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-style: italic;
     font-weight: normal;
     font-size: 14px;
@@ -100,7 +100,7 @@ export const Input = styled.div`
   }
   h3 {
     cursor: pointer;
-    font-family: Roboto;
+    font-family: SF Pro Display;
     font-size: 14px;
     line-height: 20px;
     color: #9a9a9a;
@@ -115,7 +115,7 @@ export const Button = styled.button`
   border: none;
   background: #00a3ff;
   border-radius: 4px;
-  font-family: Roboto;
+  font-family: SF Pro Display;
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
@@ -150,7 +150,7 @@ const Options = styled.div`
   overflow-y: scroll;
 `;
 const OptionsItem = styled.div`
-  font-family: Roboto;
+  font-family: SF Pro Display;
   font-size: 14px;
   line-height: 20px;
   color: #9a9a9a;
