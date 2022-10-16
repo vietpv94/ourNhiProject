@@ -8,7 +8,7 @@ import { Table } from "@Components/molecules/Table";
 import * as React from "react";
 import { dataRewardHistory, DataRewardHistory } from "./dataTable";
 import {
-  BinaryMLM,
+  BinaryMLMWrapper,
   Board,
   BoxHistory,
   Header,
@@ -16,6 +16,7 @@ import {
   Wrapper,
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
+import { BinaryMLM } from "@Components/molecules/BinaryMLM";
 
 export interface IAffiliateProps {}
 
@@ -93,10 +94,12 @@ export function Affiliate(props: IAffiliateProps) {
           <Summary data={item} key={`summary-item-affiliate=${index}`} />
         ))}
       </Header>
-      <BinaryMLM>
+      <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board></Board>
-      </BinaryMLM>
+        <Board>
+          <BinaryMLM />
+        </Board>
+      </BinaryMLMWrapper>
       <RewardHistory>
         <div className="header">
           <div className="title">Reward History</div>
