@@ -133,11 +133,20 @@ export const ForgotPassword = () => {
               </div>
             )}
           </Input>
-          <Button onClick={() => handleNext()}>Next</Button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              flexDirection: "column"
+            }}
+          >
+            <Button onClick={() => handleNext()}>Next</Button>
+            <Link to="/sign-up">
+              Don’t have an account? <span>Sign up</span>
+            </Link>
+          </div>
         </Form>
-        <Link to="/sign-up">
-          Don’t have an account? <span>Sign up</span>
-        </Link>
       </UserLayout>
     );
   } else if (step === 2) {
@@ -215,7 +224,7 @@ export const ForgotPassword = () => {
       </UserLayout>
     );
   } else {
-    return <></>
+    return <></>;
   }
 };
 

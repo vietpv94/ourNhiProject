@@ -5,6 +5,8 @@ import { Badge } from "@Components/molecules/Badge";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
 import { userServices } from "@Services/index";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletModalButton } from "@solana/wallet-adapter-react-ui";
 import { breakpoints } from "@Utils/theme";
 import * as React from "react";
 import { useEffect } from "react";
@@ -19,7 +21,7 @@ import {
   LeftMenu,
   Logo,
   Main,
-  RightMenu,
+  RightMenu
 } from "./style";
 export interface IHeaderProps {}
 
@@ -32,30 +34,33 @@ const dataMenu: IMenuItem[] = [
   {
     id: 1,
     name: "Home",
-    link: "/stake",
+    link: "/stake"
   },
   {
     id: 2,
     name: "marketing",
-    link: "/marketing",
+    link: "/marketing"
   },
   {
     id: 3,
     name: "support",
-    link: "/support",
+    link: "/support"
   },
   {
     id: 4,
     name: "FAQ",
-    link: "/faq",
-  },
+    link: "/faq"
+  }
 ];
 export function Header(props: IHeaderProps) {
+  const { connected } = useWallet();
   const isTablet = useMedia(breakpoints.sm);
   const loadProfile = async () => {
-    await userServices.getProfile()
-  }
-  useEffect(() => {loadProfile()}, [])
+    await userServices.getProfile();
+  };
+  useEffect(() => {
+    loadProfile();
+  }, []);
   return (
     <Container>
       <HeaderWrapper>
@@ -77,9 +82,15 @@ export function Header(props: IHeaderProps) {
             <RightMenu>
               <Badge num={10} />
               <Profile />
-              <WalletSelector>
-                <WalletIcon color="#00a3ff" />
-              </WalletSelector>
+              {connected ? (
+                <WalletSelector>
+                  <WalletIcon color="#00a3ff" />
+                </WalletSelector>
+              ) : (
+                <WalletModalButton className={"btn btn-connect"}>
+                  Connect Wallet
+                </WalletModalButton>
+              )}
               <LanguageSelector />
             </RightMenu>
           </Main>

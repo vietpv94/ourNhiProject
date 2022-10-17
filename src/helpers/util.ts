@@ -42,7 +42,7 @@ export function handleResponseCommission<T>(data: IResponse<T>): T {
 }
 export async function retryRefreshToken(numberTry: number): Promise<Token> {
   let keepTrying = 0;
-  let lastErr = null;
+  let lastErr: any = null;
   do {
     try {
       const result = await authServices.refreshToken();

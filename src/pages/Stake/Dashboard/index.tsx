@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
 import { CopyIcon } from "@Components/atoms/icon/copy";
 import { DollarIcon } from "@Components/atoms/icon/dollar";
@@ -30,8 +31,12 @@ import {
   System,
   Title
 } from "./style";
-import { CardLevel } from "@Components/molecules/CardLevel";
+import { CardLevel, Status } from "@Components/molecules/CardLevel";
 import { userServices } from "@Services/index";
+import {
+  convertKeyToReadableName,
+  convertValueToReadableStatus
+} from "./utils";
 export interface IDashboardProps {}
 
 export interface DashboardData {
@@ -50,6 +55,27 @@ interface ChildInfo {
   profit: number;
   createdAt: string;
 }
+
+export interface LevelInfo {
+  level: number;
+  conditionInvest: number;
+  conditionNumF1: number;
+  conditionF1Level: number;
+  conditionRevenue: number;
+  maximumBinaryTreeIncome: number;
+  maxDeepReceiveSunCommission: number;
+  reward: number;
+}
+export interface CurrentLevelData {
+  level: number;
+  totalInvestment: number;
+  totalF1: number;
+  totalRevenue: number;
+  f1Level: {
+    email: string;
+    level: number;
+  }[];
+}
 export function Dashboard(props: IDashboardProps) {
   const account = useSelector((state: RootState) => state.account);
   const [memberData, setMemberData] = useState<any[]>(new Array(15).fill([]));
@@ -58,6 +84,10 @@ export function Dashboard(props: IDashboardProps) {
   const [affiliateLevelData, setAffiliateLevelData] = useState<
     ICardAffiliateProps[]
   >([]);
+  const [levelData, setLevelData] = useState<{
+    levels: LevelInfo[];
+    currentLevel: CurrentLevelData;
+  }>();
   const [copyState, copyToClipboard] = useCopyToClipboard();
   const [dashboardInfo, setDashboardInfo] = useState<DashboardData>();
   const isMobile = useMedia(breakpoints.xs);
@@ -70,6 +100,7 @@ export function Dashboard(props: IDashboardProps) {
 
   const loadDashboardInfo = async () => {
     const { data } = await userServices.getDashboard();
+console.log(data);
 
     const {
       totalChild,
@@ -94,6 +125,11 @@ export function Dashboard(props: IDashboardProps) {
           ? 0
           : profitThisMonth / profitLastMonth
     });
+  };
+
+  const loadUserLevel = async () => {
+    const { data } = await userServices.getUserLevel();
+    setLevelData(data);
   };
 
   const loadCurrentChildData = async (email: string) => {
@@ -180,10 +216,77 @@ export function Dashboard(props: IDashboardProps) {
     );
   }, [activeChild]);
 
+  const DataLevels = useMemo(() => {
+    if (!levelData) return;
+
+    const currentUserLevel = levelData.currentLevel;
+    const cardLevel = levelData?.levels.map((lv: LevelInfo) => {
+      if (lv.level < (currentUserLevel.level || 0)) {
+        const serializeLevelCondition = Object.keys(lv).map((keyLv) => {
+          if (keyLv !== "level") {
+            return {
+              name: convertKeyToReadableName(keyLv),
+              value: lv[keyLv],
+              done: true
+            };
+          }
+        }).filter(o => o?.name);
+        return {
+          level: lv.level,
+          status: "done" as Status,
+          nextLevel: 0,
+          completed: 4,
+          total: 4,
+          data: [...serializeLevelCondition]
+        };
+      } else if (lv.level > (currentUserLevel.level || 0)) {
+        const serializeLevelCondition = Object.keys(lv).map((keyLv) => {
+          if (keyLv !== "level") {
+            return {
+              name: convertKeyToReadableName(keyLv),
+              value: lv[keyLv],
+              done: false
+            };
+          }
+        }).filter(o => o?.name);
+        return {
+          level: lv.level,
+          status: "disabled" as Status,
+          nextLevel: 4,
+          completed: 0,
+          total: 4,
+          data: [...serializeLevelCondition]
+        };
+      } else {
+        const serializeLevelCondition = Object.keys(lv).map((keyLv) => {
+          if (keyLv !== "level") {
+            return {
+              name: convertKeyToReadableName(keyLv),
+              value: lv[keyLv],
+              done: convertValueToReadableStatus(keyLv, lv, currentUserLevel)
+            };
+          }
+        }).filter(o => o?.name);
+        return {
+          level: lv.level,
+          status: "pending" as Status,
+          nextLevel: 4,
+          completed: 0,
+          total: 4,
+          data: [...serializeLevelCondition]
+        };
+      }
+    });
+    console.log(cardLevel);
+    
+    return cardLevel;
+  }, [levelData]);
+
   useEffect(() => {
     loadDashboardInfo();
     loadUserChild();
     loadUserSummary();
+    loadUserLevel();
   }, []);
   return (
     <DashboardWrapper>
@@ -220,9 +323,10 @@ export function Dashboard(props: IDashboardProps) {
       </System>
       <Title>Level</Title>
       <Level>
-        {DataLevel.map((item, index) => (
-          <CardLevel data={item} key={`card-level-${index}`} />
-        ))}
+        {DataLevels &&
+          DataLevels.map((item, index) => (
+            <CardLevel data={item} key={`card-level-${index}`} />
+          ))}
       </Level>
       <Title>Members</Title>
       <Info>
