@@ -9,6 +9,7 @@ import {
   UserChangePassword,
   UserUpdateData,
   VerifyEmail,
+  VerifyOTPResetPass,
   VerifyResetPass
 } from "@Models/index";
 import { GetChildFilter } from "@Types/common";
@@ -66,6 +67,20 @@ const resetPassword = async (mail: SendMail) => {
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while reset password reset password");
+  }
+};
+
+const verifyOTPResetPassword = async (
+  resetOTPPasswordData: VerifyOTPResetPass
+) => {
+  try {
+    const { data } = await nonAuthService.post(
+      `user/verify-otp-reset-pass`,
+      resetOTPPasswordData
+    );
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while verify password");
   }
 };
 
@@ -238,7 +253,8 @@ export const userServices = {
   getUserLevel,
   getUserChildSummary,
   getChildDetail,
-  getBinaryDashboard
+  getBinaryDashboard,
+  verifyOTPResetPassword
 };
 
 export default userServices;

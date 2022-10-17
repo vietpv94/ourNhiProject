@@ -40,8 +40,6 @@ export const Login = ({ children }: ILoginProps) => {
     }
   };
   const handleVerify = async () => {
-    console.log(code);
-
     dispatch(
       loginRequest({
         email: userName,

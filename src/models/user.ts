@@ -20,9 +20,16 @@ export type VerifyEmail = {
   email: string;
 };
 
+export type VerifyOTPResetPass = {
+  otpCode: string;
+  email: string;
+};
+
+
 export type VerifyResetPass = {
   verifyToken: string;
   password: string;
+  email: string;
 };
 
 export type enable2FAData = {

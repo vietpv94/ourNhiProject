@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   Outlet,
-  Navigate,
+  Navigate
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -26,6 +26,7 @@ import { Profile } from "@Pages/Profile";
 import { PersonalInformation } from "@Pages/Profile/Information";
 import { FAQ } from "@Pages/FAQ";
 import { Notification } from "@Pages/Notification";
+import { ForgotPassword } from "@Pages/ForgotPassword";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -50,6 +51,7 @@ const App: FC = () => {
           <Route path="/faq" element={<FAQ />} />
           <Route path="login" element={<Login />} />
           <Route path="sign-up" element={<SignUp />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route
             path="stake"
             element={ProtectedRoute(() => {
