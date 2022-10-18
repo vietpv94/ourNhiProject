@@ -20,6 +20,7 @@ import { BinaryMLM } from "@Components/molecules/BinaryMLM";
 import { userServices } from "@Services/index";
 import { useEffect, useMemo, useState } from "react";
 import commissionServices from "@Services/commission";
+import { IBox } from "@Components/molecules/BinaryMLM/Card";
 
 export interface IAffiliateProps {}
 
@@ -106,6 +107,7 @@ export function Affiliate(props: IAffiliateProps) {
   const [commissionHistory, setCommissionHistory] = useState<
     DataRewardHistory[]
   >([]);
+  const [binaryBox, setBinaryBox] = useState<IBox[]>([]);
   const loadDashboardInfo = async () => {
     const { data } = await userServices.getBinaryDashboard();
 
@@ -137,6 +139,50 @@ export function Affiliate(props: IAffiliateProps) {
   const loadCommissionHistory = async () => {
     const { data } = await commissionServices.getCommissionHistory();
     setCommissionHistory(data);
+  };
+
+  const convertBinaryChildToBoxData = (data): IBox => {
+    return {
+      id: data?.id.toString() || "0",
+      x: 400,
+      y: 50,
+      type: "card",
+      children: [...data.child.map(String)],
+      childF1s: [...data.childF1s],
+      index: data.id,
+      parentId: data?.parentId?.toString() || "0",
+      level: data.level,
+      data: {
+        title: data.email,
+        left: {
+          sum: data.leftChildData?.sum || 0,
+          num: data.leftChildData?.num || 0
+        },
+        right: {
+          sum: data.rightChildData?.sum || 0,
+          num: data.rightChildData?.num || 0
+        },
+        packageValue: data.packageValue,
+        total: data.bonusQuota
+      }
+    };
+  };
+
+  const loadBinaryTreeUser = async (email?: string) => {
+    const { data } = await userServices.getChildBinaryTree({ from: email });
+
+    if (data) {
+      const box: IBox = convertBinaryChildToBoxData(data);
+      binaryBox.push(box)
+      setBinaryBox([...binaryBox]);
+      if (data.leftChildData?.email) {
+        await loadBinaryTreeUser(data.leftChildData.email);
+      }
+
+      // if (data.rightChildData?.email) {
+      //   await loadBinaryTreeUser(data.rightChildData.email);
+      // }
+    }
   };
 
   const dataTable = useMemo(() => {
@@ -173,6 +219,7 @@ export function Affiliate(props: IAffiliateProps) {
   useEffect(() => {
     loadDashboardInfo();
     loadCommissionHistory();
+    loadBinaryTreeUser();
   }, []);
 
   return (
@@ -184,9 +231,7 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board>
-          <BinaryMLM />
-        </Board>
+        <Board>{binaryBox && <BinaryMLM binaryBox={binaryBox} />}</Board>
       </BinaryMLMWrapper>
       <RewardHistory>
         <div className="header">

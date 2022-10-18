@@ -1,28 +1,6 @@
 import { IBox } from "./Card";
 
-export const box0: IBox = {
-  id: "0",
-  x: 400,
-  y: 50,
-  type: "card",
-  children: [],
-  index: 0,
-  parentId: "",
-  level: 0,
-  data: {
-    title: "0",
-    left: {
-      num: 1,
-      sum: 0,
-    },
-    right: {
-      num: 1,
-      sum: 9,
-    },
-    packageValue: 1200,
-    total: 1200,
-  },
-};
+
 
 // export const box1: IBox = {
 //   id: "1",

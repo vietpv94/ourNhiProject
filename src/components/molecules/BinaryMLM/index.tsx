@@ -2,26 +2,41 @@ import * as React from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { Card, IBox } from "./Card";
 import { useXarrow, xarrowPropsType } from "react-xarrows";
-export interface IBinaryMLMProps {}
+export interface IBinaryMLMProps {
+  binaryBox: IBox[];
+}
 import Xarrow, { Xwrapper } from "react-xarrows";
 import { ZoomInIcon } from "@Components/atoms/icon/zoomIn";
 import { ZoomOutIcon } from "@Components/atoms/icon/zoomOut";
 import { Tools } from "./style";
 import { ResetIcon } from "@Components/atoms/icon/reset";
 import { MouseIcon } from "@Components/atoms/icon/mouse";
-import { box0 } from "./initData";
+import { useEffect } from "react";
 
 type Props<T> = {
   [Property in keyof T]?: T[Property];
 };
 
-export function BinaryMLM(props: IBinaryMLMProps) {
+export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
   const [isMoveable, setIsMoveable] = React.useState<boolean>(false);
   const updateXarrow = useXarrow();
-  const [boxes, setBoxes] = React.useState<{ [key: string]: IBox }>({
-    [box0.id]: box0
-  });
-  const [allBox, setAllBox] = React.useState<IBox[][]>([[box0]]);
+  const [boxes, setBoxes] = React.useState<{ [key: string]: IBox }>();
+
+  const [allBox, setAllBox] = React.useState<IBox[][]>([[]]);
+
+  useEffect(() => {
+    const bBoxes = binaryBox.reduce((r, e) => {
+      r[e.id] = {};
+      setAllBox([...allBox, [e]]);
+      Object.keys(e).forEach(function (k) {
+        if (k != "id") r[e.id] = Object.assign(r[e.id], { [k]: e[k] });
+      });
+      return r;
+    }, {});
+    console.log("bBoxes", bBoxes);
+
+    setBoxes(bBoxes);
+  }, [binaryBox]);
   const boxWidth = 200;
   const boxSpaceX = 100;
   const boxHeight = 187;
@@ -29,7 +44,10 @@ export function BinaryMLM(props: IBinaryMLMProps) {
   const centerX = 500;
   const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
+    console.log(boxPrev.children.length > 1 || !boxes);
+
     if (boxPrev.children.length > 1) return;
+    if (!boxes) return;
     const maxId = Math.max(...Object.keys(boxes).map((id) => parseInt(id)));
 
     const id = maxId + 1;
@@ -45,6 +63,8 @@ export function BinaryMLM(props: IBinaryMLMProps) {
       children: [],
       x: 0,
       y: 0,
+      childF1s: [],
+      binaryChildCandidate: boxPrev.childF1s,
       parentId: boxPrev.id,
       index: boxPrev.children.length,
       level: level,
@@ -129,6 +149,8 @@ export function BinaryMLM(props: IBinaryMLMProps) {
                   return (
                     <div key={index}>
                       {boxLevel.map((box, index) => {
+                        console.log(box.id);
+
                         return (
                           <Card
                             key={box.id}
@@ -144,20 +166,25 @@ export function BinaryMLM(props: IBinaryMLMProps) {
               </div>
             </TransformComponent>
             <Xwrapper>
-              {Object.keys(boxes).map((id) => {
-                const box = boxes[id];
-                return box.children.map((childId) => {
-                  const child = boxes[childId];
-                  return (
-                    <Xarrow
-                      key={id + childId}
-                      start={id}
-                      end={childId}
-                      {...defaultPropsArrow}
-                    />
-                  );
-                });
-              })}
+              {boxes &&
+                Object.keys(boxes).map((id) => {
+                  const box = boxes[id];
+
+                  return box.children.map((childId) => {
+                    const child = boxes[childId];
+
+                    console.log(id, childId);
+
+                    return (
+                      <Xarrow
+                        key={id + childId}
+                        start={id}
+                        end={childId}
+                        {...defaultPropsArrow}
+                      />
+                    );
+                  });
+                })}
             </Xwrapper>
           </React.Fragment>
         )}
