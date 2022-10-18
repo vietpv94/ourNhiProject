@@ -52,6 +52,9 @@ function* logout() {
     yield call(removeToken);
     yield put(logoutSuccess());
   } catch (error) {
+    yield call(sessionServices.deleteAccountSession);
+    yield call(removeToken);
+    yield put(logoutSuccess());
     console.log("error");
   }
 }

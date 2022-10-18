@@ -221,7 +221,7 @@ console.log(data);
 
     const currentUserLevel = levelData.currentLevel;
     const cardLevel = levelData?.levels.map((lv: LevelInfo) => {
-      if (lv.level < (currentUserLevel.level || 0)) {
+      if (lv.level < (currentUserLevel.level || 0) + 1) {
         const serializeLevelCondition = Object.keys(lv).map((keyLv) => {
           if (keyLv !== "level") {
             return {
@@ -239,7 +239,7 @@ console.log(data);
           total: 4,
           data: [...serializeLevelCondition]
         };
-      } else if (lv.level > (currentUserLevel.level || 0)) {
+      } else if (lv.level > (currentUserLevel.level || 0) +1) {
         const serializeLevelCondition = Object.keys(lv).map((keyLv) => {
           if (keyLv !== "level") {
             return {
