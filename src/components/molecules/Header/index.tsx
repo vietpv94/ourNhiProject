@@ -5,19 +5,21 @@ import { Badge } from "@Components/molecules/Badge";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
 import { userServices } from "@Services/index";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
   useWalletModal,
   WalletDisconnectButton,
   WalletModalButton
 } from "@solana/wallet-adapter-react-ui";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { breakpoints } from "@Utils/theme";
 import { color } from "highcharts";
 import * as React from "react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import { WalletSelector } from "../../../pages/Stake/style";
+import { Number } from "../Badge/style";
 import { Hamburger } from "../HeaderHomePage/hamburger";
 import {
   Container,
@@ -58,7 +60,9 @@ const dataMenu: IMenuItem[] = [
   }
 ];
 export function Header(props: IHeaderProps) {
-  const { connected } = useWallet();
+  const { connected, publicKey } = useWallet();
+  const { connection } = useConnection();
+  const [balance, setBalance] = useState(0);
   const isTablet = useMedia(breakpoints.sm);
   const loadProfile = async () => {
     await userServices.getProfile();
@@ -71,6 +75,15 @@ export function Header(props: IHeaderProps) {
     },
     [setVisible, visible]
   );
+  useEffect(() => {
+    loadWalletBalance();
+  }, [connected]);
+
+  const loadWalletBalance = async () => {
+    if (!connection || !publicKey) return;
+    const balance = await connection.getBalance(publicKey);
+    setBalance(balance / LAMPORTS_PER_SOL);
+  };
   useEffect(() => {
     loadProfile();
   }, []);
@@ -111,7 +124,7 @@ export function Header(props: IHeaderProps) {
                         color: "#000"
                       }}
                     >
-                      0 SOL
+                      {balance.toFixed(2)} SOL
                     </div>
                     <div
                       style={{
@@ -119,7 +132,8 @@ export function Header(props: IHeaderProps) {
                         color: "#ccc"
                       }}
                     >
-                      Tqg6...zwXR
+                      {publicKey?.toBase58().slice(0, 6)}...
+                      {publicKey?.toBase58().slice(-4)}
                     </div>
                   </div>
                 </WalletDisconnectButton>
