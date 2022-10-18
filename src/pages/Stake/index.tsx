@@ -12,7 +12,6 @@ import { SideBar } from "./SideBar";
 import { Flex, StakeWrapper } from "./style";
 import { UnstakedConFirmModal } from "@Components/molecules/Modal/components/UnstakeConfirm";
 import { UnstackedSuccessful } from "@Components/molecules/Modal/components/UnstakeSuccessful";
-import { WalletContext } from "./context";
 
 export interface IStakeProps {}
 
@@ -20,7 +19,7 @@ export function Stake(props: IStakeProps) {
   const { modal, data } = useSelector((state: RootState) => state.modal);
   const isMobile = useMedia(breakpoints.sm);
   return (
-    <WalletContext>
+    <>
       <StakeWrapper>
         <Header />
         {isMobile && <SideBar />}
@@ -49,6 +48,6 @@ export function Stake(props: IStakeProps) {
         withModal(() => {
           return <UnstackedSuccessful unstakedPack={data.selectedPack} />;
         })}
-    </WalletContext>
+    </>
   );
 }

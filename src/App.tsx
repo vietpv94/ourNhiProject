@@ -7,6 +7,23 @@ import { Loading } from "@Components/molecules/Loading";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { RootState } from "@Redux/reducers";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import {
+  ConnectionProvider,
+  WalletProvider
+} from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import {
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+  SolletExtensionWalletAdapter,
+  SolletWalletAdapter
+} from "@solana/wallet-adapter-wallets";
+import { Cluster, clusterApiUrl } from "@solana/web3.js";
+import { useMemo } from "react";
+import { toast } from "react-toastify";
+
 import {
   BrowserRouter,
   Route,
@@ -27,17 +44,51 @@ import { PersonalInformation } from "@Pages/Profile/Information";
 import { FAQ } from "@Pages/FAQ";
 import { Notification } from "@Pages/Notification";
 import { ForgotPassword } from "@Pages/ForgotPassword";
+// Default styles that can be overridden by your app
+require("@solana/wallet-adapter-react-ui/styles.css");
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
   return isLoggedIn ? <Component /> : <Navigate to="/login" />;
 }
 
+export const WalletContext: React.FC<{ children: React.ReactNode }> = ({
+  children
+}) => {
+  // You can also provide a custom RPC endpoint.
+  const network = (process.env.REACT_APP_CHAIN || "devnet") as Cluster;
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const wallets = useMemo(
+    () => [
+      new PhantomWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new SolletWalletAdapter({ network: network as WalletAdapterNetwork }),
+      new SolletExtensionWalletAdapter({
+        network: network as WalletAdapterNetwork
+      })
+    ],
+    [network]
+  );
+
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider
+        wallets={wallets}
+        autoConnect
+        onError={(error) => toast.error(error.message)}
+      >
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
+  );
+};
+
 const App: FC = () => {
   const { i18n } = useTranslation();
   const loading = useSelector((state: RootState) => state.loading);
   return (
-    <>
+    <WalletContext>
       {loading && <Loading />}
       <BrowserRouter>
         <Helmet
@@ -107,7 +158,7 @@ const App: FC = () => {
         draggable
         pauseOnHover
       />
-    </>
+    </WalletContext>
   );
 };
 

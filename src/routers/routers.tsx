@@ -4,6 +4,7 @@ import { Stake } from "@Pages/Stake";
 import { Affiliate } from "@Pages/Stake/Affiliate";
 import { Dashboard } from "@Pages/Stake/Dashboard";
 import { DefiStaking } from "@Pages/Stake/DefiStaking";
+import { LidoSwap } from "@Pages/Stake/Swap";
 import { YourStaking } from "@Pages/Stake/YourStaking";
 
 export interface Router {
@@ -37,5 +38,6 @@ export const dashboardRoutes: Router[] = [
   {
     path: "affiliate",
     component: Affiliate
-  }
+  },
+  { path: "swap", component: LidoSwap }
 ];

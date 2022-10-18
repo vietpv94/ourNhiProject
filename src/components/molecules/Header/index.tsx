@@ -6,10 +6,15 @@ import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
 import { userServices } from "@Services/index";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletModalButton } from "@solana/wallet-adapter-react-ui";
+import {
+  useWalletModal,
+  WalletDisconnectButton,
+  WalletModalButton
+} from "@solana/wallet-adapter-react-ui";
 import { breakpoints } from "@Utils/theme";
+import { color } from "highcharts";
 import * as React from "react";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import { WalletSelector } from "../../../pages/Stake/style";
@@ -58,6 +63,14 @@ export function Header(props: IHeaderProps) {
   const loadProfile = async () => {
     await userServices.getProfile();
   };
+  const { visible, setVisible } = useWalletModal();
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!event.defaultPrevented) setVisible(!visible);
+    },
+    [setVisible, visible]
+  );
   useEffect(() => {
     loadProfile();
   }, []);
@@ -83,13 +96,37 @@ export function Header(props: IHeaderProps) {
               <Badge num={10} />
               <Profile />
               {connected ? (
-                <WalletSelector>
+                <WalletDisconnectButton>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "start"
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        height: "13px",
+                        color: "#000"
+                      }}
+                    >
+                      0 SOL
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        color: "#ccc"
+                      }}
+                    >
+                      Tqg6...zwXR
+                    </div>
+                  </div>
+                </WalletDisconnectButton>
+              ) : (
+                <WalletSelector onClick={handleClick}>
                   <WalletIcon color="#00a3ff" />
                 </WalletSelector>
-              ) : (
-                <WalletModalButton className={"btn btn-connect"}>
-                  Connect Wallet
-                </WalletModalButton>
               )}
               <LanguageSelector />
             </RightMenu>
