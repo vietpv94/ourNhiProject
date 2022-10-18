@@ -33,7 +33,7 @@ export const LIDO_MINT = new PublicKey(
   "HZRCwxP2Vq9PCpPXooayhJ2bxTpo5xfpQrwB1svh332p"
 );
 export const USDC_MINT = new PublicKey(
-  "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+  "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
 );
 export function LidoSwap() {
   const dispatch = useDispatch();
@@ -62,17 +62,17 @@ export function LidoSwap() {
     },
     {
       chainId: 101,
-      address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-      symbol: "USDC",
-      name: "USD Coin",
+      address: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+      symbol: "USDT",
+      name: "USDT",
       decimals: 6,
       logoURI:
-        "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png",
+        "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB/logo.svg",
       tags: ["stablecoin"],
       extensions: {
-        coingeckoId: "usd-coin",
-        serumV3Usdt: "77quYg4MGneUdjgXCunt9GgM1usmrxKY31twEy3WHwcS",
-        website: "https://www.centre.io/"
+        coingeckoId: "tether",
+        serumV3Usdc: "77quYg4MGneUdjgXCunt9GgM1usmrxKY31twEy3WHwcS",
+        website: "https://tether.to/"
       }
     }
   ];
@@ -118,7 +118,7 @@ export function LidoSwap() {
     new TokenListProvider().resolve().then((tokens) => {
       const tokenList = tokens.filterByClusterSlug("mainnet-beta").getList();
 
-      console.log(tokenList.filter((o) => o.symbol === "LDO"));
+      console.log(tokenList.filter((o) => o.symbol === "USDT"));
     });
   }, [setTokenList]);
 
