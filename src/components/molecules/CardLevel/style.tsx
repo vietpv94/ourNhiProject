@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   position: relative;
-  min-width: 300px;
+  width: 100%;
   height: 250px;
   display: flex;
   overflow: hidden;

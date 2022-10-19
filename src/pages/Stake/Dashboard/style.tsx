@@ -16,16 +16,13 @@ export const Title = styled.div`
 
 export const CardGroup = styled.div`
   position: relative;
-  margin-top: 20px;
-  display: flex;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
   width: 100%;
-  flex-direction: row;
   border-radius: 16px 16px 0px 0px;
-  background: #ffffff;
   width: 100%;
-  gap: 30px;
-  margin-bottom: 60px;
-  flex-wrap: wrap;
   filter: drop-shadow(32px 19px 15px rgba(28, 46, 64, 0.01))
     drop-shadow(18px 11px 13px rgba(28, 46, 64, 0.02))
     drop-shadow(8px 5px 9px rgba(28, 46, 64, 0.03))
@@ -33,16 +30,9 @@ export const CardGroup = styled.div`
     drop-shadow(0px 0px 0px rgba(28, 46, 64, 0.04));
   & > .card {
     position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 0;
-      width: 1px;
-      height: 85px;
-      background: #dde2e8;
-    }
+  }
+  @media ${breakpoints.xs} {
+    grid-template-columns: 1fr 1fr;
   }
 `;
 
@@ -124,8 +114,43 @@ export const ListAffiliate = styled.div`
 
 export const Level = styled.div`
   margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+`;
+
+export const Link = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccedff;
+  align-items: center;
+  overflow: hidden;
+  & > .link {
+    width: 40px;
+    height: 100%;
+    border-right: 1px solid #ccedff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  & > .copy {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #00a3ff;
+  }
+  & > .main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4a65ef;
+    font-weight: 400;
+    font-size: 16px;
+  }
 `;
