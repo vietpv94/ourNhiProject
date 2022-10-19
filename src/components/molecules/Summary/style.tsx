@@ -3,20 +3,19 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex: 1;
-  align-items: center;
-  padding: 30px 40px;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 16px;
   gap: 15px;
-  & > .icon {
-    height: 85px;
-    width: 85px;
-    border-radius: 50%;
+  border: 1px solid #99daff;
+  border-radius: 20px;
+  background: #ffffff;
+  &:hover {
     background: #e6f6ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  }
+  & > .icon {
   }
   & > .content {
-    min-height: 85px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -30,7 +29,7 @@ export const Wrapper = styled.div`
     & > .value {
       color: #333333;
       font-weight: 600;
-      font-size: 32px;
+      font-size: 28px;
     }
     & > .percent {
       font-weight: 400;

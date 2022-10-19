@@ -14,6 +14,7 @@ import { UnstakedConFirmModal } from "@Components/molecules/Modal/components/Uns
 import { UnstackedSuccessful } from "@Components/molecules/Modal/components/UnstakeSuccessful";
 import { Withdraw } from "@Components/molecules/Modal/components/Withdraw";
 import { WithdrawSuccessful } from "@Components/molecules/Modal/components/Withdraw/successful";
+import { Deposit } from "@Components/molecules/Modal/components/Deposit";
 
 export interface IStakeProps {}
 
@@ -57,6 +58,10 @@ export function Stake(props: IStakeProps) {
       {modal === "withdraw-successful" &&
         withModal(() => {
           return <WithdrawSuccessful />;
+        })}
+      {modal === "deposit" &&
+        withModal(() => {
+          return <Deposit />;
         })}
     </>
   );
