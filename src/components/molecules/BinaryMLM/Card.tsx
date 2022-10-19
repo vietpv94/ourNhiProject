@@ -181,7 +181,13 @@ export function Card({
               <span>${box.data.total}</span>
             </Footer>{" "}
             <Icon>
-              <AddIcon onClick={() => box.level <= 0 ?? addNewBox(box)} />
+              <AddIcon
+                onClick={() => {
+                  if (box.level === 0) {
+                    addNewBox(box);
+                  }
+                }}
+              />
             </Icon>
           </>
         ) : (

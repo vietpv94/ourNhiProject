@@ -21,7 +21,6 @@ import { userServices } from "@Services/index";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "react-toastify";
 import { enable2FA } from "@Redux/actions/accounts";
-import { useForm } from "react-hook-form";
 
 export interface IPersonalInformationProps {}
 export interface IKycForm {
@@ -216,7 +215,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
           </span>
           {kycStatus === 1 && "pending"}
           {kycStatus === 2 && "approved"}
-          {kycStatus !== 0 && kycStatus !== 3 && (
+          {(kycStatus === 0 || kycStatus === 3) && (
             <ArrowIcon
               color="#00A3FF"
               direction={activeKYC ? "up" : "down"}

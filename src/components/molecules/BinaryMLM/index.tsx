@@ -50,6 +50,8 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
   const centerX = 500;
   const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
+    console.log(boxes);
+    
     if (boxPrev.children.length > 1) return;
     if (!boxes) return;
     const maxId = Math.max(...Object.keys(boxes).map((id) => parseInt(id)));
