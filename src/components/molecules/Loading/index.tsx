@@ -1,10 +1,15 @@
-import { LoadingWrapper } from './style';
-import loadingGif from '@Assets/images/loading.gif';
+import { LoadingWrapper } from "./style";
+import Lottie from "react-lottie";
+import loadingJson from "./loading.json";
 
 export function Loading() {
   return (
     <LoadingWrapper>
-      <img src={loadingGif} alt="loading" />
+      <Lottie
+        options={{ animationData: loadingJson }}
+        height={300}
+        width={300}
+      />
     </LoadingWrapper>
   );
 }

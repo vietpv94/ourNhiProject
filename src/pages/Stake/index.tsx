@@ -12,6 +12,8 @@ import { SideBar } from "./SideBar";
 import { Flex, StakeWrapper } from "./style";
 import { UnstakedConFirmModal } from "@Components/molecules/Modal/components/UnstakeConfirm";
 import { UnstackedSuccessful } from "@Components/molecules/Modal/components/UnstakeSuccessful";
+import { Withdraw } from "@Components/molecules/Modal/components/Withdraw";
+import { WithdrawSuccessful } from "@Components/molecules/Modal/components/Withdraw/successful";
 
 export interface IStakeProps {}
 
@@ -47,6 +49,14 @@ export function Stake(props: IStakeProps) {
       {modal === "unstaked-successful" &&
         withModal(() => {
           return <UnstackedSuccessful unstakedPack={data.selectedPack} />;
+        })}
+      {modal === "widthdraw" &&
+        withModal(() => {
+          return <Withdraw />;
+        })}
+      {modal === "withdraw-successful" &&
+        withModal(() => {
+          return <WithdrawSuccessful />;
         })}
     </>
   );
