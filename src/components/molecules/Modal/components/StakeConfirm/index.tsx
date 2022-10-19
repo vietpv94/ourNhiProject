@@ -20,7 +20,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
       stakingServices
         .doStake({
           packageId: Number(selectedPack?.id),
-          stakeValue: Number(selectedPack?.value)
+          stakeValue: Number(selectedPack?.value),
         })
         .then((response: any) => {
           if (response.success) {
@@ -30,9 +30,9 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
                 data: {
                   successStakingPack: {
                     ...response.data,
-                    duration: selectedPack.duration
-                  }
-                }
+                    duration: selectedPack.duration,
+                  },
+                },
               })
             );
           } else {

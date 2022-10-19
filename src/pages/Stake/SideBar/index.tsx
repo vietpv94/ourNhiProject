@@ -16,7 +16,7 @@ import {
   Item,
   Main,
   SideBarHeader,
-  SideBarWrapper
+  SideBarWrapper,
 } from "./style";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { useDispatch } from "react-redux";
@@ -112,7 +112,7 @@ export function SideBar(props: ISideBarProps) {
       </Main>
       <div
         style={{
-          padding: "20px"
+          padding: "20px",
         }}
       >
         <TokenSelector />

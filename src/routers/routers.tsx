@@ -17,27 +17,27 @@ export interface Router {
 export const dashboardRoutes: Router[] = [
   {
     path: "defi-staking",
-    component: DefiStaking
+    component: DefiStaking,
   },
   {
     path: "",
-    component: DefiStaking
+    component: DefiStaking,
   },
   {
-    path: "your-staking",
-    component: YourStaking
+    path: "unStaking",
+    component: YourStaking,
   },
   {
     path: "dashboard",
-    component: Dashboard
+    component: Dashboard,
   },
   {
     path: "history",
-    component: History
+    component: History,
   },
   {
     path: "affiliate",
-    component: Affiliate
+    component: Affiliate,
   },
-  { path: "swap", component: LidoSwap }
+  { path: "swap", component: LidoSwap },
 ];

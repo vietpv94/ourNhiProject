@@ -15,7 +15,7 @@ export const ModalWrapper = styled.div`
 
 export const Container = styled.div`
   position: relative;
-  min-width: 350px;
+  width: 350px;
   max-width: 95%;
   background: #ffffff;
   border: 1px solid #f8fafc;

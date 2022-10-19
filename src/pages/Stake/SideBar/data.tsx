@@ -1,6 +1,7 @@
 import { BlockAddIcon } from "@Components/atoms/icon/blockAdd";
 import { DocumentIcon } from "@Components/atoms/icon/document";
 import { HistoryIcon } from "@Components/atoms/icon/history";
+import { SwapIcon } from "@Components/atoms/icon/swap";
 import { TeamIcon } from "@Components/atoms/icon/team";
 
 interface DataSideBar {
@@ -21,8 +22,8 @@ export const dataSideBar: DataSideBar[] = [
         link: "/stake/defi-staking",
       },
       {
-        name: "Your Staking",
-        link: "/stake/your-staking",
+        name: "UnStaking",
+        link: "/stake/unstaking",
       },
     ],
   },
@@ -44,6 +45,6 @@ export const dataSideBar: DataSideBar[] = [
   {
     name: "Swap",
     link: "/stake/swap",
-    icon: <TeamIcon />,
+    icon: <SwapIcon />,
   },
 ];

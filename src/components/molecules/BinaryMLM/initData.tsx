@@ -1,7 +1,5 @@
 import { IBox } from "./Card";
 
-
-
 // export const box1: IBox = {
 //   id: "1",
 //   x: 200,

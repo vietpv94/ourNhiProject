@@ -77,16 +77,16 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
         title: id.toString(),
         left: {
           num: 0,
-          sum: 0
+          sum: 0,
         },
         right: {
           num: 0,
-          sum: 0
+          sum: 0,
         },
         level: 0,
         packageValue: 0,
-        total: 0
-      }
+        total: 0,
+      },
     };
     allBoxLevel.push(newBox);
     allBoxLevel.sort((a, b) => {
@@ -107,7 +107,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     setBoxes((prev) => {
       return {
         ...prev,
-        [newBox.id]: newBox
+        [newBox.id]: newBox,
       };
     });
     setAllBox([...allBox]);
@@ -120,10 +120,10 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     curveness: 0.8,
     strokeWidth: 3,
     headSize: 5,
-    dashness: true
+    dashness: true,
   };
   const onAddChildSucceed = () => {
-    updateBinaryTree()
+    updateBinaryTree();
   };
   return (
     <>
@@ -150,7 +150,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
                 height: "650px",
                 width: "100%",
                 display: "flex",
-                background: "#94949413"
+                background: "#94949413",
               }}
             >
               <div>
