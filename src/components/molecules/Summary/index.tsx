@@ -18,9 +18,8 @@ export function Summary({ data }: ISummaryProps) {
     <Wrapper className="card">
       <div className="icon">{data.icon}</div>
       <div className="content">
-        <div className="title">{data.title}</div>
         <div className="value">{data.value}</div>
-        {data.percent !== undefined && (
+        {/* {data.percent !== undefined && (
           <div className="percent">
             <ArrowIcon
               color={data.percent >= 0 ? "#53BA95" : "#ff476a"}
@@ -28,14 +27,15 @@ export function Summary({ data }: ISummaryProps) {
             />
             <span
               style={{
-                color: data.percent >= 0 ? "#53BA95" : "#ff476a"
+                color: data.percent >= 0 ? "#53BA95" : "#ff476a",
               }}
             >
               {data.percent}%
             </span>
             this month
           </div>
-        )}
+        )}{" "} */}
+        <div className="title">{data.title}</div>
       </div>
     </Wrapper>
   );

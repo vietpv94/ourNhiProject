@@ -1,16 +1,16 @@
 import * as React from "react";
 
-export interface ICopyIconProps {
+export interface ILinkIconProps {
   color?: string;
   customStyle?: React.SVGProps<SVGSVGElement>;
   onClick?: () => void;
 }
 
-export function CopyIcon({
-  color = "white",
+export function LinkIcon({
+  color = "#4A65EF",
   customStyle,
   onClick,
-}: ICopyIconProps) {
+}: ILinkIconProps) {
   return (
     <svg
       width="24"
@@ -23,49 +23,28 @@ export function CopyIcon({
       cursor={"pointer"}
     >
       <path
-        d="M2 12.6C2 8.6 3.6 7 7.6 7H10.6"
+        d="M14.9902 17.5H16.5002C19.5202 17.5 22.0002 15.03 22.0002 12C22.0002 8.98 19.5302 6.5 16.5002 6.5H14.9902"
         stroke={color}
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
-        d="M17 13.4V16.4C17 20.4 15.4 22 11.4 22H7.6C3.6 22 2 20.4 2 16.4"
+        d="M2.37 10.01C2.13 10.63 2 11.3 2 12C2 15.02 4.47 17.5 7.5 17.5H9"
         stroke={color}
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
-        d="M13.8001 13.4C11.4001 13.4 10.6001 12.6 10.6001 10.2V7L17.0001 13.4"
+        d="M9.00018 6.5H7.50018C6.67018 6.5 5.89018 6.68 5.18018 7.01"
         stroke={color}
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
-        d="M11.6001 2H15.6001"
-        stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M7 5C7 3.34 8.34 2 10 2H12.62"
-        stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M21.9999 8V14.19C21.9999 15.74 20.7399 17 19.1899 17"
-        stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M22 8H19C16.75 8 16 7.25 16 5V2L22 8Z"
+        d="M8 12H16"
         stroke={color}
         stroke-width="1.5"
         stroke-linecap="round"
