@@ -22,6 +22,7 @@ export const Title = styled.div`
   font-weight: 600;
   font-size: 24px;
 `;
+
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,8 +91,10 @@ export const Flex = styled.div`
 
 export const Footer = styled.div`
   background: #f8fafc;
-  padding: 8px 24px;
+  padding: 13px 24px;
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
+  width: calc(100% + 60px);
+  transform: translate(-30px, 30px);
 `;
