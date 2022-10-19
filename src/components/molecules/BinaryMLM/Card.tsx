@@ -11,21 +11,63 @@ import {
   Icon,
   Input,
   LeftRight,
-  Level,
+  Level
 } from "./style";
 import solana from "@Assets/images/home/solana.png";
 import { AddIcon } from "@Components/atoms/icon/add";
 import { PlusIcon } from "@Components/atoms/icon/plus";
 import { Button } from "@Components/atoms/Button";
+
+import { useState } from "react";
+import styled from "styled-components";
+import { toast } from "react-toastify";
+import { userServices } from "@Services/index";
+
+export const Dropdown = styled.ul`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: calc(30% + 12px);
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border: 1px solid #f8fafc;
+  border-radius: 8px;
+`;
+
+export const Item = styled.li`
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  & > span {
+    color: #37373b;
+  }
+  &:hover {
+    background: #e6f6ff;
+    & > span {
+      color: #00a3ff;
+    }
+    & > svg > path {
+      stroke: #00a3ff !important;
+    }
+  }
+`;
+
 export interface IBox {
   id: string;
   x: number;
   y: number;
   type: "choose" | "card";
+  childF1s: string[];
   children: string[];
   parentId: string;
   index: number;
   level: number;
+  binaryChildCandidate?: string[];
   data: {
     title: string;
     left: {
@@ -36,7 +78,7 @@ export interface IBox {
       num: number;
       sum: number;
     };
-
+    level: number;
     packageValue: number;
     total: number;
   };
@@ -45,11 +87,19 @@ export interface ICardProps {
   box: IBox;
   setIsMoveable: React.Dispatch<React.SetStateAction<boolean>>;
   addNewBox: (box: IBox) => void;
+  onAddChildSucceed: () => void;
 }
 
-export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
+export function Card({
+  box,
+  setIsMoveable,
+  addNewBox,
+  onAddChildSucceed
+}: ICardProps) {
   const updateXarrow = useXarrow();
   const ref = React.useRef(null);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [chosenOne, setChosenOne] = useState<string>();
   const onDrag = () => {
     setIsMoveable(true);
     updateXarrow();
@@ -59,8 +109,25 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
     updateXarrow();
   };
 
+  const confirmAddBinaryChild = async () => {
+    if (!chosenOne) return toast.warn("Please select one member to continue");
+
+    const { data } = await userServices.setBinaryChild({
+      email: chosenOne,
+      type: box.index
+    });
+    if (data) {
+      onAddChildSucceed();
+    }
+  };
+
   return (
-    <Draggable onDrag={onDrag} onStop={onStop} defaultClassName="">
+    <Draggable
+      onDrag={onDrag}
+      onStop={onStop}
+      defaultClassName=""
+      nodeRef={ref}
+    >
       <CardWrapper
         ref={ref}
         id={box.id}
@@ -70,7 +137,7 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
           <>
             <Header>
               <PersonIcon color="#fff" />
-              <span>TYPHUELC{box.data.title}</span>
+              <span>{box.data.title}</span>
             </Header>
             <LeftRight>
               <div className="left">
@@ -96,9 +163,9 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
             </LeftRight>
             <Level>
               <div className="level">
-                <StarIcon level={box.level} />
+                <StarIcon level={box.data.level} />
                 <div className="content">
-                  <span className="label">Level {box.level}</span>
+                  <span className="label">Level {box.data.level}</span>
                   <span className="status">Complete</span>
                 </div>
               </div>
@@ -112,9 +179,9 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
             </Level>
             <Footer>
               <span>${box.data.total}</span>
-            </Footer>
+            </Footer>{" "}
             <Icon>
-              <AddIcon onClick={() => addNewBox(box)} />
+              <AddIcon onClick={() => box.level <= 0 ?? addNewBox(box)} />
             </Icon>
           </>
         ) : (
@@ -124,16 +191,34 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
                 <span>Open position</span>
               </Header>
               <Input>
-                <span>Choose a member</span>
-                <PlusIcon />
+                <span>{chosenOne ? chosenOne : "Choose a member"}</span>
+                <PlusIcon
+                  onClick={() => {
+                    setShowDropdown(!showDropdown);
+                  }}
+                />
               </Input>
+              {showDropdown && (
+                <Dropdown ref={ref}>
+                  {box.binaryChildCandidate &&
+                    box.binaryChildCandidate.map((item) => (
+                      <Item
+                        onClick={() => {
+                          setChosenOne(item);
+                          setShowDropdown(!showDropdown);
+                        }}
+                      >
+                        <span>{item}</span>
+                      </Item>
+                    ))}
+                </Dropdown>
+              )}
               <Button
                 type="blue"
                 text="Confirm"
                 customStyle="width: 100%; height: 30px;"
                 onClick={() => {
-                  box.type = "card";
-                  // Todo: call api and get data
+                  confirmAddBinaryChild();
                 }}
               />
             </ChooseWrapper>

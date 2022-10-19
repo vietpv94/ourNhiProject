@@ -36,8 +36,26 @@ export const Input = ({
         <InputWrapper className="file">
           <label>{label}</label>
           <Flex>
-            <InputImage id="card-font" text="Front side of ID Card" />
-            <InputImage id="card-back" text="Back side of ID Card" />
+            <InputImage
+              id="card-font"
+              text="Front side of ID Card"
+              onChange={(file) => {
+                onChange &&
+                  onChange({
+                    imageFront: file
+                  });
+              }}
+            />
+            <InputImage
+              id="card-back"
+              text="Back side of ID Card"
+              onChange={(file) => {
+                onChange &&
+                  onChange({
+                    imageBack: file
+                  });
+              }}
+            />
           </Flex>
         </InputWrapper>
       )}

@@ -100,7 +100,6 @@ export function Dashboard(props: IDashboardProps) {
 
   const loadDashboardInfo = async () => {
     const { data } = await userServices.getDashboard();
-console.log(data);
 
     const {
       totalChild,

@@ -132,7 +132,7 @@ const disable2FA = async () => {
   }
 };
 
-const sendKyc = async (params: KYCData) => {
+const sendKyc = async (params: FormData) => {
   try {
     const { data } = await service.post(`user/kyc`, params);
     return handleResponse(data);
@@ -213,6 +213,15 @@ const getBinaryDashboard = async () => {
   }
 };
 
+const getChildBinaryTree = async (params?: { from?: string }) => {
+  try {
+    const { data } = await service.get(`user/child/binary/tree`, params);
+    return handleResponse(data);
+  } catch (error) {
+    return handleError(error, "Error while get binary tree");
+  }
+};
+
 const getUserParent = async () => {
   try {
     const { data } = await service.get(`user/parent`);
@@ -254,7 +263,8 @@ export const userServices = {
   getUserChildSummary,
   getChildDetail,
   getBinaryDashboard,
-  verifyOTPResetPassword
+  verifyOTPResetPassword,
+  getChildBinaryTree
 };
 
 export default userServices;

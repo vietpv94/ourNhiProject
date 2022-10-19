@@ -6,9 +6,10 @@ import { useLoadReviewImage } from "./useLoadReviewImage";
 export interface IInputImageProps {
   id: string;
   text: string;
+  onChange: (file: any) => void;
 }
 
-export function InputImage({ id, text }: IInputImageProps) {
+export function InputImage({ id, text, onChange }: IInputImageProps) {
   const [preview, setPreview, selectedFile, onSelectFile] =
     useLoadReviewImage();
   return (
@@ -25,7 +26,17 @@ export function InputImage({ id, text }: IInputImageProps) {
           </div>
         )}
         <label htmlFor={id} />
-        <input id={id} type="file" onChange={(e) => onSelectFile(e)} />
+        <input
+          id={id}
+          type="file"
+          onChange={(e) => {
+            onSelectFile(e);
+            if (!e.target.files || e.target.files.length === 0) {
+              return;
+            }
+            onChange(e.target.files[0]);
+          }}
+        />
         {selectedFile && preview && (
           <img className="preview-image" src={preview} />
         )}
