@@ -252,7 +252,7 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board>{binaryBox && <BinaryMLM binaryBox={binaryBox} />}</Board>
+        <Board>{binaryBox && <BinaryMLM binaryBox={binaryBox} updateBinaryTree={loadBinaryTreeUser} />}</Board>
       </BinaryMLMWrapper>
       <RewardHistory>
         <div className="header">

@@ -87,9 +87,15 @@ export interface ICardProps {
   box: IBox;
   setIsMoveable: React.Dispatch<React.SetStateAction<boolean>>;
   addNewBox: (box: IBox) => void;
+  onAddChildSucceed: () => void;
 }
 
-export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
+export function Card({
+  box,
+  setIsMoveable,
+  addNewBox,
+  onAddChildSucceed
+}: ICardProps) {
   const updateXarrow = useXarrow();
   const ref = React.useRef(null);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -110,11 +116,18 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
       email: chosenOne,
       type: box.index
     });
-    console.log(data);
+    if (data) {
+      onAddChildSucceed();
+    }
   };
 
   return (
-    <Draggable onDrag={onDrag} onStop={onStop} defaultClassName="">
+    <Draggable
+      onDrag={onDrag}
+      onStop={onStop}
+      defaultClassName=""
+      nodeRef={ref}
+    >
       <CardWrapper
         ref={ref}
         id={box.id}
@@ -166,9 +179,9 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
             </Level>
             <Footer>
               <span>${box.data.total}</span>
-            </Footer>
+            </Footer>{" "}
             <Icon>
-              <AddIcon onClick={() => addNewBox(box)} />
+              <AddIcon onClick={() => box.level <= 0 ?? addNewBox(box)} />
             </Icon>
           </>
         ) : (

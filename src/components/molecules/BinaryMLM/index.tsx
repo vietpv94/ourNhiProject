@@ -4,6 +4,7 @@ import { Card, IBox } from "./Card";
 import { useXarrow, xarrowPropsType } from "react-xarrows";
 export interface IBinaryMLMProps {
   binaryBox: IBox[];
+  updateBinaryTree: () => void;
 }
 import Xarrow, { Xwrapper } from "react-xarrows";
 import { ZoomInIcon } from "@Components/atoms/icon/zoomIn";
@@ -12,12 +13,13 @@ import { Tools } from "./style";
 import { ResetIcon } from "@Components/atoms/icon/reset";
 import { MouseIcon } from "@Components/atoms/icon/mouse";
 import { useEffect } from "react";
+import { groupBy, mapValues } from "lodash";
 
 type Props<T> = {
   [Property in keyof T]?: T[Property];
 };
 
-export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
+export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
   const [isMoveable, setIsMoveable] = React.useState<boolean>(false);
   const updateXarrow = useXarrow();
   const [boxes, setBoxes] = React.useState<{ [key: string]: IBox }>();
@@ -32,14 +34,15 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
       });
       return r;
     }, {});
-    const aBoxes = binaryBox.map((box) => {
-      return [box];
+
+    const groupChildByParent = groupBy(binaryBox, "parentId");
+    const aBoxes = Object.keys(groupChildByParent).map((key) => {
+      return groupChildByParent[key];
     });
     setBoxes(bBoxes);
-    setAllBox(aBoxes);
-
-    setBoxes(bBoxes);
+    setAllBox([...aBoxes]);
   }, [binaryBox]);
+
   const boxWidth = 200;
   const boxSpaceX = 100;
   const boxHeight = 187;
@@ -57,6 +60,7 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
       const newLevel: IBox[] = [];
       allBox.push(newLevel);
     }
+
     const allBoxLevel = allBox[level];
     const newBox: IBox = {
       type: "choose",
@@ -118,6 +122,9 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
     headSize: 5,
     dashness: true
   };
+  const onAddChildSucceed = () => {
+    updateBinaryTree()
+  };
   return (
     <>
       <TransformWrapper
@@ -156,6 +163,7 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
                             key={box.id}
                             box={box}
                             addNewBox={addNewBox}
+                            onAddChildSucceed={onAddChildSucceed}
                             setIsMoveable={setIsMoveable}
                           />
                         );
