@@ -13,7 +13,7 @@ import {
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper
+  Wrapper,
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { BinaryMLM } from "@Components/molecules/BinaryMLM";
@@ -21,52 +21,53 @@ import { userServices } from "@Services/index";
 import { useEffect, useMemo, useState } from "react";
 import commissionServices from "@Services/commission";
 import { IBox } from "@Components/molecules/BinaryMLM/Card";
+import { WalletMoney } from "@Components/atoms/icon/walletMoney";
 
 export interface IAffiliateProps {}
 
-export const dataCard: DataSummary[] = [
-  {
-    id: 1,
-    title: "total members",
-    value: "5,432",
-    percent: 16,
-    icon: <MemberIcon />
-  },
-  {
-    id: 2,
-    title: "total profit",
-    value: "1,893",
-    percent: -1,
-    icon: <DollarIcon />
-  },
-  {
-    id: 3,
-    title: "Daily profits",
-    value: "$18",
-    icon: <RankingIcon />
-  }
-];
+// export const dataCard: DataSummary[] = [
+//   {
+//     id: 1,
+//     title: "total members",
+//     value: "5,432",
+//     percent: 16,
+//     icon: <MemberIcon />,
+//   },
+//   {
+//     id: 2,
+//     title: "total profit",
+//     value: "1,893",
+//     percent: -1,
+//     icon: <DollarIcon />,
+//   },
+//   {
+//     id: 3,
+//     title: "Daily profits",
+//     value: "$18",
+//     icon: <RankingIcon />,
+//   },
+// ];
 
 const dataSortBy = {
   label: "Sort by",
   data: [
     {
       id: 1,
-      name: "All"
+      name: "All",
     },
     {
       id: 2,
-      name: "Latest"
+      name: "Latest",
     },
     {
       id: 3,
-      name: "Oldest"
+      name: "Oldest",
     },
     {
       id: 4,
-      name: "Highest"
-    }
-  ]
+      name: "Highest",
+    },
+  ],
 };
 
 const renderDataRewardHistory = (data: DataRewardHistory[]) => {
@@ -89,7 +90,7 @@ const renderDataRewardHistory = (data: DataRewardHistory[]) => {
           <span>{"SOL"}</span>
         </div>
       ),
-      time: <div className="time">{item.createdAt}</div>
+      time: <div className="time">{item.createdAt}</div>,
     };
   });
 };
@@ -118,7 +119,7 @@ export function Affiliate(props: IAffiliateProps) {
       profitLastMonth,
       level,
       childThisMonth,
-      childLastMonth
+      childLastMonth,
     } = data;
 
     setDashboardInfo({
@@ -132,7 +133,7 @@ export function Affiliate(props: IAffiliateProps) {
       percentProfitChange:
         profitThisMonth === 0 || profitThisMonth === 0
           ? 0
-          : profitThisMonth / profitLastMonth
+          : profitThisMonth / profitLastMonth,
     });
   };
 
@@ -156,16 +157,16 @@ export function Affiliate(props: IAffiliateProps) {
         title: data.email,
         left: {
           sum: data.leftChildData?.sum || 0,
-          num: data.leftChildData?.num || 0
+          num: data.leftChildData?.num || 0,
         },
         right: {
           sum: data.rightChildData?.sum || 0,
-          num: data.rightChildData?.num || 0
+          num: data.rightChildData?.num || 0,
         },
         level: data.level,
         packageValue: data.packageValue,
-        total: data.bonusQuota
-      }
+        total: data.bonusQuota,
+      },
     };
   };
 
@@ -210,7 +211,7 @@ export function Affiliate(props: IAffiliateProps) {
   const dataTable = useMemo(() => {
     return {
       header: ["ID", "Profit From", "Amount", "Token", "time"],
-      data: renderDataRewardHistory(commissionHistory)
+      data: renderDataRewardHistory(commissionHistory),
     };
   }, [commissionHistory]);
 
@@ -221,21 +222,39 @@ export function Affiliate(props: IAffiliateProps) {
         title: "total members",
         value: dashboardInfo?.totalMember || 0,
         percent: dashboardInfo?.newMemberJoinRate,
-        icon: <MemberIcon />
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <MemberIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 2,
         title: "total profit",
         value: dashboardInfo?.totalProfit || 0,
         percent: dashboardInfo?.percentProfitChange,
-        icon: <DollarIcon />
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <DollarIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 3,
         title: "total transaction",
         value: dashboardInfo?.totalTransaction || 0,
-        icon: <ProfileTickIcon />
-      }
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <WalletMoney color={color} customStyle={customStyle} />,
+      },
     ];
   }, [dashboardInfo]);
 

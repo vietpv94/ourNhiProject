@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
   border: 1px solid #99daff;
   border-radius: 20px;
   background: #ffffff;
+  overflow: hidden;
   &:hover {
     background: #e6f6ff;
   }
@@ -19,7 +20,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 7px;
+    gap: 15px;
     & > .title {
       color: #4a65ef;
       font-weight: 400;
@@ -37,6 +38,12 @@ export const Wrapper = styled.div`
       display: flex;
       align-items: center;
       gap: 3px;
+    }
+    & > .mask {
+      position: absolute;
+      transform: rotate(-30deg);
+      bottom: -20px;
+      right: -20px;
     }
   }
 `;
