@@ -141,17 +141,17 @@ export function Affiliate(props: IAffiliateProps) {
     setCommissionHistory(data);
   };
 
-  const convertBinaryChildToBoxData = (data): IBox => {
+  const convertBinaryChildToBoxData = (data, position): IBox => {
     return {
       id: data?.id.toString() || "0",
-      x: 400,
-      y: 50,
+      x: position.x,
+      y: position.y,
       type: "card",
       children: [...data.child.map(String)],
       childF1s: [...data.childF1s],
       index: data.id,
       parentId: data?.parentId?.toString() || "0",
-      level: data.level,
+      level: position.level,
       data: {
         title: data.email,
         left: {
@@ -162,27 +162,47 @@ export function Affiliate(props: IAffiliateProps) {
           sum: data.rightChildData?.sum || 0,
           num: data.rightChildData?.num || 0
         },
+        level: data.level,
         packageValue: data.packageValue,
         total: data.bonusQuota
       }
     };
   };
 
-  const loadBinaryTreeUser = async (email?: string) => {
+  const getAllBoxes = async (
+    boxes: IBox[],
+    position: { x: number; y: number; level: number },
+    email?: string
+  ) => {
     const { data } = await userServices.getChildBinaryTree({ from: email });
 
     if (data) {
-      const box: IBox = convertBinaryChildToBoxData(data);
-      binaryBox.push(box)
-      setBinaryBox([...binaryBox]);
-      if (data.leftChildData?.email) {
-        await loadBinaryTreeUser(data.leftChildData.email);
+      const box: IBox = convertBinaryChildToBoxData(data, position);
+      boxes.push(box);
+      if (data.leftChildData?.email || data.rightChildData?.email) {
+        position.level += 1;
+        position.y += 250;
+        const parentX = position.x;
+        if (data.leftChildData?.email) {
+          position.x = parentX - 120;
+          await getAllBoxes(boxes, position, data.leftChildData.email);
+        }
+
+        if (data.rightChildData?.email) {
+          position.x = parentX + 120;
+          await getAllBoxes(boxes, position, data.rightChildData.email);
+        }
       }
 
-      // if (data.rightChildData?.email) {
-      //   await loadBinaryTreeUser(data.rightChildData.email);
-      // }
+      return boxes;
     }
+  };
+
+  const loadBinaryTreeUser = async () => {
+    const boxes = await getAllBoxes([], { x: 600, y: 50, level: 0 });
+    console.log(boxes);
+
+    setBinaryBox(boxes || []);
   };
 
   const dataTable = useMemo(() => {
@@ -191,6 +211,7 @@ export function Affiliate(props: IAffiliateProps) {
       data: renderDataRewardHistory(commissionHistory)
     };
   }, [commissionHistory]);
+
   const cardData: DataSummary[] = useMemo(() => {
     return [
       {

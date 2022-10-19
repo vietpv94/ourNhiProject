@@ -78,7 +78,7 @@ export interface IBox {
       num: number;
       sum: number;
     };
-
+    level: number;
     packageValue: number;
     total: number;
   };
@@ -115,7 +115,6 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
 
   return (
     <Draggable onDrag={onDrag} onStop={onStop} defaultClassName="">
- 
       <CardWrapper
         ref={ref}
         id={box.id}
@@ -151,9 +150,9 @@ export function Card({ box, setIsMoveable, addNewBox }: ICardProps) {
             </LeftRight>
             <Level>
               <div className="level">
-                <StarIcon level={box.level} />
+                <StarIcon level={box.data.level} />
                 <div className="content">
-                  <span className="label">Level {box.level}</span>
+                  <span className="label">Level {box.data.level}</span>
                   <span className="status">Complete</span>
                 </div>
               </div>

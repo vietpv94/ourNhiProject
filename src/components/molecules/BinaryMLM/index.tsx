@@ -22,18 +22,21 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
   const updateXarrow = useXarrow();
   const [boxes, setBoxes] = React.useState<{ [key: string]: IBox }>();
 
-  const [allBox, setAllBox] = React.useState<IBox[][]>([[]]);
+  const [allBox, setAllBox] = React.useState<IBox[][]>([]);
 
   useEffect(() => {
     const bBoxes = binaryBox.reduce((r, e) => {
       r[e.id] = {};
-      setAllBox([...allBox, [e]]);
       Object.keys(e).forEach(function (k) {
         if (k != "id") r[e.id] = Object.assign(r[e.id], { [k]: e[k] });
       });
       return r;
     }, {});
-    console.log("bBoxes", bBoxes);
+    const aBoxes = binaryBox.map((box) => {
+      return [box];
+    });
+    setBoxes(bBoxes);
+    setAllBox(aBoxes);
 
     setBoxes(bBoxes);
   }, [binaryBox]);
@@ -44,8 +47,6 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
   const centerX = 500;
   const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
-    console.log(boxPrev.children.length > 1 || !boxes);
-
     if (boxPrev.children.length > 1) return;
     if (!boxes) return;
     const maxId = Math.max(...Object.keys(boxes).map((id) => parseInt(id)));
@@ -78,6 +79,7 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
           num: 0,
           sum: 0
         },
+        level: 0,
         packageValue: 0,
         total: 0
       }
@@ -149,8 +151,6 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
                   return (
                     <div key={index}>
                       {boxLevel.map((box, index) => {
-                        console.log(box.id);
-
                         return (
                           <Card
                             key={box.id}
@@ -172,9 +172,6 @@ export function BinaryMLM({ binaryBox }: IBinaryMLMProps) {
 
                   return box.children.map((childId) => {
                     const child = boxes[childId];
-
-                    console.log(id, childId);
-
                     return (
                       <Xarrow
                         key={id + childId}
