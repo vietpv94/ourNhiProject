@@ -11,14 +11,12 @@ export const Wrapper = styled.div`
 export const Header = styled.div`
   position: relative;
   margin-top: 20px;
-  display: flex;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
-  flex-direction: row;
   border-radius: 16px;
-  background: #ffffff;
   width: 100%;
-  gap: 30px;
-  flex-wrap: wrap;
   filter: drop-shadow(32px 19px 15px rgba(28, 46, 64, 0.01))
     drop-shadow(18px 11px 13px rgba(28, 46, 64, 0.02))
     drop-shadow(8px 5px 9px rgba(28, 46, 64, 0.03))
@@ -26,16 +24,9 @@ export const Header = styled.div`
     drop-shadow(0px 0px 0px rgba(28, 46, 64, 0.04));
   & > .card {
     position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 0;
-      width: 1px;
-      height: 85px;
-      background: #dde2e8;
-    }
+  }
+  @media ${breakpoints.xxs} {
+    grid-template-columns: 1fr;
   }
 `;
 

@@ -169,26 +169,50 @@ export function Dashboard(props: IDashboardProps) {
         title: "Your Balance",
         value: dashboardInfo?.totalMember || 0,
         percent: dashboardInfo?.newMemberJoinRate,
-        icon: <CoinIcon />,
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <CoinIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 2,
         title: "Staking Amount",
         value: dashboardInfo?.totalProfit || 0,
         percent: dashboardInfo?.percentProfitChange,
-        icon: <ClipboardIcon />,
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <ClipboardIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 3,
         title: "Staking Reward",
         value: dashboardInfo?.totalTransaction || 0,
-        icon: <WalletMoney />,
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <WalletMoney color={color} customStyle={customStyle} />,
       },
       {
         id: 4,
         title: "Affiliate Bonus",
         value: dashboardInfo?.totalTransaction || 0,
-        icon: <MemberIcon />,
+        icon: ({
+          color,
+          customStyle,
+        }: {
+          color?: string;
+          customStyle?: any;
+        }) => <MemberIcon color={color} customStyle={customStyle} />,
       },
     ];
   }, [dashboardInfo]);

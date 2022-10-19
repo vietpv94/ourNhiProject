@@ -7,7 +7,13 @@ export interface DataSummary {
   title: string;
   value: string | number;
   percent?: number;
-  icon: React.ReactNode;
+  icon: ({
+    color,
+    customStyle,
+  }: {
+    color?: string;
+    customStyle?: any;
+  }) => React.ReactNode;
 }
 export interface ISummaryProps {
   data: DataSummary;
@@ -16,7 +22,15 @@ export interface ISummaryProps {
 export function Summary({ data }: ISummaryProps) {
   return (
     <Wrapper className="card">
-      <div className="icon">{data.icon}</div>
+      <div className="icon">
+        {data.icon({
+          color: "#4a65ef",
+          customStyle: {
+            width: 30,
+            height: 30,
+          },
+        })}
+      </div>
       <div className="content">
         <div className="value">{data.value}</div>
         {/* {data.percent !== undefined && (
@@ -36,6 +50,12 @@ export function Summary({ data }: ISummaryProps) {
           </div>
         )}{" "} */}
         <div className="title">{data.title}</div>
+        <div className="mask">
+          {data.icon({
+            color: "#889aef23",
+            customStyle: { width: 100, height: 100 },
+          })}
+        </div>
       </div>
     </Wrapper>
   );
