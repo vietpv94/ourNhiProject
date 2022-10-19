@@ -21,8 +21,17 @@ import { userServices } from "@Services/index";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "react-toastify";
 import { enable2FA } from "@Redux/actions/accounts";
+import { useForm } from "react-hook-form";
 
 export interface IPersonalInformationProps {}
+export interface IKycForm {
+  fullName?: string;
+  dateOfBirth?: string;
+  phone?: string;
+  fullAddress?: string;
+  imageBack?: string;
+  imageFront?: string;
+}
 
 export function PersonalInformation(props: IPersonalInformationProps) {
   const account = useSelector((state: RootState) => state.account);
@@ -33,7 +42,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   const dispatch = useDispatch();
   const [qr, setQr] = useState<string>("");
   const [secret, setSecret] = useState<string>("");
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [kycForm, setKycForm] = useState<IKycForm>();
   const [changePass, setChangePass] = useState<boolean>(false);
   const [active2FA, setActive2FA] = useState<boolean>(false);
   const [activeKYC, setActiveKYC] = useState<boolean>(false);
@@ -42,6 +51,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   const [password, setPassword] = useState<string>("");
   const [copyState, copyToClipboard] = useCopyToClipboard();
 
+  const { kycStatus } = useSelector((state: RootState) => state.account);
   const handleToggle = async () => {
     if (!is2FAEnabled) {
       setActive2FA(true);
@@ -57,9 +67,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
     if (data) {
       setCode("");
       setActive2FA(false);
-      dispatch(
-        enable2FA()
-      );
+      dispatch(enable2FA());
       toast.info("2FA enabled");
     }
   };
@@ -69,6 +77,23 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       toast.success("copy success");
     }
   }, [copyState]);
+
+  const submitKycData = async () => {
+    if (kycForm) {
+      const kycFormData = new FormData();
+      kycFormData.append("fullName", kycForm.fullName || "");
+      kycFormData.append("dateOfBirth", kycForm.dateOfBirth || "");
+      kycFormData.append("fullAddress", kycForm.fullAddress || "");
+      kycFormData.append("phone", kycForm.phone || "");
+      kycFormData.append("imageFront", kycForm.imageFront || "");
+      kycFormData.append("imageBack", kycForm.imageBack || "");
+
+      const { data } = await userServices.sendKyc(kycFormData);
+      if (data) {
+        setActiveKYC(false);
+      }
+    }
+  };
   return (
     <Wrapper>
       <div className="title">Profile</div>
@@ -179,39 +204,92 @@ export function PersonalInformation(props: IPersonalInformationProps) {
         <Title>
           <span>
             KYC
-            <WarningIcon
-              color="#FF9900"
-              customStyle={{
-                height: 12,
-                width: 12
-              }}
-            />
+            {kycStatus === 0 && (
+              <WarningIcon
+                color="#FF9900"
+                customStyle={{
+                  height: 12,
+                  width: 12
+                }}
+              />
+            )}
           </span>
-          <ArrowIcon
-            color="#00A3FF"
-            direction={activeKYC ? "up" : "down"}
-            style="solid"
-            onClick={() => setActiveKYC(!activeKYC)}
-          />
+          {kycStatus === 1 && "pending"}
+          {kycStatus === 2 && "approved"}
+          {kycStatus !== 0 && kycStatus !== 3 && (
+            <ArrowIcon
+              color="#00A3FF"
+              direction={activeKYC ? "up" : "down"}
+              style="solid"
+              onClick={() => setActiveKYC(!activeKYC)}
+            />
+          )}
         </Title>
-        {activeKYC && (
+        {activeKYC && kycStatus !== 0 && kycStatus !== 3 && (
           <>
             <ReviewTime>
               <ClockIcon />
               <span>Review time: 2 days</span>
             </ReviewTime>
             <Flex>
-              <Input type="text" label="Full Name" />
+              <Input
+                type="text"
+                label="Full Name"
+                onChange={(e) => {
+                  setKycForm({
+                    ...kycForm,
+                    fullName: e.target.value
+                  });
+                }}
+              />
               <Input
                 type="text"
                 label="Date of Birth"
                 placeholder="YYYY/MM/DD"
+                onChange={(e) => {
+                  setKycForm({
+                    ...kycForm,
+                    dateOfBirth: e.target.value
+                  });
+                }}
               />
             </Flex>
-            <Input label="Full Address" type="text" />
-            <Input type="text" label="Phone Number" />
-            <Input type="file" label="ID identify card" />
-            <Button text="Confirm" type="blue" customStyle={"width: 100%;"} />
+            <Input
+              label="Full Address"
+              type="text"
+              onChange={(e) => {
+                setKycForm({
+                  ...kycForm,
+                  fullAddress: e.target.value
+                });
+              }}
+            />
+            <Input
+              type="text"
+              label="Phone Number"
+              onChange={(e) => {
+                setKycForm({
+                  ...kycForm,
+                  phone: e.target.value
+                });
+              }}
+            />
+            <Input
+              type="file"
+              label="ID identify card"
+              onChange={(v) => {
+                setKycForm({
+                  ...kycForm,
+                  ...v
+                });
+              }}
+            />
+            <Button
+              text="Confirm"
+              type="blue"
+              customStyle={"width: 100%;"}
+              onClick={submitKycData}
+            />
           </>
         )}
       </Form>

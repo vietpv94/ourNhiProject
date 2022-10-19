@@ -132,7 +132,7 @@ const disable2FA = async () => {
   }
 };
 
-const sendKyc = async (params: KYCData) => {
+const sendKyc = async (params: FormData) => {
   try {
     const { data } = await service.post(`user/kyc`, params);
     return handleResponse(data);

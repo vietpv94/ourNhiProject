@@ -181,15 +181,17 @@ export function Affiliate(props: IAffiliateProps) {
       boxes.push(box);
       if (data.leftChildData?.email || data.rightChildData?.email) {
         position.level += 1;
-        position.y += 250;
         const parentX = position.x;
+        const parentY = position.y;
         if (data.leftChildData?.email) {
           position.x = parentX - 120;
+          position.y = parentY + 250;
           await getAllBoxes(boxes, position, data.leftChildData.email);
         }
 
         if (data.rightChildData?.email) {
           position.x = parentX + 120;
+          position.y = parentY + 250;
           await getAllBoxes(boxes, position, data.rightChildData.email);
         }
       }
@@ -252,7 +254,14 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board>{binaryBox && <BinaryMLM binaryBox={binaryBox} updateBinaryTree={loadBinaryTreeUser} />}</Board>
+        <Board>
+          {binaryBox && (
+            <BinaryMLM
+              binaryBox={binaryBox}
+              updateBinaryTree={loadBinaryTreeUser}
+            />
+          )}
+        </Board>
       </BinaryMLMWrapper>
       <RewardHistory>
         <div className="header">
