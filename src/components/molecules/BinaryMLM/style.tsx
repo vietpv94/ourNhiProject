@@ -159,13 +159,21 @@ export const Footer = styled.div`
   background: #e9f7ff;
   border-top: none;
   display: flex;
+  flex-direction: column;
+  gap: 5px;
   align-items: center;
   justify-content: center;
   height: 30px;
+  padding: 10px 0;
   & > span {
     color: #4a65ef;
     font-weight: 600;
     font-size: 14px;
+  }
+  & > .label {
+    color: rgba(0, 0, 0, 0.3);
+    font-weight: 400;
+    font-size: 8px;
   }
 `;
 

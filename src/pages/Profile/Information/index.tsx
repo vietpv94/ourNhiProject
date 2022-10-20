@@ -10,7 +10,6 @@ import { QRModal } from "@Components/atoms/InputImage/style";
 import { Form } from "@Components/molecules/Form";
 import { Input } from "@Components/molecules/Form/input";
 import { RootState } from "@Redux/reducers";
-import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Flex, ReviewTime, Title, UL, Wrapper, QR } from "./style";
@@ -21,6 +20,9 @@ import { userServices } from "@Services/index";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "react-toastify";
 import { enable2FA } from "@Redux/actions/accounts";
+import React, { useMemo } from "react";
+import { PendingIcon } from "@Components/atoms/icon/pending";
+import { TickIcon } from "@Components/atoms/icon/tick";
 
 export interface IPersonalInformationProps {}
 export interface IKycForm {
@@ -61,7 +63,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   };
   const handleVerify = async () => {
     const { data } = await userServices.enable2FA({
-      twoFACode: code
+      twoFACode: code,
     });
     if (data) {
       setCode("");
@@ -93,6 +95,48 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       }
     }
   };
+
+  const renderKycStatus = useMemo(() => {
+    switch (kycStatus) {
+      case 0:
+        return (
+          <WarningIcon
+            color="#FF9900"
+            customStyle={{
+              height: 12,
+              width: 12,
+            }}
+          />
+        );
+      case 1:
+        return (
+          <PendingIcon
+            customStyle={{
+              height: 12,
+              width: 12,
+            }}
+          />
+        );
+      case 2:
+        return (
+          <TickIcon
+            customStyle={{
+              height: 12,
+              width: 12,
+            }}
+          />
+        );
+      default:
+        return (
+          <TickIcon
+            customStyle={{
+              height: 12,
+              width: 12,
+            }}
+          />
+        );
+    }
+  }, [kycStatus]);
   return (
     <Wrapper>
       <div className="title">Profile</div>
@@ -203,15 +247,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
         <Title>
           <span>
             KYC
-            {kycStatus === 0 && (
-              <WarningIcon
-                color="#FF9900"
-                customStyle={{
-                  height: 12,
-                  width: 12
-                }}
-              />
-            )}
+            {renderKycStatus}
           </span>
           {kycStatus === 1 && "pending"}
           {kycStatus === 2 && "approved"}
@@ -237,7 +273,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
                 onChange={(e) => {
                   setKycForm({
                     ...kycForm,
-                    fullName: e.target.value
+                    fullName: e.target.value,
                   });
                 }}
               />
@@ -248,7 +284,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
                 onChange={(e) => {
                   setKycForm({
                     ...kycForm,
-                    dateOfBirth: e.target.value
+                    dateOfBirth: e.target.value,
                   });
                 }}
               />
@@ -259,7 +295,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               onChange={(e) => {
                 setKycForm({
                   ...kycForm,
-                  fullAddress: e.target.value
+                  fullAddress: e.target.value,
                 });
               }}
             />
@@ -269,7 +305,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               onChange={(e) => {
                 setKycForm({
                   ...kycForm,
-                  phone: e.target.value
+                  phone: e.target.value,
                 });
               }}
             />
@@ -279,7 +315,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               onChange={(v) => {
                 setKycForm({
                   ...kycForm,
-                  ...v
+                  ...v,
                 });
               }}
             />
