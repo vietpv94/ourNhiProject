@@ -26,7 +26,11 @@ import { Button } from "@Components/atoms/Button";
 import { TickIcon } from "@Components/atoms/icon/tick";
 import { useDispatch } from "react-redux";
 import { setModal } from "@Redux/actions/modal";
-export interface IDeFiProps {}
+import { useEffect, useState } from "react";
+import stakingServices from "@Services/staking";
+export interface IDeFiProps {
+  durations: number[];
+}
 
 const data = [
   {
@@ -56,12 +60,23 @@ const dataTerm = [
   }
 ];
 export function DeFi(props: IDeFiProps) {
-  const months = [6, 12, 18, 24];
-  const [selected, setSelected] = React.useState(6);
+  const [selected, setSelected] = useState<number>(props.durations[0]);
+  const [defiDuration, setDefiDuration] = useState();
   const dispatch = useDispatch();
   const handleConfirm = () => {
     dispatch(setModal({ modal: "stake-confirm" }));
   };
+
+  const loadDefiDuration = async () => {
+    const { data } = await stakingServices.getStakingDefiDuration();
+    console.log(data);
+    
+    setDefiDuration(data);
+  };
+
+  useEffect(() => {
+    loadDefiDuration();
+  }, []);
   return (
     <DefiWrapper>
       <div className="container">
@@ -95,7 +110,7 @@ export function DeFi(props: IDeFiProps) {
             type="month"
             selected={selected}
             setSelected={setSelected}
-            list={months}
+            list={props.durations}
             className="duration"
           />
           <Subscription>

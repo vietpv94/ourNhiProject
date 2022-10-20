@@ -83,6 +83,15 @@ const getStakingPayout = async () => {
   }
 };
 
+const getStakingDefiDuration = async () => {
+  try {
+    const { data } = await service.get(`staking/defi/duration`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while get getStakingDefiDuration");
+  }
+};
+
 export const stakingServices = {
   getStakingDuration,
   getStakingPack,
@@ -92,7 +101,8 @@ export const stakingServices = {
   getDetailStakingHistory,
   doUnStake,
   doHarvest,
-  getStakingPayout
+  getStakingPayout,
+  getStakingDefiDuration
 };
 
 export default stakingServices;

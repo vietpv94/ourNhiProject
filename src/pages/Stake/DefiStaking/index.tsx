@@ -43,7 +43,7 @@ export function DefiStaking(props: IDefiStakingProps) {
       {currentTab === tabs[0] ? (
         <LockedStaking durations={durations} />
       ) : (
-        <DeFi />
+        <DeFi durations={durations} />
       )}
     </DefiStakingWrapper>
   );
