@@ -7,7 +7,7 @@ import { ProfileIcon } from "@Components/atoms/icon/profile";
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import {
   CardAffiliate,
-  ICardAffiliateProps,
+  ICardAffiliateProps
 } from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
 import { DataSummary, Summary } from "@Components/molecules/Summary";
@@ -30,13 +30,13 @@ import {
   Link,
   ListAffiliate,
   System,
-  Title,
+  Title
 } from "./style";
 import { CardLevel, Status } from "@Components/molecules/CardLevel";
 import { userServices } from "@Services/index";
 import {
   convertKeyToReadableName,
-  convertValueToReadableStatus,
+  convertValueToReadableStatus
 } from "./utils";
 import { LinkIcon } from "@Components/atoms/icon/link";
 import { CoinIcon } from "@Components/atoms/icon/coin";
@@ -45,11 +45,9 @@ import { WalletMoney } from "@Components/atoms/icon/walletMoney";
 export interface IDashboardProps {}
 
 export interface DashboardData {
-  totalMember: number;
-  totalProfit: number;
-  totalTransaction: number;
-  percentProfitChange: number;
-  newMemberJoinRate: number;
+  totalReward: number;
+  totalStakeCurrent: number;
+  affiliateBonus: number;
 }
 
 interface ChildInfo {
@@ -106,28 +104,19 @@ export function Dashboard(props: IDashboardProps) {
   const loadDashboardInfo = async () => {
     const { data } = await userServices.getDashboard();
 
+    console.log(data);
+
     const {
       totalChild,
-      totalProfit,
-      profitThisMonth,
-      profitLastMonth,
-      level,
-      childThisMonth,
-      childLastMonth,
+      totalReward,
+      totalStakeCurrent,
+      affiliateBonus,
     } = data;
 
     setDashboardInfo({
-      totalMember: totalChild,
-      totalProfit: totalProfit,
-      totalTransaction: 0,
-      newMemberJoinRate:
-        childThisMonth === 0 || childLastMonth === 0
-          ? 0
-          : childThisMonth / childLastMonth,
-      percentProfitChange:
-        profitThisMonth === 0 || profitThisMonth === 0
-          ? 0
-          : profitThisMonth / profitLastMonth,
+      totalStakeCurrent,
+      affiliateBonus,
+      totalReward
     });
   };
 
@@ -167,53 +156,51 @@ export function Dashboard(props: IDashboardProps) {
       {
         id: 1,
         title: "Your Balance",
-        value: dashboardInfo?.totalMember || 0,
-        percent: dashboardInfo?.newMemberJoinRate,
+        value: account.balance || 0,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <CoinIcon color={color} customStyle={customStyle} />,
+        }) => <CoinIcon color={color} customStyle={customStyle} />
       },
       {
         id: 2,
         title: "Staking Amount",
-        value: dashboardInfo?.totalProfit || 0,
-        percent: dashboardInfo?.percentProfitChange,
+        value: dashboardInfo?.totalStakeCurrent || 0,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <ClipboardIcon color={color} customStyle={customStyle} />,
+        }) => <ClipboardIcon color={color} customStyle={customStyle} />
       },
       {
         id: 3,
         title: "Staking Reward",
-        value: dashboardInfo?.totalTransaction || 0,
+        value: dashboardInfo?.totalReward || 0,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <WalletMoney color={color} customStyle={customStyle} />,
+        }) => <WalletMoney color={color} customStyle={customStyle} />
       },
       {
         id: 4,
         title: "Affiliate Bonus",
-        value: dashboardInfo?.totalTransaction || 0,
+        value: dashboardInfo?.affiliateBonus || 0,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <MemberIcon color={color} customStyle={customStyle} />,
-      },
+        }) => <MemberIcon color={color} customStyle={customStyle} />
+      }
     ];
   }, [dashboardInfo]);
 
@@ -229,7 +216,7 @@ export function Dashboard(props: IDashboardProps) {
               if (i !== 14) {
                 const nextResult = await userServices.getUserChild({
                   maxDepth: 0,
-                  from: email,
+                  from: email
                 });
 
                 memberData[i + 1] = nextResult.data;
@@ -262,7 +249,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: lv[keyLv],
-                done: true,
+                done: true
               };
             }
           })
@@ -273,7 +260,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 0,
           completed: 4,
           total: 4,
-          data: [...serializeLevelCondition],
+          data: [...serializeLevelCondition]
         };
       } else if (lv.level > (currentUserLevel.level || 0) + 1) {
         const serializeLevelCondition = Object.keys(lv)
@@ -282,7 +269,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: lv[keyLv],
-                done: false,
+                done: false
               };
             }
           })
@@ -293,7 +280,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 4,
           completed: 0,
           total: 4,
-          data: [...serializeLevelCondition],
+          data: [...serializeLevelCondition]
         };
       } else {
         const serializeLevelCondition = Object.keys(lv)
@@ -302,7 +289,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: lv[keyLv],
-                done: convertValueToReadableStatus(keyLv, lv, currentUserLevel),
+                done: convertValueToReadableStatus(keyLv, lv, currentUserLevel)
               };
             }
           })
@@ -313,7 +300,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 4,
           completed: 0,
           total: 4,
-          data: [...serializeLevelCondition],
+          data: [...serializeLevelCondition]
         };
       }
     });
