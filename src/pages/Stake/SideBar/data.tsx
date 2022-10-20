@@ -47,4 +47,14 @@ export const dataSideBar: DataSideBar[] = [
     link: "/stake/swap",
     icon: <SwapIcon />,
   },
+  {
+    name: "Withdraw",
+    link: "",
+    icon: <SwapIcon />,
+  },
+  {
+    name: "Deposit",
+    link: "",
+    icon: <SwapIcon />,
+  },
 ];

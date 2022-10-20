@@ -16,7 +16,7 @@ import {
   Title,
   Token,
   TokenInput,
-  Warning
+  Warning,
 } from "./style";
 import sol from "@Assets/images/molecules/token/sol.png";
 import sol2 from "@Assets/images/molecules/card/sol-token.png";
@@ -37,33 +37,34 @@ export interface IDeFiProps {
 const data = [
   {
     label: "Stake Date:",
-    value: "2022-10-04 11:33"
+    value: "2022-10-04 11:33",
   },
   {
     label: "Value Date",
-    value: "2022-10-05 07:00"
+    value: "2022-10-05 07:00",
   },
   {
     label: "Interest Distribution Date",
-    value: "2022-10-05 07:00"
-  }
+    value: "2022-10-05 07:00",
+  },
 ];
 
 const dataTerm = [
   {
     id: 1,
     icon: <WarningIcon color="#37373B" />,
-    text: "The APR is adjusted daily based on the on-chain staking rewards, and the specific APR is subject to the page display on the day."
+    text: "The APR is adjusted daily based on the on-chain staking rewards, and the specific APR is subject to the page display on the day.",
   },
   {
     id: 1,
     icon: <WarningIcon color="#37373B" />,
-    text: "APR does not mean the actual or predicted returns in fiat currency."
-  }
+    text: "APR does not mean the actual or predicted returns in fiat currency.",
+  },
 ];
 export function DeFi(props: IDeFiProps) {
   const [selected, setSelected] = useState<number>(props.durations[0]);
   const [value, setValue] = useState<number>(0);
+  const [agree, setAgree] = useState<boolean>(false);
   const [defiDuration, setDefiDuration] = useState<any>();
   const dispatch = useDispatch();
   const handleConfirm = () => {
@@ -74,7 +75,7 @@ export function DeFi(props: IDeFiProps) {
       percentProfitPerDay: defiDuration?.percentProfitPerDay || 0,
       maxProfit: 0,
       poolMaxStakeValue: 0,
-      buffCurrentStakeValue: 0
+      buffCurrentStakeValue: 0,
     };
     dispatch(
       setModal({ modal: "stake-confirm", data: { selectedPack: pack } })
@@ -92,6 +93,10 @@ export function DeFi(props: IDeFiProps) {
   useEffect(() => {
     loadDefiDuration();
   }, []);
+
+  const handleAgree = () => {
+    setAgree(!agree);
+  };
   return (
     <DefiWrapper>
       <div className="container">
@@ -105,7 +110,7 @@ export function DeFi(props: IDeFiProps) {
               customStyle={{
                 width: "24",
                 height: "24",
-                viewBox: "0 0 24 24"
+                viewBox: "0 0 24 24",
               }}
             />
             <span className="description">
@@ -172,7 +177,7 @@ export function DeFi(props: IDeFiProps) {
           <Content>
             <TimeStepper
               customStyle={{
-                marginTop: "20px"
+                marginTop: "20px",
               }}
               data={data}
             />
@@ -184,7 +189,12 @@ export function DeFi(props: IDeFiProps) {
                 </ItemTerm>
               ))}
               <ItemTerm key={`term-3`}>
-                <TickIcon type="square" color="#00A3FF" />
+                <TickIcon
+                  type="square"
+                  color={agree ? "#00A3FF" : "#37373B"}
+                  status={agree ? "tick" : "cross"}
+                  onClick={handleAgree}
+                />
                 <span className="text">
                   I have read and I agree to Lido Simple Earn Service Agreement
                 </span>

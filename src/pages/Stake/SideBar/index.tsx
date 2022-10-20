@@ -24,6 +24,7 @@ import { openSideBar } from "@Redux/actions/home";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@Components/atoms/Button";
+import { setModal } from "@Redux/actions/modal";
 
 export interface ISideBarProps {}
 
@@ -36,6 +37,13 @@ export function SideBar(props: ISideBarProps) {
   const navigate = useNavigate();
   const handleActiveChild = (name: string, link: string) => {
     navigate(link);
+    if (name === "Withdraw" || name === "Deposit") {
+      dispatch(
+        setModal({
+          modal: name.toLowerCase(),
+        })
+      );
+    }
     if (isMobile) {
       dispatch(openSideBar(false));
     }
@@ -79,7 +87,13 @@ export function SideBar(props: ISideBarProps) {
         {dataSideBar.map((item, index) => (
           <React.Fragment key={`sidebar-${index}`}>
             <Item
-              className={pathname.includes(item.link) ? "active" : ""}
+              className={
+                pathname.includes(item.link) &&
+                item.name !== "Deposit" &&
+                item.name !== "Withdraw"
+                  ? "active"
+                  : ""
+              }
               onClick={() => handleActiveChild(item.name, item.link)}
             >
               {item.icon}
