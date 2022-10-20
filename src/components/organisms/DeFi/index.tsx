@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import { setModal } from "@Redux/actions/modal";
 import { useEffect, useState } from "react";
 import stakingServices from "@Services/staking";
+import { groupBy } from "lodash";
 export interface IDeFiProps {
   durations: number[];
 }
@@ -69,8 +70,9 @@ export function DeFi(props: IDeFiProps) {
 
   const loadDefiDuration = async () => {
     const { data } = await stakingServices.getStakingDefiDuration();
-    console.log(data);
-    
+
+    const reDefineDuration = groupBy(data, "duration");
+    console.log(reDefineDuration);
     setDefiDuration(data);
   };
 

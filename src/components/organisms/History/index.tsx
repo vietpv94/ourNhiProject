@@ -21,7 +21,7 @@ import {
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { useEffect, useState } from "react";
-import { stakingServices } from "@Services/index";
+import { stakingServices, transactionServices } from "@Services/index";
 import moment from "moment";
 export interface IHistoryProps {}
 
@@ -37,6 +37,15 @@ interface IStakingHistory {
   packagePercentProfitPerMonth: number;
   packagePercentProfitPerDay: number;
   token: string;
+}
+
+interface ITransactionData {
+  id: number;
+  status: number;
+  amount: number;
+  to: string;
+  currency: number;
+  createdAt: string;
 }
 const renderData = (data: IStakingHistory[]) => {
   return data.map((item: IStakingHistory, index: number) => {
@@ -80,26 +89,39 @@ const renderDataPayout = (data: DataPayout[]) => {
   });
 };
 
-const renderDataTransaction = (data: DataTransaction[]) => {
-  return data.map((item: DataTransaction, index: number) => {
+const convertStatus = (status: number): string => {
+  switch (status) {
+    case 0:
+    case 3:
+      return "failed";
+    case 1:
+      return "pending";
+    case 2:
+      return "success";
+    default:
+      return "failed";
+  }
+};
+const renderDataTransaction = (data: ITransactionData[]) => {
+  return data.map((item: ITransactionData, index: number) => {
     return {
       id: item.id,
       value: (
         <div className="value">
-          {item.value > 0 ? (
-            <span style={{ color: "#53BA95" }}>+{item.value}$</span>
+          {item.amount > 0 ? (
+            <span style={{ color: "#53BA95" }}>{`+ ${item.currency === 1? '$': 'SOL'}${item.amount}`}</span>
           ) : (
-            <span style={{ color: "#ff476a" }}>{item.value}$</span>
+            <span style={{ color: "#ff476a" }}>{`- ${item.currency === 1? '$': 'SOL'}${item.amount}`}</span>
           )}
         </div>
       ),
       walletAddress: (
         <div className="walletAddress">
-          {item.walletAddress.slice(0, 6)}...{item.walletAddress.slice(-4)}
+          {item.to.slice(0, 6)}...{item.to.slice(-4)}
         </div>
       ),
-      status: <div className={`status ${item.status}`}>{item.status}</div>,
-      time: <div className="time">{item.time}</div>
+      status: <div className={`status ${convertStatus(item.status)}`}>{convertStatus(item.status)}</div>,
+      time: <div className="time">{moment(item.createdAt).format("YYYY-MM-DD HH:mm")}</div>
     };
   });
 };
@@ -108,6 +130,9 @@ export function History(props: IHistoryProps) {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [stakingHistory, setStakingHistory] = useState<IStakingHistory[]>([]);
   const [payoutData, setPayoutData] = useState<DataPayout[]>([]);
+  const [transactionData, setTransactionData] = useState<ITransactionData[]>(
+    []
+  );
   const headerStaking = ["ID", "package", "token", "date of registration"];
   const headerPayout = ["ID", "profit", "package", "time"];
   const headerTransactions = [
@@ -121,6 +146,7 @@ export function History(props: IHistoryProps) {
   useEffect(() => {
     loadStakingHistory();
     loadPayoutData();
+    loadTransaction();
   }, []);
 
   const loadStakingHistory = async () => {
@@ -132,6 +158,13 @@ export function History(props: IHistoryProps) {
     console.log(data);
 
     setPayoutData(data);
+  };
+
+  const loadTransaction = async () => {
+    const { data } = await transactionServices.getTransactions();
+    console.log(data);
+
+    setTransactionData(data);
   };
   return (
     <HistoryWrapper>
@@ -162,7 +195,7 @@ export function History(props: IHistoryProps) {
         <BoxTransaction>
           <Table
             header={headerTransactions}
-            data={renderDataTransaction(dataTransaction)}
+            data={renderDataTransaction(transactionData)}
           />
         </BoxTransaction>
       )}

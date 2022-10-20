@@ -9,7 +9,7 @@ export interface DataSummary {
   percent?: number;
   icon: ({
     color,
-    customStyle,
+    customStyle
   }: {
     color?: string;
     customStyle?: any;
@@ -17,18 +17,19 @@ export interface DataSummary {
 }
 export interface ISummaryProps {
   data: DataSummary;
+  onClick?: () => void;
 }
 
-export function Summary({ data }: ISummaryProps) {
+export function Summary({ data, onClick }: ISummaryProps) {
   return (
-    <Wrapper className="card">
+    <Wrapper className="card" onClick={onClick}>
       <div className="icon">
         {data.icon({
           color: "#4a65ef",
           customStyle: {
             width: 30,
-            height: 30,
-          },
+            height: 30
+          }
         })}
       </div>
       <div className="content">
@@ -53,7 +54,7 @@ export function Summary({ data }: ISummaryProps) {
         <div className="mask">
           {data.icon({
             color: "#889aef23",
-            customStyle: { width: 100, height: 100 },
+            customStyle: { width: 100, height: 100 }
           })}
         </div>
       </div>

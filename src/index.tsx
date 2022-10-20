@@ -8,8 +8,12 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store, persister } from "@Redux/reducers";
 import { PersistGate } from "redux-persist/integration/react";
+import { createRoot } from "react-dom/client";
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persister}>
@@ -18,8 +22,7 @@ ReactDOM.render(
         </HelmetProvider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 reportWebVitals();

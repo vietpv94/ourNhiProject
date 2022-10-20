@@ -29,7 +29,22 @@ const getStakingPackValue = async () => {
   }
 };
 
-const doStake = async (params: { packageId: number; stakeValue: number }) => {
+const initStaking = async (param: { packageId: number; address: string }) => {
+  try {
+    const { data } = await service.post(`staking/init`, param);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while init staking");
+  }
+};
+
+const doStake = async (params: {
+  packageId: number;
+  stakeValue?: number;
+  address?: string;
+  depositId?: number;
+  signature?: any;
+}) => {
   try {
     const { data } = await service.post(`staking`, params);
     return handleResponse(data);
@@ -102,7 +117,8 @@ export const stakingServices = {
   doUnStake,
   doHarvest,
   getStakingPayout,
-  getStakingDefiDuration
+  getStakingDefiDuration,
+  initStaking
 };
 
 export default stakingServices;

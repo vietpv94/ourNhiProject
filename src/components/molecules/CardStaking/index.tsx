@@ -21,7 +21,7 @@ export interface ICardStakingData {
   percentProfitPerDay: number;
   maxProfit?: number;
   poolMaxStakeValue?: number;
-  totalStaked: number;
+  buffCurrentStakeValue: number;
 }
 
 export interface IYourStakingCardData {
@@ -52,7 +52,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       <Mask className="left" src={mask} alt="mask" />
       <Mask className="right" src={mask} alt="mask" />
       <Logo src={logo} alt="logo" />
-      <Amount>{Number(data.value)}$</Amount>
+      <Amount>${Number(data.value)}</Amount>
       <Percent>
         <Item className="day">
           <div className="percent day">
@@ -81,11 +81,11 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       <TotalStaker>
         <div className="item">
           <span className="label">Total Staked: </span>
-          <span className="value">{data.totalStaked} GFT</span>
+          <span className="value">${data.buffCurrentStakeValue}</span>
         </div>
         <div className="item">
           <span className="label">Locking period: </span>
-          <span className="value"> Months</span>
+          <span className="value">{Number(data?.duration || 0) / (60 * 60 * 24 * 30)}{" "} Months</span>
         </div>
       </TotalStaker>
     </CardStakingWrapper>
@@ -110,7 +110,7 @@ export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
       <Mask className="left" src={mask} alt="mask" />
       <Mask className="right" src={mask} alt="mask" />
       <Logo src={logo} alt="logo" />
-      <Amount>{Number(stakedData.stakeValue)}$</Amount>
+      <Amount>${Number(stakedData.stakeValue)}</Amount>
       <Percent>
         <Item className="day">
           <div className="percent day">

@@ -3,8 +3,6 @@ import { ArrowIcon } from "@Components/atoms/icon/arrow";
 import { CopyIcon } from "@Components/atoms/icon/copy";
 import { DollarIcon } from "@Components/atoms/icon/dollar";
 import { MemberIcon } from "@Components/atoms/icon/member";
-import { ProfileIcon } from "@Components/atoms/icon/profile";
-import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import {
   CardAffiliate,
   ICardAffiliateProps
@@ -20,6 +18,8 @@ import { useSelector } from "react-redux";
 import { useCopyToClipboard, useMedia } from "react-use";
 import { DataLevel, infoData, listAffiliate } from "./data";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setModal } from "@Redux/actions/modal";
 import {
   AffiliateLink,
   CardGroup,
@@ -48,6 +48,7 @@ export interface DashboardData {
   totalReward: number;
   totalStakeCurrent: number;
   affiliateBonus: number;
+  balance: number;
 }
 
 interface ChildInfo {
@@ -95,6 +96,7 @@ export function Dashboard(props: IDashboardProps) {
   const [dashboardInfo, setDashboardInfo] = useState<DashboardData>();
   const isMobile = useMedia(breakpoints.xs);
   const link = `${window.location.origin}/sign-up?ref=${account.ref}`;
+  const dispatch = useDispatch();
   useEffect(() => {
     if (copyState.noUserInteraction && !copyState.error && copyState.value) {
       toast.success("copy success");
@@ -103,20 +105,13 @@ export function Dashboard(props: IDashboardProps) {
 
   const loadDashboardInfo = async () => {
     const { data } = await userServices.getDashboard();
-
-    console.log(data);
-
-    const {
-      totalChild,
-      totalReward,
-      totalStakeCurrent,
-      affiliateBonus,
-    } = data;
+    const { balance, totalReward, totalStakeCurrent, affiliateBonus } = data;
 
     setDashboardInfo({
       totalStakeCurrent,
       affiliateBonus,
-      totalReward
+      totalReward,
+      balance
     });
   };
 
@@ -156,7 +151,7 @@ export function Dashboard(props: IDashboardProps) {
       {
         id: 1,
         title: "Your Balance",
-        value: account.balance || 0,
+        value: dashboardInfo?.balance || 0,
         icon: ({
           color,
           customStyle
@@ -304,8 +299,6 @@ export function Dashboard(props: IDashboardProps) {
         };
       }
     });
-    console.log(cardLevel);
-
     return cardLevel;
   }, [levelData]);
 
@@ -315,12 +308,25 @@ export function Dashboard(props: IDashboardProps) {
     loadUserSummary();
     loadUserLevel();
   }, []);
+
+  const handleWithdraw = () => {
+    dispatch(setModal({ modal: "withdraw" }));
+  };
+
   return (
     <DashboardWrapper>
       <Title>Dashboard</Title>
       <CardGroup>
         {cardData.map((item, index) => (
-          <Summary data={item} key={`card-item-${index}`} />
+          <Summary
+            data={item}
+            key={`card-item-${index}`}
+            onClick={() => {
+              if (item.id === 1) {
+                handleWithdraw();
+              }
+            }}
+          />
         ))}
       </CardGroup>
       <Title>System</Title>

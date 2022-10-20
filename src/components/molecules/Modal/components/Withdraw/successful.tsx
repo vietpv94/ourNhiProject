@@ -1,10 +1,15 @@
 import * as React from "react";
 import { Flex, Footer, Logo, Title, WithdrawWrapper } from "./style";
 import successful from "@Assets/images/Gif/successful.gif";
+import { IWithdrawRequest } from "@Services/transaction";
 
-export interface IWithdrawSuccessfulProps {}
+export interface IWithdrawSuccessfulProps {
+  widthDrawData: IWithdrawRequest;
+}
 
-export function WithdrawSuccessful(props: IWithdrawSuccessfulProps) {
+export function WithdrawSuccessful({
+  widthDrawData
+}: IWithdrawSuccessfulProps) {
   const address = "DX8079xyayi098093nd8q9xqw309joq";
   return (
     <>
@@ -13,7 +18,7 @@ export function WithdrawSuccessful(props: IWithdrawSuccessfulProps) {
         <Title
           style={{
             fontSize: "14px",
-            marginBottom: "20px",
+            marginBottom: "20px"
           }}
         >
           Withdrawal request successful
@@ -23,15 +28,15 @@ export function WithdrawSuccessful(props: IWithdrawSuccessfulProps) {
           <div
             className="value"
             style={{
-              color: "#53BA95",
+              color: "#53BA95"
             }}
           >
-            $300
+            {`${widthDrawData.currency === 1 ? "$" : "SOL"} ${widthDrawData.amount}`}
           </div>
         </Flex>
         <Flex>
           <div className="label">Wallet address</div>
-          <div className="value">{address.slice(0, 10) + "..."}</div>
+          <div className="value">{widthDrawData.address.slice(0, 10) + "..."}</div>
         </Flex>
       </WithdrawWrapper>{" "}
       <Footer>
@@ -39,7 +44,7 @@ export function WithdrawSuccessful(props: IWithdrawSuccessfulProps) {
         your account upon{" "}
         <span
           style={{
-            color: "#53BA95",
+            color: "#53BA95"
           }}
         >
           success
