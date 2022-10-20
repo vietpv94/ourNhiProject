@@ -6,10 +6,8 @@ export const Form = styled.div`
   background: #ffffff;
   border-radius: 16px;
   padding: 24px 32px;
-  min-width: 440px;
-  @media ${breakpoints.sm} {
-    min-width: 100vw;
-  }
+  width: 440px;
+  max-width: 90vw;
   span {
     font-family: "SF Pro Display";
     font-style: italic;
@@ -172,7 +170,7 @@ export const Select: React.FC<ISelectProps> = ({
   children,
   data,
   selected,
-  handleSelected = () => {}
+  handleSelected = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
