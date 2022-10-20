@@ -29,6 +29,7 @@ import { setModal } from "@Redux/actions/modal";
 import { useEffect, useState } from "react";
 import stakingServices from "@Services/staking";
 import { groupBy } from "lodash";
+import { ICardStakingData } from "@Components/molecules/CardStaking";
 export interface IDeFiProps {
   durations: number[];
 }
@@ -62,10 +63,22 @@ const dataTerm = [
 ];
 export function DeFi(props: IDeFiProps) {
   const [selected, setSelected] = useState<number>(props.durations[0]);
-  const [defiDuration, setDefiDuration] = useState();
+  const [value, setValue] = useState<number>(0);
+  const [defiDuration, setDefiDuration] = useState<any>();
   const dispatch = useDispatch();
   const handleConfirm = () => {
-    dispatch(setModal({ modal: "stake-confirm" }));
+    const pack: ICardStakingData = {
+      value,
+      duration: selected,
+      percentProfitPerMonth: defiDuration?.percentProfitPerMonth || 0,
+      percentProfitPerDay: defiDuration?.percentProfitPerDay || 0,
+      maxProfit: 0,
+      poolMaxStakeValue: 0,
+      buffCurrentStakeValue: 0
+    };
+    dispatch(
+      setModal({ modal: "stake-confirm", data: { selectedPack: pack } })
+    );
   };
 
   const loadDefiDuration = async () => {
@@ -118,7 +131,13 @@ export function DeFi(props: IDeFiProps) {
           <Subscription>
             <span className="label">Subscription amount</span>
             <Input>
-              <input type="number" placeholder="Please enter the amount" />
+              <input
+                type="number"
+                placeholder="Please enter the amount"
+                onChange={(e) => {
+                  setValue(Number(e.target.value));
+                }}
+              />
               <TokenInput>
                 <img src={sol2} alt="token" />
                 <span className="name">SOl</span>

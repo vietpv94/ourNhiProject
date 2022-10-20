@@ -14,7 +14,7 @@ import {
 import { useMemo } from "react";
 import moment from "moment";
 export interface ICardStakingData {
-  id: number;
+  id?: number;
   duration: number;
   value: number;
   percentProfitPerMonth: number;
