@@ -6,6 +6,9 @@ import { breakpoints } from "@Utils/theme";
 import { Header } from "../HeaderHomePage";
 
 import beach from "@Assets/images/login/background.png";
+import plant1 from "@Assets/images/home/plant-1.png";
+import plant2 from "@Assets/images/home/plant-2.png";
+import sun from "@Assets/images/login/sun.png";
 
 const Wrapper = styled.div`
   position: relative;
@@ -81,6 +84,25 @@ const Content = styled.div`
   }
 `;
 
+export const Plant = styled.img`
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  height: 24%;
+  width: auto;
+  &.plant2 {
+    left: auto;
+    right: 0;
+  }
+`;
+
+export const Sun = styled.img`
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 export interface IUserLayoutProps {
   children: React.ReactNode;
   heading: string;
@@ -88,10 +110,13 @@ export interface IUserLayoutProps {
 
 export const UserLayout: React.FC<IUserLayoutProps> = ({
   children,
-  heading
+  heading,
 }) => {
   return (
     <Wrapper id="container">
+      <Plant src={plant1} alt="plant 1" />
+      <Plant src={plant2} alt="plant 2" className="plant2" />
+      <Sun src={sun} alt="sun" />
       <Header />
       <Content>
         <h1>{heading}</h1>

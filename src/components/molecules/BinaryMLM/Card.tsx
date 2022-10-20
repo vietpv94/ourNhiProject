@@ -11,7 +11,7 @@ import {
   Icon,
   Input,
   LeftRight,
-  Level
+  Level,
 } from "./style";
 import solana from "@Assets/images/home/solana.png";
 import { AddIcon } from "@Components/atoms/icon/add";
@@ -94,7 +94,7 @@ export function Card({
   box,
   setIsMoveable,
   addNewBox,
-  onAddChildSucceed
+  onAddChildSucceed,
 }: ICardProps) {
   const updateXarrow = useXarrow();
   const ref = React.useRef(null);
@@ -114,7 +114,7 @@ export function Card({
 
     const { data } = await userServices.setBinaryChild({
       email: chosenOne,
-      type: box.index
+      type: box.index,
     });
     if (data) {
       onAddChildSucceed();
@@ -178,6 +178,7 @@ export function Card({
               </div>
             </Level>
             <Footer>
+              <div className="label">Max Bonus</div>
               <span>${box.data.total}</span>
             </Footer>{" "}
             <Icon>

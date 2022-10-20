@@ -4,20 +4,27 @@ export interface ITickIconProps {
   color?: string;
   status?: "tick" | "cross";
   type?: "circle" | "square";
+  customStyle?: React.SVGProps<SVGSVGElement>;
+  onClick?: () => void;
 }
 
 export function TickIcon({
   color = "#53BA95",
   type = "circle",
   status = "tick",
+  customStyle,
+  onClick,
 }: ITickIconProps) {
   return (
     <svg
+      cursor="pointer"
       width="16"
       height="16"
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...customStyle}
+      onClick={onClick}
     >
       {type === "circle" ? (
         <>
