@@ -27,6 +27,11 @@ const MainSerum = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  & > div{
+    width: 400px;
+    max-width: 100%;
+  }
 `;
 
 export const LIDO_MINT = new PublicKey(
