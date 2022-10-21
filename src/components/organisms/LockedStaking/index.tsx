@@ -66,14 +66,14 @@ export function LockedStaking(props: ILockedStakingProps) {
       </Header>
       <GridWrapper>
         <Grid>
-          {packs.length &&
+          {packs.length ?
             packs.map((pack, index) => (
               <CardStaking
                 onClick={handleStakeNow}
                 data={pack}
                 key={`grid-item-${index}`}
               />
-            ))}
+            )) : null}
         </Grid>
       </GridWrapper>
     </>

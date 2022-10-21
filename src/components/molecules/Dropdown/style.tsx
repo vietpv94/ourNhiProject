@@ -15,7 +15,8 @@ export const Label = styled.div`
 
 export const Main = styled.div`
   position: relative;
-  width: 150px;
+  min-width: 100px;
+  max-width: 150px;
 `;
 
 export const Box = styled.div`
@@ -49,7 +50,10 @@ export const DropdownList = styled.div`
 `;
 
 export const DropdownItem = styled.div`
-  padding: 15px 10px;
+  padding: 10px 10px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 12px;
   cursor: pointer;
   text-transform: capitalize;
   &:hover {
