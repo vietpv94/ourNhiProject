@@ -23,6 +23,7 @@ import { enable2FA } from "@Redux/actions/accounts";
 import React, { useMemo } from "react";
 import { PendingIcon } from "@Components/atoms/icon/pending";
 import { TickIcon } from "@Components/atoms/icon/tick";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export interface IPersonalInformationProps {}
 export interface IKycForm {
@@ -56,15 +57,19 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   const handleToggle = async () => {
     if (!is2FAEnabled) {
       setActive2FA(true);
+      dispatch(loading());
       const { data } = await userServices.getQrCode2fa();
       setQr(data.qrCodeUrl);
       setSecret(data.secret);
+      dispatch(unloading());
     }
   };
   const handleVerify = async () => {
+    dispatch(loading());
     const { data } = await userServices.enable2FA({
       twoFACode: code,
     });
+    dispatch(unloading());
     if (data) {
       setCode("");
       setActive2FA(false);
@@ -88,8 +93,9 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       kycFormData.append("phone", kycForm.phone || "");
       kycFormData.append("imageFront", kycForm.imageFront || "");
       kycFormData.append("imageBack", kycForm.imageBack || "");
-
+      dispatch(loading());
       const { data } = await userServices.sendKyc(kycFormData);
+      dispatch(unloading());
       if (data) {
         setActiveKYC(false);
       }

@@ -4,18 +4,20 @@ import { WalletIcon } from "@Components/atoms/icon/wallet";
 import { Badge } from "@Components/molecules/Badge";
 import { LanguageSelector } from "@Components/molecules/LanguageSelector";
 import { Profile } from "@Components/molecules/Profile.tsx";
+import { loading, unloading } from "@Redux/actions/loading";
 import { userServices } from "@Services/index";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
   useWalletModal,
   WalletDisconnectButton,
-  WalletModalButton
+  WalletModalButton,
 } from "@solana/wallet-adapter-react-ui";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { breakpoints } from "@Utils/theme";
 import { color } from "highcharts";
 import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import { WalletSelector } from "../../../pages/Stake/style";
@@ -28,7 +30,7 @@ import {
   LeftMenu,
   Logo,
   Main,
-  RightMenu
+  RightMenu,
 } from "./style";
 export interface IHeaderProps {}
 
@@ -41,7 +43,7 @@ const dataMenu: IMenuItem[] = [
   {
     id: 1,
     name: "Home",
-    link: "/stake"
+    link: "/stake",
   },
   // {
   //   id: 2,
@@ -56,16 +58,19 @@ const dataMenu: IMenuItem[] = [
   {
     id: 4,
     name: "FAQ",
-    link: "/faq"
-  }
+    link: "/faq",
+  },
 ];
 export function Header(props: IHeaderProps) {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
   const [balance, setBalance] = useState(0);
   const isTablet = useMedia(breakpoints.sm);
+  const dispatch = useDispatch();
   const loadProfile = async () => {
+    dispatch(loading());
     await userServices.getProfile();
+    dispatch(unloading());
   };
   const { visible, setVisible } = useWalletModal();
 
@@ -81,8 +86,10 @@ export function Header(props: IHeaderProps) {
 
   const loadWalletBalance = async () => {
     if (!connection || !publicKey) return;
+    dispatch(loading());
     const balance = await connection.getBalance(publicKey);
     setBalance(balance / LAMPORTS_PER_SOL);
+    dispatch(unloading());
   };
   useEffect(() => {
     loadProfile();
@@ -106,7 +113,7 @@ export function Header(props: IHeaderProps) {
               ))}
             </LeftMenu>
             <RightMenu>
-              <Badge/>
+              <Badge />
               <Profile />
               {connected ? (
                 <WalletDisconnectButton>
@@ -114,14 +121,14 @@ export function Header(props: IHeaderProps) {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      alignItems: "start"
+                      alignItems: "start",
                     }}
                   >
                     <div
                       style={{
                         fontSize: "13px",
                         height: "16px",
-                        color: "#000"
+                        color: "#000",
                       }}
                     >
                       {balance.toFixed(2)} SOL
@@ -129,7 +136,7 @@ export function Header(props: IHeaderProps) {
                     <div
                       style={{
                         fontSize: "11px",
-                        color: "#ccc"
+                        color: "#ccc",
                       }}
                     >
                       {publicKey?.toBase58().slice(0, 6)}...

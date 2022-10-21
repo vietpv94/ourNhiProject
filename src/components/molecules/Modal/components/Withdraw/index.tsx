@@ -11,19 +11,20 @@ import tether from "@Assets/images/tether.png";
 import useOnClickOutside from "../../../../../hooks/useOnClickOutside";
 import React, { useRef } from "react";
 import { useMemo } from "react";
+import { loading, unloading } from "@Redux/actions/loading";
 export interface IWithdrawProps {}
 
 export const ListCurrency = [
   {
     name: "USDT",
     img: tether,
-    id: 1
+    id: 1,
   },
   {
     name: "SOL",
     img: sol,
-    id: 2
-  }
+    id: 2,
+  },
 ];
 
 export function Withdraw(props: IWithdrawProps) {
@@ -34,11 +35,13 @@ export function Withdraw(props: IWithdrawProps) {
   const [amount, setAmount] = useState<number>(0);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const handleConfirm = async () => {
+    dispatch(loading());
     const res = await transactionServices.requestWithdraw({
       address,
       amount,
-      currency
+      currency,
     });
+    dispatch(unloading());
     if (res.data) {
       dispatch(
         setModal({
@@ -46,8 +49,8 @@ export function Withdraw(props: IWithdrawProps) {
           data: {
             address,
             amount,
-            currency
-          }
+            currency,
+          },
         })
       );
     } else {

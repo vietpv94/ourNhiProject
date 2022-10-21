@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { store, persister } from "@Redux/reducers";
 import { PersistGate } from "redux-persist/integration/react";
 import { createRoot } from "react-dom/client";
+import { Loading } from "@Components/molecules/Loading";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -19,6 +20,7 @@ root.render(
       <PersistGate persistor={persister}>
         <HelmetProvider>
           <App />
+          <Loading />
         </HelmetProvider>
       </PersistGate>
     </Provider>

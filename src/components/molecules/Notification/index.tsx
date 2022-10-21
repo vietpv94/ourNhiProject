@@ -1,8 +1,10 @@
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
 import { SMSIcon } from "@Components/atoms/icon/sms";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
+import { loading, unloading } from "@Redux/actions/loading";
 import { notificationServices } from "@Services/index";
 import moment from "moment";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { dataFake } from "./datafake";
 import { Content, Header, Item, List, Wrapper } from "./style";
@@ -28,10 +30,10 @@ export interface INotification {
 export function Notification({
   onClose,
   setSelectedNotify,
-  notificationData
+  notificationData,
 }: INotificationProps) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const getTimeAgo = (time: string) => {
     const timeAgo = moment(time).fromNow();
     return timeAgo;
@@ -46,10 +48,12 @@ export function Notification({
   };
 
   const readNotification = async (id: number) => {
+    dispatch(loading());
     await notificationServices.readNotification({
       type: 1,
-      notifyIds: [id]
+      notifyIds: [id],
     });
+    dispatch(unloading());
   };
 
   return (

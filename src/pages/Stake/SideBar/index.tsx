@@ -16,7 +16,7 @@ import {
   Item,
   Main,
   SideBarHeader,
-  SideBarWrapper
+  SideBarWrapper,
 } from "./style";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { useDispatch } from "react-redux";
@@ -25,10 +25,14 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@Components/atoms/Button";
 import { setModal } from "@Redux/actions/modal";
-import { useWalletModal, WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
+import {
+  useWalletModal,
+  WalletDisconnectButton,
+} from "@solana/wallet-adapter-react-ui";
 import { userServices } from "@Services/index";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export interface ISideBarProps {}
 
@@ -47,7 +51,7 @@ export function SideBar(props: ISideBarProps) {
     if (name === "Withdraw" || name === "Deposit") {
       dispatch(
         setModal({
-          modal: name.toLowerCase()
+          modal: name.toLowerCase(),
         })
       );
     }
@@ -68,7 +72,9 @@ export function SideBar(props: ISideBarProps) {
   });
 
   const loadProfile = async () => {
+    dispatch(loading());
     await userServices.getProfile();
+    dispatch(unloading());
   };
   const { visible, setVisible } = useWalletModal();
 
@@ -84,8 +90,10 @@ export function SideBar(props: ISideBarProps) {
 
   const loadWalletBalance = async () => {
     if (!connection || !publicKey) return;
+    dispatch(loading());
     const balance = await connection.getBalance(publicKey);
     setBalance(balance / LAMPORTS_PER_SOL);
+    dispatch(unloading());
   };
   useEffect(() => {
     loadProfile();
@@ -106,14 +114,14 @@ export function SideBar(props: ISideBarProps) {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "start"
+                  alignItems: "start",
                 }}
               >
                 <div
                   style={{
                     fontSize: "13px",
                     height: "16px",
-                    color: "#000"
+                    color: "#000",
                   }}
                 >
                   {balance.toFixed(2)} SOL
@@ -122,7 +130,7 @@ export function SideBar(props: ISideBarProps) {
                   style={{
                     fontSize: "11px",
                     height: "60px",
-                    color: "#ccc"
+                    color: "#ccc",
                   }}
                 >
                   {publicKey?.toBase58().slice(0, 6)}...
@@ -181,7 +189,7 @@ export function SideBar(props: ISideBarProps) {
       </Main>
       <div
         style={{
-          padding: "20px"
+          padding: "20px",
         }}
       >
         <TokenSelector />

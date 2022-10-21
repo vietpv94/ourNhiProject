@@ -22,6 +22,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { userServices } from "@Services/index";
+import { useDispatch } from "react-redux";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export const Dropdown = styled.ul`
   position: absolute;
@@ -98,6 +100,7 @@ export function Card({
 }: ICardProps) {
   const updateXarrow = useXarrow();
   const ref = React.useRef(null);
+  const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [chosenOne, setChosenOne] = useState<string>();
   const onDrag = () => {
@@ -111,11 +114,12 @@ export function Card({
 
   const confirmAddBinaryChild = async () => {
     if (!chosenOne) return toast.warn("Please select one member to continue");
-
+    dispatch(loading());
     const { data } = await userServices.setBinaryChild({
       email: chosenOne,
       type: box.index,
     });
+    dispatch(unloading());
     if (data) {
       onAddChildSucceed();
     }

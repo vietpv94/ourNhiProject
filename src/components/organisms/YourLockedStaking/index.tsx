@@ -1,9 +1,10 @@
 import logo from "@Assets/images/molecules/card/sol-token.png";
 import {
   YourStakingCard,
-  IYourStakingCardData
+  IYourStakingCardData,
 } from "@Components/molecules/CardStaking";
 import { Duration } from "@Components/molecules/Duration";
+import { loading, unloading } from "@Redux/actions/loading";
 import { setModal } from "@Redux/actions/modal";
 import { stakingServices } from "@Services/index";
 import { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ export interface IYourLockedStakingProps {
 }
 
 export function YourLockedStaking(props: IYourLockedStakingProps) {
-  const [packs, setPacks] = useState<IYourStakingCardData[]>([]); 
+  const [packs, setPacks] = useState<IYourStakingCardData[]>([]);
 
   const dispatch = useDispatch();
 
@@ -26,12 +27,14 @@ export function YourLockedStaking(props: IYourLockedStakingProps) {
   };
 
   const loadPackByDuration = async (isLocked: boolean) => {
+    dispatch(loading());
     const { data } = await stakingServices.getStakingHistory({
       status: 1,
-      type:  isLocked ? 1 : 2
+      type: isLocked ? 1 : 2,
     });
 
     setPacks(data || []);
+    dispatch(unloading());
   };
 
   useEffect(() => {
@@ -42,14 +45,15 @@ export function YourLockedStaking(props: IYourLockedStakingProps) {
     <>
       <GridWrapper>
         <Grid>
-          {packs.length ?
-            packs.map((pack, index) => (
-              <YourStakingCard
-                onClick={handleUnStakeNow}
-                data={pack}
-                key={`grid-item-${index}`}
-              />
-            )) : null}
+          {packs.length
+            ? packs.map((pack, index) => (
+                <YourStakingCard
+                  onClick={handleUnStakeNow}
+                  data={pack}
+                  key={`grid-item-${index}`}
+                />
+              ))
+            : null}
         </Grid>
       </GridWrapper>
     </>
