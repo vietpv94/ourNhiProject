@@ -18,7 +18,7 @@ export function enable2FA() {
   return {
     type: ACCOUNT_ACTION.AUTHEN_ENABLED
   };
-}git 
+}
 export function disable2FA() {
   return {
     type: ACCOUNT_ACTION.AUTHEN_DISABLED
