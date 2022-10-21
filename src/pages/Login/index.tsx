@@ -19,8 +19,8 @@ interface ILoginProps {
 }
 
 export const Login = ({ children }: ILoginProps) => {
-  const [userName, setUserName] = useState("vietpv94@gmail.com");
-  const [password, setPassword] = useState("10041994");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [code, setCode] = useState("");

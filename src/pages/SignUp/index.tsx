@@ -43,8 +43,8 @@ export const validateEmail = (email: string) => {
 export const SignUp = () => {
   const [step, setStep] = useState(1);
   const [check, setCheck] = useState(false); // checkbox
-  const [email, setEmail] = useState("vietpv94@gmail.com");
-  const [password, setPassword] = useState("10041994");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [code, setCode] = useState("");
   const [ref, setRef] = useState("");

@@ -257,7 +257,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
             />
           )}
         </Title>
-        {activeKYC && kycStatus !== 0 && kycStatus !== 3 && (
+        {activeKYC && (kycStatus === 0 || kycStatus === 3) && (
           <>
             <ReviewTime>
               <ClockIcon />
