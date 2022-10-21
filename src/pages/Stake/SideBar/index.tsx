@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
 import { WalletIcon } from "@Components/atoms/icon/wallet";
 import { Badge } from "@Components/molecules/Badge";
@@ -16,7 +16,7 @@ import {
   Item,
   Main,
   SideBarHeader,
-  SideBarWrapper,
+  SideBarWrapper
 } from "./style";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { useDispatch } from "react-redux";
@@ -25,6 +25,10 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@Components/atoms/Button";
 import { setModal } from "@Redux/actions/modal";
+import { useWalletModal, WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
+import { userServices } from "@Services/index";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export interface ISideBarProps {}
 
@@ -32,15 +36,18 @@ export function SideBar(props: ISideBarProps) {
   const ref = useRef(null);
   const dispatch = useDispatch();
   const pathname = useLocation().pathname;
-  const [isLogin, setIsLogin] = React.useState(false);
   const [activeChild, setActiveChild] = React.useState([dataSideBar[0].name]);
   const navigate = useNavigate();
+  const { connected, publicKey } = useWallet();
+  const { connection } = useConnection();
+  const [balance, setBalance] = useState(0);
+  const isTablet = useMedia(breakpoints.sm);
   const handleActiveChild = (name: string, link: string) => {
     navigate(link);
     if (name === "Withdraw" || name === "Deposit") {
       dispatch(
         setModal({
-          modal: name.toLowerCase(),
+          modal: name.toLowerCase()
         })
       );
     }
@@ -59,6 +66,30 @@ export function SideBar(props: ISideBarProps) {
       dispatch(openSideBar(false));
     }
   });
+
+  const loadProfile = async () => {
+    await userServices.getProfile();
+  };
+  const { visible, setVisible } = useWalletModal();
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!event.defaultPrevented) setVisible(!visible);
+    },
+    [setVisible, visible]
+  );
+  useEffect(() => {
+    loadWalletBalance();
+  }, [connected]);
+
+  const loadWalletBalance = async () => {
+    if (!connection || !publicKey) return;
+    const balance = await connection.getBalance(publicKey);
+    setBalance(balance / LAMPORTS_PER_SOL);
+  };
+  useEffect(() => {
+    loadProfile();
+  }, []);
   const isOpenSidebar = useSelector((state: any) => state.home.isOpenSidebar);
   return (
     <SideBarWrapper
@@ -67,19 +98,43 @@ export function SideBar(props: ISideBarProps) {
     >
       {isMobile && (
         <SideBarHeader>
-          {isLogin ? (
-            <Profile />
+          <Profile />
+
+          {connected ? (
+            <WalletDisconnectButton>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start"
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "13px",
+                    height: "16px",
+                    color: "#000"
+                  }}
+                >
+                  {balance.toFixed(2)} SOL
+                </div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    height: "60px",
+                    color: "#ccc"
+                  }}
+                >
+                  {publicKey?.toBase58().slice(0, 6)}...
+                  {publicKey?.toBase58().slice(-4)}
+                </div>
+              </div>
+            </WalletDisconnectButton>
           ) : (
-            <Button
-              customStyle={"height: 40px;"}
-              onClick={() => setIsLogin(true)}
-              type="blue"
-              text="Connect"
-            />
+            <WalletSelector onClick={handleClick}>
+              <WalletIcon color="#00a3ff" />
+            </WalletSelector>
           )}
-          <WalletSelector>
-            <WalletIcon color="#00a3ff" />
-          </WalletSelector>
           <LanguageSelector />
         </SideBarHeader>
       )}
@@ -126,7 +181,7 @@ export function SideBar(props: ISideBarProps) {
       </Main>
       <div
         style={{
-          padding: "20px",
+          padding: "20px"
         }}
       >
         <TokenSelector />

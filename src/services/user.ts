@@ -16,8 +16,6 @@ import { GetChildFilter } from "@Types/common";
 const getProfile = async () => {
   try {
     const { data } = await service.get("user/me");
-    console.log(data);
-
     return handleResponse(data);
   } catch (err) {
     console.log(err);

@@ -17,13 +17,13 @@ export const ListCurrency = [
   {
     name: "USDT",
     img: tether,
-    id: 1,
+    id: 1
   },
   {
     name: "SOL",
     img: sol,
-    id: 2,
-  },
+    id: 2
+  }
 ];
 
 export function Withdraw(props: IWithdrawProps) {
@@ -34,37 +34,37 @@ export function Withdraw(props: IWithdrawProps) {
   const [amount, setAmount] = useState<number>(0);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const handleConfirm = async () => {
-    const { data, errorMsg } = await transactionServices.requestWithdraw({
+    const res = await transactionServices.requestWithdraw({
       address,
       amount,
-      currency,
+      currency
     });
-    if (data) {
+    if (res.data) {
       dispatch(
         setModal({
           modal: "withdraw-successful",
           data: {
             address,
             amount,
-            currency,
-          },
+            currency
+          }
         })
       );
     } else {
-      return toast.error(errorMsg);
+      return toast.error(res.message);
     }
   };
 
   const handleSelectCurrency = (id: number) => {
     setCurrency(id);
     setDropdown(false);
-  }
+  };
 
   useOnClickOutside(dropdownRef, () => setDropdown(false));
 
-  const findCurrency = useMemo(() =>{
+  const findCurrency = useMemo(() => {
     return ListCurrency.find((item) => item.id === currency);
-  }, [currency])
+  }, [currency]);
 
   return (
     <WithdrawWrapper>

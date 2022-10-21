@@ -31,6 +31,13 @@ class CommonService {
     return httpClient.post(`/${endpoint}`, data);
   }
 
+  static put<D, R>(
+    endpoint: string,
+    data?: D
+  ): Promise<AxiosResponse<IResponse<R>>> {
+    return httpClient.put(`/${endpoint}`, data);
+  }
+
   static update<D, R>(
     endpoint: string,
     data: D

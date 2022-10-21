@@ -3,6 +3,7 @@ import { ArrowIcon } from "@Components/atoms/icon/arrow";
 import { CopyIcon } from "@Components/atoms/icon/copy";
 import { DollarIcon } from "@Components/atoms/icon/dollar";
 import { MemberIcon } from "@Components/atoms/icon/member";
+import currency from "currency.js";
 import {
   CardAffiliate,
   ICardAffiliateProps
@@ -151,7 +152,10 @@ export function Dashboard(props: IDashboardProps) {
       {
         id: 1,
         title: "Your Balance",
-        value: dashboardInfo?.balance || 0,
+        value: currency(dashboardInfo?.balance, {
+          symbol: "$",
+          precision: 2
+        }).format(),
         icon: ({
           color,
           customStyle
@@ -163,7 +167,10 @@ export function Dashboard(props: IDashboardProps) {
       {
         id: 2,
         title: "Staking Amount",
-        value: dashboardInfo?.totalStakeCurrent || 0,
+        value: currency(dashboardInfo?.totalStakeCurrent, {
+          symbol: "$",
+          precision: 2
+        }).format(),
         icon: ({
           color,
           customStyle
@@ -175,7 +182,10 @@ export function Dashboard(props: IDashboardProps) {
       {
         id: 3,
         title: "Staking Reward",
-        value: dashboardInfo?.totalReward || 0,
+        value: currency(dashboardInfo?.totalReward, {
+          symbol: "$",
+          precision: 2
+        }).format(),
         icon: ({
           color,
           customStyle
@@ -187,7 +197,10 @@ export function Dashboard(props: IDashboardProps) {
       {
         id: 4,
         title: "Affiliate Bonus",
-        value: dashboardInfo?.affiliateBonus || 0,
+        value: currency(dashboardInfo?.affiliateBonus || 0, {
+          symbol: "$",
+          precision: 2
+        }).format(),
         icon: ({
           color,
           customStyle

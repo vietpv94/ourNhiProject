@@ -93,7 +93,7 @@ export function Header(props: IHeaderProps) {
         <Logo src={logo} alt="logo" />
         {isTablet ? (
           <Flex>
-            <Badge num={10} />
+            <Badge />
             <Hamburger />
           </Flex>
         ) : (
@@ -106,7 +106,7 @@ export function Header(props: IHeaderProps) {
               ))}
             </LeftMenu>
             <RightMenu>
-              <Badge num={10} />
+              <Badge/>
               <Profile />
               {connected ? (
                 <WalletDisconnectButton>
@@ -120,7 +120,7 @@ export function Header(props: IHeaderProps) {
                     <div
                       style={{
                         fontSize: "13px",
-                        height: "13px",
+                        height: "16px",
                         color: "#000"
                       }}
                     >

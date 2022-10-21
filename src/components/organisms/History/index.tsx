@@ -20,9 +20,10 @@ import {
   Top
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { stakingServices, transactionServices } from "@Services/index";
 import moment from "moment";
+import { CommonFilter } from "@Types/common";
 export interface IHistoryProps {}
 
 interface IStakingHistory {
@@ -47,47 +48,6 @@ interface ITransactionData {
   currency: number;
   createdAt: string;
 }
-const renderData = (data: IStakingHistory[]) => {
-  return data.map((item: IStakingHistory, index: number) => {
-    const dateOfRegistration = moment.unix(item.startTime || moment().unix());
-    return {
-      id: item.id,
-      package: (
-        <div className="package">${Number(item.stakeValue).toFixed(2)}</div>
-      ),
-      token: (
-        <div className="token">
-          <img src={sol} alt="sol" />
-          <span>{item.token || "SOL"}</span>
-        </div>
-      ),
-      dateOfRegistration: (
-        <div className="dateOfRegistration">
-          {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
-        </div>
-      )
-    };
-  });
-};
-
-const renderDataPayout = (data: DataPayout[]) => {
-  return data.map((item: DataPayout, index: number) => {
-    return {
-      id: item.id,
-      profit: (
-        <div className="profit">
-          {item.value > 0 ? (
-            <span style={{ color: "#53BA95" }}>+${item.value}</span>
-          ) : (
-            <span style={{ color: "#ff476a" }}>${item.value}</span>
-          )}
-        </div>
-      ),
-      package: <div className="package">${item.stakingValue}</div>,
-      time: <div className="time">{item.createdAt}</div>
-    };
-  });
-};
 
 const convertStatus = (status: number): string => {
   switch (status) {
@@ -102,32 +62,11 @@ const convertStatus = (status: number): string => {
       return "failed";
   }
 };
-const renderDataTransaction = (data: ITransactionData[]) => {
-  return data.map((item: ITransactionData, index: number) => {
-    return {
-      id: item.id,
-      value: (
-        <div className="value">
-          {item.amount > 0 ? (
-            <span style={{ color: "#53BA95" }}>{`+ ${item.currency === 1? '$': 'SOL'}${item.amount}`}</span>
-          ) : (
-            <span style={{ color: "#ff476a" }}>{`- ${item.currency === 1? '$': 'SOL'}${item.amount}`}</span>
-          )}
-        </div>
-      ),
-      walletAddress: (
-        <div className="walletAddress">
-          {item.to.slice(0, 6)}...{item.to.slice(-4)}
-        </div>
-      ),
-      status: <div className={`status ${convertStatus(item.status)}`}>{convertStatus(item.status)}</div>,
-      time: <div className="time">{moment(item.createdAt).format("YYYY-MM-DD HH:mm")}</div>
-    };
-  });
-};
+
 export function History(props: IHistoryProps) {
   const tabs = ["staking", "payout", "transactions"];
   const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [totalRow, setTotalRow] = useState<number>(0);
   const [stakingHistory, setStakingHistory] = useState<IStakingHistory[]>([]);
   const [payoutData, setPayoutData] = useState<DataPayout[]>([]);
   const [transactionData, setTransactionData] = useState<ITransactionData[]>(
@@ -142,30 +81,119 @@ export function History(props: IHistoryProps) {
     "status",
     "time"
   ];
+  const renderData = useMemo(() => {
+    if (!stakingHistory?.length) return [];
+    return stakingHistory.map((item: IStakingHistory, index: number) => {
+      const dateOfRegistration = moment.unix(item.startTime || moment().unix());
+      return {
+        id: item.id,
+        package: (
+          <div className="package">${Number(item.stakeValue).toFixed(2)}</div>
+        ),
+        token: (
+          <div className="token">
+            <img src={sol} alt="sol" />
+            <span>{item.token || "SOL"}</span>
+          </div>
+        ),
+        dateOfRegistration: (
+          <div className="dateOfRegistration">
+            {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
+          </div>
+        )
+      };
+    });
+  }, [stakingHistory]);
+
+  const renderDataTransaction = useMemo(() => {
+    if (!transactionData?.length) return [];
+    return transactionData.map((item: ITransactionData, index: number) => {
+      return {
+        id: item.id,
+        value: (
+          <div className="value">
+            {item.amount > 0 ? (
+              <span style={{ color: "#53BA95" }}>{`+ ${
+                item.currency === 1 ? "$" : "SOL"
+              }${item.amount}`}</span>
+            ) : (
+              <span style={{ color: "#ff476a" }}>{`- ${
+                item.currency === 1 ? "$" : "SOL"
+              }${item.amount}`}</span>
+            )}
+          </div>
+        ),
+        walletAddress: (
+          <div className="walletAddress">
+            {item.to.slice(0, 6)}...{item.to.slice(-4)}
+          </div>
+        ),
+        status: (
+          <div className={`status ${convertStatus(item.status)}`}>
+            {convertStatus(item.status)}
+          </div>
+        ),
+        time: (
+          <div className="time">
+            {moment(item.createdAt).format("YYYY-MM-DD HH:mm")}
+          </div>
+        )
+      };
+    });
+  }, [transactionData]);
+
+  const renderDataPayout = useMemo(() => {
+    if (!payoutData?.length) return [];
+    return payoutData.map((item: DataPayout, index: number) => {
+      return {
+        id: item.id,
+        profit: (
+          <div className="profit">
+            {item.value > 0 ? (
+              <span style={{ color: "#53BA95" }}>+${item.value}</span>
+            ) : (
+              <span style={{ color: "#ff476a" }}>${item.value}</span>
+            )}
+          </div>
+        ),
+        package: <div className="package">${item.stakingValue}</div>,
+        time: <div className="time">{item.createdAt}</div>
+      };
+    });
+  }, [payoutData]);
 
   useEffect(() => {
-    loadStakingHistory();
-    loadPayoutData();
-    loadTransaction();
-  }, []);
+    if (currentTab === "staking") loadStakingHistory();
+    if (currentTab === "payout") loadPayoutData();
+    if (currentTab === "transactions") loadTransaction();
+  }, [currentTab]);
 
-  const loadStakingHistory = async () => {
-    const { data } = await stakingServices.getStakingHistory();
+  const loadStakingHistory = async (param?: CommonFilter) => {
+    const { data, totalRow } = await stakingServices.getStakingHistory(param);
+    setTotalRow(totalRow);
     setStakingHistory(data);
   };
-  const loadPayoutData = async () => {
-    const { data } = await stakingServices.getStakingPayout();
-    console.log(data);
+  const loadPayoutData = async (param?: CommonFilter) => {
+    const { data, totalRow } = await stakingServices.getStakingPayout(param);
 
+    setTotalRow(totalRow);
     setPayoutData(data);
   };
 
-  const loadTransaction = async () => {
-    const { data } = await transactionServices.getTransactions();
-    console.log(data);
-
+  const loadTransaction = async (param?: CommonFilter) => {
+    const { data, totalRow } = await transactionServices.getTransactions(param);
+    setTotalRow(totalRow);
     setTransactionData(data);
   };
+
+  const handleChangePage = useCallback(
+    async (page: number) => {
+      if (currentTab === "staking") await loadStakingHistory({ page: page });
+      if (currentTab === "payout") await loadPayoutData({ page: page });
+      if (currentTab === "transactions") await loadTransaction({ page: page });
+    },
+    [currentTab]
+  );
   return (
     <HistoryWrapper>
       <Title>History</Title>
@@ -183,19 +211,31 @@ export function History(props: IHistoryProps) {
       </Top>
       {currentTab === "staking" && (
         <Box>
-          <Table header={headerStaking} data={renderData(stakingHistory)} />
+          <Table
+            header={headerStaking}
+            data={renderData}
+            total={totalRow}
+            onMovePage={handleChangePage}
+          />
         </Box>
       )}
       {currentTab === "payout" && (
         <BoxPayout>
-          <Table header={headerPayout} data={renderDataPayout(payoutData)} />
+          <Table
+            header={headerPayout}
+            data={renderDataPayout}
+            total={totalRow}
+            onMovePage={handleChangePage}
+          />
         </BoxPayout>
       )}
       {currentTab === "transactions" && (
         <BoxTransaction>
           <Table
             header={headerTransactions}
-            data={renderDataTransaction(transactionData)}
+            data={renderDataTransaction}
+            total={totalRow}
+            onMovePage={handleChangePage}
           />
         </BoxTransaction>
       )}

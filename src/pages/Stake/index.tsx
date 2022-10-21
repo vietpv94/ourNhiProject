@@ -15,7 +15,6 @@ import { UnstackedSuccessful } from "@Components/molecules/Modal/components/Unst
 import { Withdraw } from "@Components/molecules/Modal/components/Withdraw";
 import { WithdrawSuccessful } from "@Components/molecules/Modal/components/Withdraw/successful";
 import { Deposit } from "@Components/molecules/Modal/components/Deposit";
-import { WalletContext } from "./WalletContext";
 
 export interface IStakeProps {}
 
@@ -23,7 +22,7 @@ export function Stake(props: IStakeProps) {
   const { modal, data } = useSelector((state: RootState) => state.modal);
   const isMobile = useMedia(breakpoints.sm);
   return (
-    <WalletContext>
+    <>
       <StakeWrapper>
         <Header />
         {isMobile && <SideBar />}
@@ -64,6 +63,6 @@ export function Stake(props: IStakeProps) {
         withModal(() => {
           return <Deposit />;
         })}
-    </WalletContext>
+    </>
   );
 }

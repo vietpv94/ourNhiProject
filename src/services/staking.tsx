@@ -89,9 +89,9 @@ const doHarvest = async (id: number) => {
   }
 };
 
-const getStakingPayout = async () => {
+const getStakingPayout = async (filter?: CommonFilter) => {
   try {
-    const { data } = await service.get(`staking/profit`);
+    const { data } = await service.get(`staking/profit`, filter);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while get Staking Payout");

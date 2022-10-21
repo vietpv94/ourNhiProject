@@ -27,7 +27,7 @@ export const Input = ({
         <InputWrapper>
           <label>{label}</label>
           <div className="input">
-            <input type={type} {...props} onChange={onChange} value={value} />
+            <input type={type} {...props} onChange={onChange} defaultValue={value} />
             {icon}
           </div>{" "}
           {children}

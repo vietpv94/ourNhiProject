@@ -27,14 +27,20 @@ import { PersonalInformation } from "@Pages/Profile/Information";
 import { FAQ } from "@Pages/FAQ";
 import { Notification } from "@Pages/Notification";
 import { ForgotPassword } from "@Pages/ForgotPassword";
+import { WalletContext } from "./WalletContext";
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
-  return isLoggedIn ? <Component /> : <Navigate to="/login" />;
+  return isLoggedIn ? (
+    <WalletContext>
+      <Component />
+    </WalletContext>
+  ) : (
+    <Navigate to="/login" />
+  );
 }
-
 
 const App: FC = () => {
   const { i18n } = useTranslation();

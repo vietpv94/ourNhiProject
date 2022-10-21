@@ -153,7 +153,6 @@ export function PersonalInformation(props: IPersonalInformationProps) {
           placeholder={!changePass ? "********" : "Input current password"}
           disabled={!changePass}
           onChange={(e) => setPassword(e.target.value)}
-          value={password}
           icon={
             <EditIcon
               onClick={() =>
@@ -249,8 +248,6 @@ export function PersonalInformation(props: IPersonalInformationProps) {
             KYC
             {renderKycStatus}
           </span>
-          {kycStatus === 1 && "pending"}
-          {kycStatus === 2 && "approved"}
           {(kycStatus === 0 || kycStatus === 3) && (
             <ArrowIcon
               color="#00A3FF"

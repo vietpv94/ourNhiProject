@@ -13,7 +13,7 @@ import {
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper,
+  Wrapper
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { BinaryMLM } from "@Components/molecules/BinaryMLM";
@@ -22,6 +22,7 @@ import { useEffect, useMemo, useState } from "react";
 import commissionServices from "@Services/commission";
 import { IBox } from "@Components/molecules/BinaryMLM/Card";
 import { WalletMoney } from "@Components/atoms/icon/walletMoney";
+import { CommonFilter } from "@Types/common";
 
 export interface IAffiliateProps {}
 
@@ -53,46 +54,21 @@ const dataSortBy = {
   data: [
     {
       id: 1,
-      name: "All",
+      name: "All"
     },
     {
       id: 2,
-      name: "Latest",
+      name: "Latest"
     },
     {
       id: 3,
-      name: "Oldest",
+      name: "Oldest"
     },
     {
       id: 4,
-      name: "Highest",
-    },
-  ],
-};
-
-const renderDataRewardHistory = (data: DataRewardHistory[]) => {
-  return data.map((item: DataRewardHistory, index: number) => {
-    const profitFrom =
-      item.type === 1
-        ? "Sun Affiliate"
-        : item.type === 2
-        ? "Binary Affiliate"
-        : "Staking Profit";
-    return {
-      id: `#${item.id + 1}`,
-      profitFrom: <div className="balanceProfit">{profitFrom}</div>,
-      balanceProfit: (
-        <div className="balanceProfit">${item.commissionValue}</div>
-      ),
-      token: (
-        <div className="token">
-          <img src={sol} alt="sol" />
-          <span>{"SOL"}</span>
-        </div>
-      ),
-      time: <div className="time">{item.createdAt}</div>,
-    };
-  });
+      name: "Highest"
+    }
+  ]
 };
 
 interface BinaryDashboardData {
@@ -105,6 +81,7 @@ interface BinaryDashboardData {
 
 export function Affiliate(props: IAffiliateProps) {
   const [dashboardInfo, setDashboardInfo] = useState<BinaryDashboardData>();
+  const [totalRow, setTotalRow] = useState<number>(0);
   const [commissionHistory, setCommissionHistory] = useState<
     DataRewardHistory[]
   >([]);
@@ -119,7 +96,7 @@ export function Affiliate(props: IAffiliateProps) {
       profitLastMonth,
       level,
       childThisMonth,
-      childLastMonth,
+      childLastMonth
     } = data;
 
     setDashboardInfo({
@@ -133,13 +110,16 @@ export function Affiliate(props: IAffiliateProps) {
       percentProfitChange:
         profitThisMonth === 0 || profitThisMonth === 0
           ? 0
-          : profitThisMonth / profitLastMonth,
+          : profitThisMonth / profitLastMonth
     });
   };
 
-  const loadCommissionHistory = async () => {
-    const { data } = await commissionServices.getCommissionHistory();
+  const loadCommissionHistory = async (param?: CommonFilter) => {
+    const { data, totalRow } = await commissionServices.getCommissionHistory(
+      param
+    );
     setCommissionHistory(data);
+    setTotalRow(totalRow);
   };
 
   const convertBinaryChildToBoxData = (data, position): IBox => {
@@ -157,16 +137,16 @@ export function Affiliate(props: IAffiliateProps) {
         title: data.email,
         left: {
           sum: data.leftChildData?.sum || 0,
-          num: data.leftChildData?.num || 0,
+          num: data.leftChildData?.num || 0
         },
         right: {
           sum: data.rightChildData?.sum || 0,
-          num: data.rightChildData?.num || 0,
+          num: data.rightChildData?.num || 0
         },
         level: data.level,
         packageValue: data.packageValue,
-        total: data.bonusQuota,
-      },
+        total: data.bonusQuota
+      }
     };
   };
 
@@ -203,17 +183,46 @@ export function Affiliate(props: IAffiliateProps) {
 
   const loadBinaryTreeUser = async () => {
     const boxes = await getAllBoxes([], { x: 600, y: 50, level: 0 });
-    console.log(boxes);
-
     setBinaryBox(boxes || []);
   };
 
+  const commissionHistoryHeader = [
+    "ID",
+    "Profit From",
+    "Amount",
+    "Token",
+    "time"
+  ];
+
   const dataTable = useMemo(() => {
-    return {
-      header: ["ID", "Profit From", "Amount", "Token", "time"],
-      data: renderDataRewardHistory(commissionHistory),
-    };
+    if (!commissionHistory?.length) return [];
+    return commissionHistory.map((item: DataRewardHistory, index: number) => {
+      const profitFrom =
+        item.type === 1
+          ? "Sun Affiliate"
+          : item.type === 2
+          ? "Binary Affiliate"
+          : "Staking Profit";
+      return {
+        id: `#${item.id + 1}`,
+        profitFrom: <div className="balanceProfit">{profitFrom}</div>,
+        balanceProfit: (
+          <div className="balanceProfit">${item.commissionValue}</div>
+        ),
+        token: (
+          <div className="token">
+            <img src={sol} alt="sol" />
+            <span>{"SOL"}</span>
+          </div>
+        ),
+        time: <div className="time">{item.createdAt}</div>
+      };
+    });
   }, [commissionHistory]);
+
+  const handleChangePage = async (page: number) => {
+    await loadCommissionHistory({ page: page });
+  };
 
   const cardData: DataSummary[] = useMemo(() => {
     return [
@@ -224,11 +233,11 @@ export function Affiliate(props: IAffiliateProps) {
         percent: dashboardInfo?.newMemberJoinRate,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <MemberIcon color={color} customStyle={customStyle} />,
+        }) => <MemberIcon color={color} customStyle={customStyle} />
       },
       {
         id: 2,
@@ -237,11 +246,11 @@ export function Affiliate(props: IAffiliateProps) {
         percent: dashboardInfo?.percentProfitChange,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <DollarIcon color={color} customStyle={customStyle} />,
+        }) => <DollarIcon color={color} customStyle={customStyle} />
       },
       {
         id: 3,
@@ -249,12 +258,12 @@ export function Affiliate(props: IAffiliateProps) {
         value: dashboardInfo?.totalTransaction || 0,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <WalletMoney color={color} customStyle={customStyle} />,
-      },
+        }) => <WalletMoney color={color} customStyle={customStyle} />
+      }
     ];
   }, [dashboardInfo]);
 
@@ -290,7 +299,12 @@ export function Affiliate(props: IAffiliateProps) {
           </div>
         </div>
         <BoxHistory>
-          <Table {...dataTable} />
+          <Table
+            header={commissionHistoryHeader}
+            data={dataTable}
+            total={totalRow}
+            onMovePage={handleChangePage}
+          />
         </BoxHistory>
       </RewardHistory>
     </Wrapper>

@@ -1,5 +1,5 @@
 import { MemberIcon } from "@Components/atoms/icon/member";
-import * as React from "react";
+import currency from "currency.js";
 import { CardAffiliateWrapper, Header, Amount } from "./style";
 
 export interface ICardAffiliateProps {
@@ -13,7 +13,7 @@ export function CardAffiliate({
   status,
   depth,
   childNum,
-  totalRevenue,
+  totalRevenue
 }: ICardAffiliateProps) {
   return (
     <CardAffiliateWrapper status={status}>
@@ -34,7 +34,12 @@ export function CardAffiliate({
         </div>
       </Header>
       <Amount status={status}>
-        <span>${totalRevenue}</span>
+        <span>
+          {currency(totalRevenue, {
+            symbol: "$",
+            precision: 0
+          }).format()}
+        </span>
       </Amount>
     </CardAffiliateWrapper>
   );

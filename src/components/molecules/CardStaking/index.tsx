@@ -13,6 +13,7 @@ import {
 } from "./style";
 import { useMemo } from "react";
 import moment from "moment";
+import currency from "currency.js";
 export interface ICardStakingData {
   id?: number;
   duration: number;
@@ -52,7 +53,12 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       <Mask className="left" src={mask} alt="mask" />
       <Mask className="right" src={mask} alt="mask" />
       <Logo src={logo} alt="logo" />
-      <Amount>${Number(data.value)}</Amount>
+      <Amount>
+        {currency(data.value, {
+          symbol: "$",
+          precision: 0
+        }).format()}
+      </Amount>
       <Percent>
         <Item className="day">
           <div className="percent day">
@@ -81,11 +87,18 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       <TotalStaker>
         <div className="item">
           <span className="label">Total Staked: </span>
-          <span className="value">${data.buffCurrentStakeValue}</span>
+          <span className="value">
+            {currency(data.buffCurrentStakeValue || 0, {
+              symbol: "$",
+              precision: 0
+            }).format()}
+          </span>
         </div>
         <div className="item">
           <span className="label">Locking period: </span>
-          <span className="value">{Number(data?.duration || 0) / (60 * 60 * 24 * 30)}{" "} Months</span>
+          <span className="value">
+            {Number(data?.duration || 0) / (60 * 60 * 24 * 30)} Months
+          </span>
         </div>
       </TotalStaker>
     </CardStakingWrapper>
@@ -95,7 +108,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
 export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
   const stakedData = useMemo(() => {
     const startTime = moment.unix(data?.startTime || moment().unix());
-    const endTime = moment.unix(data?.endTime)
+    const endTime = moment.unix(data?.endTime);
 
     const isAllowUnstake = endTime.isBefore(moment.now());
 
@@ -110,7 +123,12 @@ export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
       <Mask className="left" src={mask} alt="mask" />
       <Mask className="right" src={mask} alt="mask" />
       <Logo src={logo} alt="logo" />
-      <Amount>${Number(stakedData.stakeValue)}</Amount>
+      <Amount>
+        {currency(stakedData.stakeValue, {
+          symbol: "$",
+          precision: 0
+        }).format()}
+      </Amount>
       <Percent>
         <Item className="day">
           <div className="percent day">

@@ -23,10 +23,12 @@ import {
   NotificationDetail,
   Tabs,
   Top,
-  Wrapper,
+  Wrapper
 } from "./style";
 import { useMedia } from "react-use";
 import { breakpoints } from "@Utils/theme";
+import { notificationServices } from "@Services/index";
+import { useEffect, useMemo, useState } from "react";
 
 export interface INotificationProps {}
 export interface DataSidebar {
@@ -35,40 +37,14 @@ export interface DataSidebar {
   icon: (color: string) => JSX.Element;
   unread: number;
 }
-const dataSidebar: DataSidebar[] = [
-  {
-    id: 1,
-    name: "All",
-    icon: (color: string) => <DocumentIcon color={color} />,
-    unread: 10,
-  },
-  {
-    id: 2,
-    name: "activities",
-    icon: (color: string) => <PresentIcon color={color} />,
-    unread: 0,
-  },
-  {
-    id: 3,
-    name: "Trade Notification",
-    icon: (color: string) => <TradeIcon color={color} />,
-    unread: 3,
-  },
-  {
-    id: 4,
-    name: "Lido News",
-    icon: (color: string) => <BookIcon color={color} />,
-    unread: 4,
-  },
-  {
-    id: 5,
-    name: "System Messages",
-    icon: (color: string) => <MessageIcon color={color} />,
-    unread: 3,
-  },
-];
 
 export function Notification(props: INotificationProps) {
+  const [notificationData, setNotificationData] = useState<INotification[]>([]);
+  const [unreadNoti, setUnreadNoti] = useState<number>(0);
+  const [newsData, setNewsData] = useState<INotification[]>([]);
+  const [unreadNotiNews, setUnreadNotiNews] = useState<number>(0);
+  const [systemNotiData, setSystemNotiData] = useState<INotification[]>([]);
+  const [unreadNotiSystem, setUnreadNotiSystem] = useState<number>(0);
   const [selectedSidebar, setSelectedSidebar] = React.useState(1);
   const [selectedNotify, setSelectedNotify] =
     React.useState<INotification | null>(null);
@@ -84,6 +60,65 @@ export function Notification(props: INotificationProps) {
   useOnClickOutside(refDetail, () => {
     setSelectedNotify(null);
   });
+
+  const loadNotifications = async () => {
+    const [allNoti, newsNoti, systemNoti] = await Promise.all([
+      notificationServices.getNotifications(),
+      notificationServices.getNotifications({ notifyResourceType: "news" }),
+      notificationServices.getNotifications({ notifyResourceType: "system" })
+    ]);
+    setNotificationData(allNoti.data.notifications || []);
+    setUnreadNoti(allNoti.data.unreadNoti || 0);
+    setNewsData(newsNoti.data.notifications || []);
+    setUnreadNotiNews(newsNoti.data.unreadNoti || 0);
+    setSystemNotiData(systemNoti.data.notifications || []);
+    setUnreadNotiSystem(systemNoti.data.unreadNoti || 0);
+  };
+
+  const dataSidebar = useMemo(() => {
+    return [
+      {
+        id: 1,
+        name: "All",
+        icon: (color: string) => <DocumentIcon color={color} />,
+        unread: unreadNoti
+      },
+      {
+        id: 2,
+        name: "Lido News",
+        icon: (color: string) => <BookIcon color={color} />,
+        unread: unreadNotiNews
+      },
+      {
+        id: 3,
+        name: "System Messages",
+        icon: (color: string) => <MessageIcon color={color} />,
+        unread: unreadNotiSystem
+      }
+    ];
+  }, [notificationData, newsData, systemNotiData]);
+
+  const notificationList = useMemo(() => {
+    console.log(selectedSidebar);
+
+    if (selectedSidebar === 2) {
+      return newsData;
+    }
+
+    if (selectedSidebar === 3) {
+      return systemNotiData;
+    }
+    return notificationData;
+  }, [selectedSidebar, notificationData, newsData, systemNotiData]);
+
+  const readAll = async () => {
+    await notificationServices.readNotification({ type: 1 });
+  };
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
   return (
     <>
       <Wrapper>
@@ -99,7 +134,9 @@ export function Notification(props: INotificationProps) {
           <Main>
             <Top>
               <div className="title">Notifications</div>
-              <div className="read-all">Read All</div>
+              <div className="read-all" onClick={readAll}>
+                Read All
+              </div>
             </Top>
             {isMobile && (
               <Tabs>
@@ -112,15 +149,15 @@ export function Notification(props: INotificationProps) {
             )}
 
             <List>
-              {dataFake.map((item) => (
+              {notificationList.map((item) => (
                 <Item key={item.id} onClick={() => handleClickItem(item)}>
                   <div className="icon">
-                    <SMSIcon type={item.type === "read" ? "read" : "unread"} />
+                    <SMSIcon type={item.isRead ? "read" : "unread"} />
                   </div>
                   <Content>
                     <div className="title">{item.title}</div>
-                    <div className="description">{item.description}</div>
-                    <div className="time">{getTimeAgo(item.time)}</div>
+                    <div className="description">{item.content}</div>
+                    <div className="time">{getTimeAgo(item.createdAt)}</div>
                   </Content>
                 </Item>
               ))}
@@ -143,8 +180,8 @@ export function Notification(props: INotificationProps) {
             <div className="title">Notification Detail</div>
             <div className="content">
               <div className="title">{selectedNotify.title}</div>
-              <div className="time">{getTimeAgo(selectedNotify.time)}</div>
-              <div className="description">{selectedNotify.description}</div>
+              <div className="time">{getTimeAgo(selectedNotify.createdAt)}</div>
+              <div className="description">{selectedNotify.content}</div>
             </div>
           </NotificationDetail>
         </DetailWrapper>

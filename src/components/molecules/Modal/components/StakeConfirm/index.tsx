@@ -31,7 +31,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
         packageId: Number(selectedPack?.id),
         address: publicKey.toBase58()
       });
-      console.log(data);
+     
       if (data.needSignTx) {
         const recoverRealData = Buffer.from(data.txBase64, "base64");
         const recoverTx = Transaction.populate(Message.from(recoverRealData));
