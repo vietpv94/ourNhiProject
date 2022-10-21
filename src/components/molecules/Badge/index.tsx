@@ -1,10 +1,12 @@
 import { CloseIcon } from "@Components/atoms/icon/close";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
+import { loading, unloading } from "@Redux/actions/loading";
 import { notificationServices } from "@Services/index";
 import { breakpoints } from "@Utils/theme";
 import moment from "moment";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useMedia } from "react-use";
 import { INotification, Notification } from "../Notification";
 import { Bell } from "./bell";
@@ -12,7 +14,7 @@ import {
   BadgeWrapper,
   DetailWrapper,
   NotificationDetail,
-  Number
+  Number,
 } from "./style";
 
 export function Badge() {
@@ -22,6 +24,7 @@ export function Badge() {
   const [isShow, setIsShow] = React.useState(false);
   const ref = React.useRef(null);
   const refDetail = React.useRef(null);
+  const dispatch = useDispatch();
   const [selectedNotify, setSelectedNotify] =
     React.useState<INotification | null>(null);
   useOnClickOutside(ref, () => setIsShow(false));
@@ -31,9 +34,11 @@ export function Badge() {
     return timeAgo;
   };
   const loadNotifications = async () => {
+    dispatch(loading());
     const { data } = await notificationServices.getNotifications({ limit: 5 });
     setNotificationData(data.notifications || []);
     setUnreadNoti(data.unreadNoti);
+    dispatch(unloading());
   };
 
   useEffect(() => {
@@ -56,7 +61,7 @@ export function Badge() {
           setSelectedNotify={setSelectedNotify}
           notificationData={{
             notifications: notificationData,
-            unreadNoti: unreadNoti
+            unreadNoti: unreadNoti,
           }}
         />
       )}

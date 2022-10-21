@@ -12,7 +12,7 @@ import {
   Route,
   Routes,
   Outlet,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -44,10 +44,9 @@ function ProtectedRoute<T>(Component: React.ComponentType<any>) {
 
 const App: FC = () => {
   const { i18n } = useTranslation();
-  const loading = useSelector((state: RootState) => state.loading);
+
   return (
     <>
-      {loading && <Loading />}
       <BrowserRouter>
         <Helmet
           titleTemplate="%s | Lido"

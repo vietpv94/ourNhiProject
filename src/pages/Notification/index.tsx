@@ -23,12 +23,14 @@ import {
   NotificationDetail,
   Tabs,
   Top,
-  Wrapper
+  Wrapper,
 } from "./style";
 import { useMedia } from "react-use";
 import { breakpoints } from "@Utils/theme";
 import { notificationServices } from "@Services/index";
 import { useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export interface INotificationProps {}
 export interface DataSidebar {
@@ -39,6 +41,7 @@ export interface DataSidebar {
 }
 
 export function Notification(props: INotificationProps) {
+  const dispatch = useDispatch();
   const [notificationData, setNotificationData] = useState<INotification[]>([]);
   const [unreadNoti, setUnreadNoti] = useState<number>(0);
   const [newsData, setNewsData] = useState<INotification[]>([]);
@@ -62,11 +65,13 @@ export function Notification(props: INotificationProps) {
   });
 
   const loadNotifications = async () => {
+    dispatch(loading());
     const [allNoti, newsNoti, systemNoti] = await Promise.all([
       notificationServices.getNotifications(),
       notificationServices.getNotifications({ notifyResourceType: "news" }),
-      notificationServices.getNotifications({ notifyResourceType: "system" })
+      notificationServices.getNotifications({ notifyResourceType: "system" }),
     ]);
+    dispatch(unloading());
     setNotificationData(allNoti.data.notifications || []);
     setUnreadNoti(allNoti.data.unreadNoti || 0);
     setNewsData(newsNoti.data.notifications || []);
@@ -81,20 +86,20 @@ export function Notification(props: INotificationProps) {
         id: 1,
         name: "All",
         icon: (color: string) => <DocumentIcon color={color} />,
-        unread: unreadNoti
+        unread: unreadNoti,
       },
       {
         id: 2,
         name: "Lido News",
         icon: (color: string) => <BookIcon color={color} />,
-        unread: unreadNotiNews
+        unread: unreadNotiNews,
       },
       {
         id: 3,
         name: "System Messages",
         icon: (color: string) => <MessageIcon color={color} />,
-        unread: unreadNotiSystem
-      }
+        unread: unreadNotiSystem,
+      },
     ];
   }, [notificationData, newsData, systemNotiData]);
 
@@ -112,7 +117,9 @@ export function Notification(props: INotificationProps) {
   }, [selectedSidebar, notificationData, newsData, systemNotiData]);
 
   const readAll = async () => {
+    dispatch(loading());
     await notificationServices.readNotification({ type: 1 });
+    dispatch(unloading());
   };
 
   useEffect(() => {

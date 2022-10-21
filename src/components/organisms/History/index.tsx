@@ -9,7 +9,7 @@ import {
   DataStaking,
   dataStaking,
   dataTransaction,
-  DataTransaction
+  DataTransaction,
 } from "./data";
 import {
   Box,
@@ -17,13 +17,15 @@ import {
   BoxTransaction,
   HistoryWrapper,
   Title,
-  Top
+  Top,
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { stakingServices, transactionServices } from "@Services/index";
 import moment from "moment";
 import { CommonFilter } from "@Types/common";
+import { useDispatch } from "react-redux";
+import { loading, unloading } from "@Redux/actions/loading";
 export interface IHistoryProps {}
 
 interface IStakingHistory {
@@ -65,6 +67,7 @@ const convertStatus = (status: number): string => {
 
 export function History(props: IHistoryProps) {
   const tabs = ["staking", "payout", "transactions"];
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [totalRow, setTotalRow] = useState<number>(0);
   const [stakingHistory, setStakingHistory] = useState<IStakingHistory[]>([]);
@@ -79,7 +82,7 @@ export function History(props: IHistoryProps) {
     "value",
     "Wallet Address",
     "status",
-    "time"
+    "time",
   ];
   const renderData = useMemo(() => {
     if (!stakingHistory?.length) return [];
@@ -100,7 +103,7 @@ export function History(props: IHistoryProps) {
           <div className="dateOfRegistration">
             {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
           </div>
-        )
+        ),
       };
     });
   }, [stakingHistory]);
@@ -137,7 +140,7 @@ export function History(props: IHistoryProps) {
           <div className="time">
             {moment(item.createdAt).format("YYYY-MM-DD HH:mm")}
           </div>
-        )
+        ),
       };
     });
   }, [transactionData]);
@@ -157,7 +160,7 @@ export function History(props: IHistoryProps) {
           </div>
         ),
         package: <div className="package">${item.stakingValue}</div>,
-        time: <div className="time">{item.createdAt}</div>
+        time: <div className="time">{item.createdAt}</div>,
       };
     });
   }, [payoutData]);
@@ -169,21 +172,27 @@ export function History(props: IHistoryProps) {
   }, [currentTab]);
 
   const loadStakingHistory = async (param?: CommonFilter) => {
+    dispatch(loading());
     const { data, totalRow } = await stakingServices.getStakingHistory(param);
     setTotalRow(totalRow);
     setStakingHistory(data);
+    dispatch(unloading());
   };
   const loadPayoutData = async (param?: CommonFilter) => {
+    dispatch(loading());
     const { data, totalRow } = await stakingServices.getStakingPayout(param);
 
     setTotalRow(totalRow);
     setPayoutData(data);
+    dispatch(unloading());
   };
 
   const loadTransaction = async (param?: CommonFilter) => {
+    dispatch(loading());
     const { data, totalRow } = await transactionServices.getTransactions(param);
     setTotalRow(totalRow);
     setTransactionData(data);
+    dispatch(unloading());
   };
 
   const handleChangePage = useCallback(

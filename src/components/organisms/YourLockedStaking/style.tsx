@@ -3,8 +3,6 @@ import styled from "styled-components";
 
 export const LockedStakingWrapper = styled.div``;
 
-
-
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
@@ -14,5 +12,12 @@ export const Grid = styled.div`
 export const GridWrapper = styled.div`
   overflow: auto;
   flex: 1;
+  margin-top: 20px;
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
   margin-top: 20px;
 `;

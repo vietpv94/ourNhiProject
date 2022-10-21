@@ -1,9 +1,11 @@
 import logo from "@Assets/images/molecules/card/sol-token.png";
 import {
   CardStaking,
-  ICardStakingData
+  ICardStakingData,
 } from "@Components/molecules/CardStaking";
 import { Duration } from "@Components/molecules/Duration";
+import Pagination from "@Components/molecules/Pagination";
+import { loading, unloading } from "@Redux/actions/loading";
 import { setModal } from "@Redux/actions/modal";
 import { selectPack } from "@Redux/actions/staking";
 import { stakingServices } from "@Services/index";
@@ -11,45 +13,63 @@ import currency from "currency.js";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Grid, GridWrapper, Header, Pool } from "./style";
+import { Grid, GridWrapper, Header, PaginationWrapper, Pool } from "./style";
 
 export interface ILockedStakingProps {
   durations: number[];
 }
 
+const PAGE_SIZE = 20;
 export function LockedStaking(props: ILockedStakingProps) {
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState<number>(props.durations[0]);
   const [packs, setPacks] = useState<ICardStakingData[]>([]);
+  const [totalRows, setTotalRows] = useState(0);
+  const [page, setPage] = useState(1);
   const [poolStaked, setPoolStaked] = useState<{
     currentStakeValue: number;
     maxPoolValue: number;
   }>();
-  const dispatch = useDispatch();
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
 
   const handleStakeNow = (pack: ICardStakingData) => {
     dispatch(
       setModal({
         modal: "stake-confirm",
-        data: { selectedPack: pack, type: 1 }
+        data: { selectedPack: pack, type: 1 },
       })
     );
   };
 
-  const loadPackByDuration = async (duration: number) => {
-    const { data } = await stakingServices.getStakingPack(duration);
+  const loadPackByDuration = async (
+    duration: number,
+    page: number,
+    limit: number
+  ) => {
+    dispatch(loading());
+    const { data, totalRow } = await stakingServices.getStakingPack(
+      duration,
+      page,
+      limit
+    );
     setSelected(duration);
+    setTotalRows(totalRow);
     setPacks(data?.packs || []);
     setPoolStaked({
       currentStakeValue: data?.currentStakeValue | 0,
-      maxPoolValue: data?.maxPoolValue || 0
+      maxPoolValue: data?.maxPoolValue || 0,
     });
+    dispatch(unloading());
   };
 
   useEffect(() => {
     if (props.durations.length > 0) {
-      loadPackByDuration(props.durations[0]);
+      loadPackByDuration(props.durations[0], page, PAGE_SIZE);
     }
-  }, [props.durations]);
+  }, [props.durations, page]);
 
   return (
     <>
@@ -59,14 +79,14 @@ export function LockedStaking(props: ILockedStakingProps) {
           <span className="value">
             {currency(poolStaked?.currentStakeValue || 0, {
               symbol: "$",
-              precision: 0
+              precision: 0,
             }).format()}
             /
             <span className="total">
               {" "}
               {currency(poolStaked?.maxPoolValue || 0, {
                 symbol: "$",
-                precision: 0
+                precision: 0,
               }).format()}
             </span>
           </span>
@@ -75,7 +95,9 @@ export function LockedStaking(props: ILockedStakingProps) {
           type="month"
           list={props.durations}
           selected={selected}
-          setSelected={loadPackByDuration}
+          setSelected={(duration: number) =>
+            loadPackByDuration(duration, 1, PAGE_SIZE)
+          }
         />
       </Header>
       <GridWrapper>
@@ -91,6 +113,14 @@ export function LockedStaking(props: ILockedStakingProps) {
             : null}
         </Grid>
       </GridWrapper>
+      <PaginationWrapper>
+        <Pagination
+          totalCount={totalRows}
+          pageSize={PAGE_SIZE}
+          currentPage={page}
+          onPageChange={(page: number) => handlePageChange(page)}
+        />
+      </PaginationWrapper>
     </>
   );
 }

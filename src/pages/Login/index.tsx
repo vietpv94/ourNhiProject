@@ -13,6 +13,7 @@ import { loginRequest, loginSuccess } from "@Redux/actions/accounts";
 import { authServices, sessionServices, userServices } from "@Services/index";
 import { Link, VerifyModal } from "./components";
 import { validateEmail } from "@Pages/SignUp";
+import { loading, unloading } from "@Redux/actions/loading";
 
 interface ILoginProps {
   children?: React.ReactNode;
@@ -34,7 +35,9 @@ export const Login = ({ children }: ILoginProps) => {
     if (!validateEmail(userName) || userName === "") {
       return toast.error("email is invalid");
     }
+    dispatch(loading());
     const { data, message } = await authServices.check2FA({ email: userName });
+    dispatch(unloading());
     if (!data) {
       const message = document.getElementById("wrong-email-pass");
       message?.classList.add("active");
@@ -55,7 +58,7 @@ export const Login = ({ children }: ILoginProps) => {
         email: userName,
         password,
         remember: false,
-        twoFaCode: code
+        twoFaCode: code,
       })
     );
   };
@@ -207,7 +210,7 @@ export const Login = ({ children }: ILoginProps) => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignContent: "center"
+            alignContent: "center",
           }}
         >
           <Link to="/forgot-password">
@@ -222,7 +225,7 @@ export const Login = ({ children }: ILoginProps) => {
             display: "flex",
             justifyContent: "center",
             alignContent: "center",
-            flexDirection: "column"
+            flexDirection: "column",
           }}
         >
           <Button

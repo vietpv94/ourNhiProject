@@ -23,6 +23,7 @@ import { enable2FA, updateUser } from "@Redux/actions/accounts";
 import React, { useMemo } from "react";
 import { PendingIcon } from "@Components/atoms/icon/pending";
 import { TickIcon } from "@Components/atoms/icon/tick";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export interface IPersonalInformationProps {}
 export interface IKycForm {
@@ -56,15 +57,19 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   const handleToggle = async () => {
     if (!is2FAEnabled) {
       setActive2FA(true);
+      dispatch(loading());
       const { data } = await userServices.getQrCode2fa();
       setQr(data.qrCodeUrl);
       setSecret(data.secret);
+      dispatch(unloading());
     }
   };
   const handleVerify = async () => {
+    dispatch(loading());
     const { data, message } = await userServices.enable2FA({
-      twoFACode: code
+      twoFACode: code,
     });
+    dispatch(unloading());
     if (data) {
       setCode("");
       setActive2FA(false);
@@ -90,8 +95,9 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       kycFormData.append("phone", kycForm.phone || "");
       kycFormData.append("imageFront", kycForm.imageFront || "");
       kycFormData.append("imageBack", kycForm.imageBack || "");
-
+      dispatch(loading());
       const { data, message } = await userServices.sendKyc(kycFormData);
+      dispatch(unloading());
       if (data) {
         setActiveKYC(false);
         dispatch(updateUser({ kycStatus: 1 }));
@@ -109,7 +115,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
             color="#FF9900"
             customStyle={{
               height: 12,
-              width: 12
+              width: 12,
             }}
           />
         );
@@ -118,7 +124,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
           <PendingIcon
             customStyle={{
               height: 12,
-              width: 12
+              width: 12,
             }}
           />
         );
@@ -127,7 +133,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
           <TickIcon
             customStyle={{
               height: 12,
-              width: 12
+              width: 12,
             }}
           />
         );
@@ -136,7 +142,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
           <TickIcon
             customStyle={{
               height: 12,
-              width: 12
+              width: 12,
             }}
           />
         );
@@ -275,7 +281,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
                 onChange={(e) => {
                   setKycForm({
                     ...kycForm,
-                    fullName: e.target.value
+                    fullName: e.target.value,
                   });
                 }}
               />
@@ -286,7 +292,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
                 onChange={(e) => {
                   setKycForm({
                     ...kycForm,
-                    dateOfBirth: e.target.value
+                    dateOfBirth: e.target.value,
                   });
                 }}
               />
@@ -297,7 +303,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               onChange={(e) => {
                 setKycForm({
                   ...kycForm,
-                  fullAddress: e.target.value
+                  fullAddress: e.target.value,
                 });
               }}
             />
@@ -307,7 +313,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               onChange={(e) => {
                 setKycForm({
                   ...kycForm,
-                  phone: e.target.value
+                  phone: e.target.value,
                 });
               }}
             />
@@ -317,7 +323,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
               onChange={(v) => {
                 setKycForm({
                   ...kycForm,
-                  ...v
+                  ...v,
                 });
               }}
             />

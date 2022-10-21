@@ -1,8 +1,10 @@
 import { Button } from "@Components/atoms/Button";
 import { EyeIcon } from "@Components/atoms/icon/eye";
 import { Input } from "@Components/molecules/Form/input";
+import { loading, unloading } from "@Redux/actions/loading";
 import { userServices } from "@Services/index";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 export interface IChangePassProps {
@@ -13,16 +15,17 @@ export interface IChangePassProps {
 export function ChangePass(props: IChangePassProps) {
   const [changePassword, setChangePassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+  const dispatch = useDispatch();
   const handleCheckPass = async () => {
     if (changePassword !== confirmPassword) {
       return toast.error("Password and Confirm Password must match");
     }
-
+    dispatch(loading());
     const res = await userServices.changePassword({
       oldPassword: props.currentPass,
-      password: confirmPassword
+      password: confirmPassword,
     });
+    dispatch(unloading());
     if (res.success) {
       toast.success("Password changed successfully");
       setChangePassword("");

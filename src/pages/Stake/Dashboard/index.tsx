@@ -6,7 +6,7 @@ import { MemberIcon } from "@Components/atoms/icon/member";
 import currency from "currency.js";
 import {
   CardAffiliate,
-  ICardAffiliateProps
+  ICardAffiliateProps,
 } from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
 import { DataSummary, Summary } from "@Components/molecules/Summary";
@@ -31,13 +31,13 @@ import {
   Link,
   ListAffiliate,
   System,
-  Title
+  Title,
 } from "./style";
 import { CardLevel, Status } from "@Components/molecules/CardLevel";
 import { userServices } from "@Services/index";
 import {
   convertKeyToReadableName,
-  convertValueToReadableStatus
+  convertValueToReadableStatus,
 } from "./utils";
 import { LinkIcon } from "@Components/atoms/icon/link";
 import { CoinIcon } from "@Components/atoms/icon/coin";
@@ -105,6 +105,7 @@ export function Dashboard(props: IDashboardProps) {
   }, [copyState]);
 
   const loadDashboardInfo = async () => {
+    dispatch(loading());
     const { data } = await userServices.getDashboard();
     const { balance, totalReward, totalStakeCurrent, affiliateBonus } = data;
 
@@ -112,18 +113,23 @@ export function Dashboard(props: IDashboardProps) {
       totalStakeCurrent,
       affiliateBonus,
       totalReward,
-      balance
+      balance,
     });
+    dispatch(unloading());
   };
 
   const loadUserLevel = async () => {
+    dispatch(loading());
     const { data } = await userServices.getUserLevel();
     setLevelData(data);
+    dispatch(unloading());
   };
 
   const loadCurrentChildData = async (email: string) => {
+    dispatch(loading());
     const { data } = await userServices.getChildDetail(email);
     setCurrentChildData(data);
+    dispatch(unloading());
   };
 
   useEffect(() => {
@@ -133,18 +139,22 @@ export function Dashboard(props: IDashboardProps) {
   }, [activeChild]);
 
   const loadUserSummary = async () => {
+    dispatch(loading());
     const { data } = await userServices.getUserChildSummary();
     const affData = data.map((item: ICardAffiliateProps) => {
       return { ...item, status: "active" };
     });
 
     setAffiliateLevelData(affData);
+    dispatch(unloading());
   };
 
   const loadUserChild = async () => {
+    dispatch(loading());
     const { data } = await userServices.getUserChild({ maxDepth: 0 });
     memberData[0] = data;
     setMemberData(memberData);
+    dispatch(unloading());
   };
 
   const cardData: DataSummary[] = useMemo(() => {
@@ -154,61 +164,61 @@ export function Dashboard(props: IDashboardProps) {
         title: "Your Balance",
         value: currency(dashboardInfo?.balance, {
           symbol: "$",
-          precision: 2
+          precision: 2,
         }).format(),
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <CoinIcon color={color} customStyle={customStyle} />
+        }) => <CoinIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 2,
         title: "Staking Amount",
         value: currency(dashboardInfo?.totalStakeCurrent, {
           symbol: "$",
-          precision: 2
+          precision: 2,
         }).format(),
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <ClipboardIcon color={color} customStyle={customStyle} />
+        }) => <ClipboardIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 3,
         title: "Staking Reward",
         value: currency(dashboardInfo?.totalReward, {
           symbol: "$",
-          precision: 2
+          precision: 2,
         }).format(),
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <WalletMoney color={color} customStyle={customStyle} />
+        }) => <WalletMoney color={color} customStyle={customStyle} />,
       },
       {
         id: 4,
         title: "Affiliate Bonus",
         value: currency(dashboardInfo?.affiliateBonus || 0, {
           symbol: "$",
-          precision: 2
+          precision: 2,
         }).format(),
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <MemberIcon color={color} customStyle={customStyle} />
-      }
+        }) => <MemberIcon color={color} customStyle={customStyle} />,
+      },
     ];
   }, [dashboardInfo]);
 
@@ -222,9 +232,10 @@ export function Dashboard(props: IDashboardProps) {
             activeChild={activeChild}
             onClickItem={async (email: string, i: number) => {
               if (i !== 14) {
+                dispatch(loading());
                 const nextResult = await userServices.getUserChild({
                   maxDepth: 0,
-                  from: email
+                  from: email,
                 });
 
                 memberData[i + 1] = nextResult.data;
@@ -235,6 +246,7 @@ export function Dashboard(props: IDashboardProps) {
                 } else {
                   setMemberData(memberData);
                 }
+                dispatch(unloading());
               }
               setActiveChild(email);
             }}
@@ -257,7 +269,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: lv[keyLv],
-                done: true
+                done: true,
               };
             }
           })
@@ -268,7 +280,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 0,
           completed: 4,
           total: 4,
-          data: [...serializeLevelCondition]
+          data: [...serializeLevelCondition],
         };
       } else if (lv.level > (currentUserLevel.level || 0) + 1) {
         const serializeLevelCondition = Object.keys(lv)
@@ -277,7 +289,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: lv[keyLv],
-                done: false
+                done: false,
               };
             }
           })
@@ -288,7 +300,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 4,
           completed: 0,
           total: 4,
-          data: [...serializeLevelCondition]
+          data: [...serializeLevelCondition],
         };
       } else {
         const serializeLevelCondition = Object.keys(lv)
@@ -297,7 +309,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: lv[keyLv],
-                done: convertValueToReadableStatus(keyLv, lv, currentUserLevel)
+                done: convertValueToReadableStatus(keyLv, lv, currentUserLevel),
               };
             }
           })
@@ -308,7 +320,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 4,
           completed: 0,
           total: 4,
-          data: [...serializeLevelCondition]
+          data: [...serializeLevelCondition],
         };
       }
     });

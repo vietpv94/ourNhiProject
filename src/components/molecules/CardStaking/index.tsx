@@ -4,13 +4,14 @@ import logo from "@Assets/images/molecules/card/sol-token.png";
 import tether from "@Assets/images/tether.png";
 import {
   Amount,
+  Bulkhead,
   CardStakingWrapper,
   Item,
   Line,
   Logo,
   Mask,
   Percent,
-  TotalStaker
+  TotalStaker,
 } from "./style";
 import { useMemo } from "react";
 import moment from "moment";
@@ -58,7 +59,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       <Amount>
         {currency(data.value, {
           symbol: "$",
-          precision: 0
+          precision: 0,
         }).format()}
       </Amount>
       <Percent>
@@ -68,6 +69,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
           </div>
           <div className="label">Day</div>
         </Item>
+        <Bulkhead />
         <Item>
           <div className="percent month">
             +{Number(data.percentProfitPerMonth).toFixed(2)}%
@@ -92,7 +94,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
           <span className="value">
             {currency(data.currentStakeValue || 0, {
               symbol: "$",
-              precision: 0
+              precision: 0,
             }).format()}
           </span>
         </div>
@@ -117,19 +119,19 @@ export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
     return {
       ...data,
       isAllowUnstake,
-      startTime: startTime.format("YYYY-MM-DD HH:mm")
+      startTime: startTime.format("YYYY-MM-DD HH:mm"),
     };
   }, [data]);
   return (
     <CardStakingWrapper>
       <Mask className="left" src={mask} alt="mask" />
       <Mask className="right" src={mask} alt="mask" />
-      
+
       <Logo src={logo} alt="logo" />
       <Amount>
         {currency(stakedData.stakeValue, {
           symbol: "$",
-          precision: 0
+          precision: 0,
         }).format()}
       </Amount>
       <Percent>

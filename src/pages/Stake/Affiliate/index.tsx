@@ -13,7 +13,7 @@ import {
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper
+  Wrapper,
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { BinaryMLM } from "@Components/molecules/BinaryMLM";
@@ -23,6 +23,8 @@ import commissionServices from "@Services/commission";
 import { IBox } from "@Components/molecules/BinaryMLM/Card";
 import { WalletMoney } from "@Components/atoms/icon/walletMoney";
 import { CommonFilter } from "@Types/common";
+import { useDispatch } from "react-redux";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export interface IAffiliateProps {}
 
@@ -54,21 +56,21 @@ const dataSortBy = {
   data: [
     {
       id: 1,
-      name: "All"
+      name: "All",
     },
     {
       id: 2,
-      name: "Latest"
+      name: "Latest",
     },
     {
       id: 3,
-      name: "Oldest"
+      name: "Oldest",
     },
     {
       id: 4,
-      name: "Highest"
-    }
-  ]
+      name: "Highest",
+    },
+  ],
 };
 
 interface BinaryDashboardData {
@@ -80,13 +82,19 @@ interface BinaryDashboardData {
 }
 
 export function Affiliate(props: IAffiliateProps) {
+  const dispatch = useDispatch();
   const [dashboardInfo, setDashboardInfo] = useState<BinaryDashboardData>();
   const [totalRow, setTotalRow] = useState<number>(0);
   const [commissionHistory, setCommissionHistory] = useState<
     DataRewardHistory[]
   >([]);
   const [binaryBox, setBinaryBox] = useState<IBox[]>([]);
+
+  let wrapper = document.getElementById("binary-wrapper");
+  let width = wrapper?.clientWidth;
+
   const loadDashboardInfo = async () => {
+    dispatch(loading());
     const { data } = await userServices.getBinaryDashboard();
 
     const {
@@ -96,7 +104,7 @@ export function Affiliate(props: IAffiliateProps) {
       profitLastMonth,
       level,
       childThisMonth,
-      childLastMonth
+      childLastMonth,
     } = data;
 
     setDashboardInfo({
@@ -110,16 +118,19 @@ export function Affiliate(props: IAffiliateProps) {
       percentProfitChange:
         profitThisMonth === 0 || profitThisMonth === 0
           ? 0
-          : profitThisMonth / profitLastMonth
+          : profitThisMonth / profitLastMonth,
     });
+    dispatch(unloading());
   };
 
   const loadCommissionHistory = async (param?: CommonFilter) => {
+    dispatch(loading());
     const { data, totalRow } = await commissionServices.getCommissionHistory(
       param
     );
     setCommissionHistory(data);
     setTotalRow(totalRow);
+    dispatch(unloading());
   };
 
   const convertBinaryChildToBoxData = (data, position): IBox => {
@@ -137,16 +148,16 @@ export function Affiliate(props: IAffiliateProps) {
         title: data.email,
         left: {
           sum: data.leftChildData?.sum || 0,
-          num: data.leftChildData?.num || 0
+          num: data.leftChildData?.num || 0,
         },
         right: {
           sum: data.rightChildData?.sum || 0,
-          num: data.rightChildData?.num || 0
+          num: data.rightChildData?.num || 0,
         },
         level: data.level,
         packageValue: data.packageValue,
-        total: data.bonusQuota
-      }
+        total: data.bonusQuota,
+      },
     };
   };
 
@@ -155,8 +166,9 @@ export function Affiliate(props: IAffiliateProps) {
     position: { x: number; y: number; level: number },
     email?: string
   ) => {
+    dispatch(loading());
     const { data } = await userServices.getChildBinaryTree({ from: email });
-
+    dispatch(unloading());
     if (data) {
       const box: IBox = convertBinaryChildToBoxData(data, position);
       boxes.push(box);
@@ -182,7 +194,11 @@ export function Affiliate(props: IAffiliateProps) {
   };
 
   const loadBinaryTreeUser = async () => {
-    const boxes = await getAllBoxes([], { x: 700, y: 50, level: 0 });
+    const boxes = await getAllBoxes([], {
+      x: width ? width / 2 : 700,
+      y: 50,
+      level: 0,
+    });
     setBinaryBox(boxes || []);
   };
 
@@ -191,7 +207,7 @@ export function Affiliate(props: IAffiliateProps) {
     "Profit From",
     "Amount",
     "Token",
-    "time"
+    "time",
   ];
 
   const dataTable = useMemo(() => {
@@ -215,7 +231,7 @@ export function Affiliate(props: IAffiliateProps) {
             <span>{"SOL"}</span>
           </div>
         ),
-        time: <div className="time">{item.createdAt}</div>
+        time: <div className="time">{item.createdAt}</div>,
       };
     });
   }, [commissionHistory]);
@@ -233,11 +249,11 @@ export function Affiliate(props: IAffiliateProps) {
         percent: dashboardInfo?.newMemberJoinRate,
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <MemberIcon color={color} customStyle={customStyle} />
+        }) => <MemberIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 2,
@@ -246,11 +262,11 @@ export function Affiliate(props: IAffiliateProps) {
         percent: dashboardInfo?.percentProfitChange,
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <DollarIcon color={color} customStyle={customStyle} />
+        }) => <DollarIcon color={color} customStyle={customStyle} />,
       },
       {
         id: 3,
@@ -258,19 +274,22 @@ export function Affiliate(props: IAffiliateProps) {
         value: dashboardInfo?.totalTransaction || 0,
         icon: ({
           color,
-          customStyle
+          customStyle,
         }: {
           color?: string;
           customStyle?: any;
-        }) => <WalletMoney color={color} customStyle={customStyle} />
-      }
+        }) => <WalletMoney color={color} customStyle={customStyle} />,
+      },
     ];
   }, [dashboardInfo]);
 
   useEffect(() => {
+    if (width) loadBinaryTreeUser();
+  }, [width]);
+
+  useEffect(() => {
     loadDashboardInfo();
     loadCommissionHistory();
-    loadBinaryTreeUser();
   }, []);
 
   return (
@@ -282,7 +301,7 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board>
+        <Board id="binary-wrapper">
           {binaryBox && (
             <BinaryMLM
               binaryBox={binaryBox}

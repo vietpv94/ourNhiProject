@@ -48,3 +48,10 @@ export const GridWrapper = styled.div`
   flex: 1;
   margin-top: 20px;
 `;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: 20px;
+`;

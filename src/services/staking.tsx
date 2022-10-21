@@ -11,9 +11,17 @@ const getStakingDuration = async () => {
   }
 };
 
-const getStakingPack = async (duration?: number) => {
+const getStakingPack = async (
+  duration?: number,
+  page?: number,
+  limit?: number
+) => {
   try {
-    const { data } = await nonAuthService.get(`staking/pack`, { duration });
+    const { data } = await nonAuthService.get(`staking/pack`, {
+      duration,
+      page,
+      limit,
+    });
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Error while get packs");
@@ -160,7 +168,7 @@ export const stakingServices = {
   initStaking,
   initStakingDefi,
   doStakeDefi,
-  getSolPrice
+  getSolPrice,
 };
 
 export default stakingServices;
