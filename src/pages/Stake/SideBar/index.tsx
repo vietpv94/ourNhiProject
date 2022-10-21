@@ -25,7 +25,10 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@Components/atoms/Button";
 import { setModal } from "@Redux/actions/modal";
-import { useWalletModal, WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
+import {
+  useWalletModal,
+  WalletDisconnectButton
+} from "@solana/wallet-adapter-react-ui";
 import { userServices } from "@Services/index";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";

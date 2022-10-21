@@ -42,6 +42,13 @@ const account = (state = defaultState, action: AnyAction) => {
         level: user.level,
         nickName: user.nickName
       };
+    case ACCOUNT_ACTION.UPDATE:
+      const updateData = action.payload;
+
+      return {
+        ...state,
+        ...updateData
+      };
     case ACCOUNT_ACTION.LOGOUT:
       return defaultState;
     default:
