@@ -38,6 +38,36 @@ const initStaking = async (param: { packageId: number; address: string }) => {
   }
 };
 
+const initStakingDefi = async (param: {
+  stakeValue: number;
+  duration: number;
+  currency: number;
+  address: string;
+}) => {
+  try {
+    const { data } = await service.post(`staking/defi/init`, param);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while init defi staking");
+  }
+};
+
+const doStakeDefi = async (param: {
+  stakeValue: number;
+  duration?: number;
+  currency: number;
+  address?: string;
+  depositId?: number;
+  signature?: any;
+}) => {
+  try {
+    const { data } = await service.post(`staking/defi`, param);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while trigger staking");
+  }
+};
+
 const doStake = async (params: {
   packageId: number;
   stakeValue?: number;
@@ -107,6 +137,15 @@ const getStakingDefiDuration = async () => {
   }
 };
 
+const getSolPrice = async () => {
+  try {
+    const { data } = await service.get(`price`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "Error while get price");
+  }
+};
+
 export const stakingServices = {
   getStakingDuration,
   getStakingPack,
@@ -118,7 +157,10 @@ export const stakingServices = {
   doHarvest,
   getStakingPayout,
   getStakingDefiDuration,
-  initStaking
+  initStaking,
+  initStakingDefi,
+  doStakeDefi,
+  getSolPrice
 };
 
 export default stakingServices;

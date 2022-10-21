@@ -14,6 +14,7 @@ interface ISuccessStakingPack {
   packageId: number;
   type: 1;
   level: number;
+  percentProfitPerDay: number;
   unstakeTime: number;
   harvestTime: number;
   id: number;
@@ -65,10 +66,15 @@ export function StakeSuccessful(props: IStakeSuccessfulProps) {
         </Item>
         <Item>
           <span className="label">Duration (Month):</span>
-          <span className="value">{Number(successStakingPack?.duration || 0) / (60 * 60 * 24 * 30)}</span>
+          <span className="value">
+            {Number(successStakingPack?.duration || 0) / (60 * 60 * 24 * 30)}
+          </span>
         </Item>
       </Content>
-      <TimeStepper data={dataStaking} />
+      <TimeStepper
+        data={dataStaking}
+        interest={successStakingPack?.percentProfitPerDay}
+      />
     </StakeSuccessfulWrapper>
   );
 }

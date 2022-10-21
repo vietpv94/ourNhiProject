@@ -15,7 +15,7 @@ export interface IYourLockedStakingProps {
 }
 
 export function YourLockedStaking(props: IYourLockedStakingProps) {
-  const [packs, setPacks] = useState<IYourStakingCardData[]>([]);
+  const [packs, setPacks] = useState<IYourStakingCardData[]>([]); 
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,8 @@ export function YourLockedStaking(props: IYourLockedStakingProps) {
 
   const loadPackByDuration = async (isLocked: boolean) => {
     const { data } = await stakingServices.getStakingHistory({
-      status: isLocked ? 1 : 2
+      status: 1,
+      type:  isLocked ? 1 : 2
     });
 
     setPacks(data || []);

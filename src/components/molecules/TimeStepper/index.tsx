@@ -5,20 +5,22 @@ import {
   ItemWrapper,
   Line,
   Rect,
-  TimeStepperWrapper,
+  TimeStepperWrapper
 } from "./style";
 
 export interface ITimeStepperProps {}
 
-interface ITimeStepper {
+export interface ITimeStepper {
   label: string;
   value: string;
 }
 export function TimeStepper({
   data,
-  customStyle,
+  interest,
+  customStyle
 }: {
   data: ITimeStepper[];
+  interest?: number;
   customStyle?: React.CSSProperties;
 }) {
   return (
@@ -40,7 +42,7 @@ export function TimeStepper({
 
       <EstAPR>
         <span className="label">Est. APR</span>
-        <span className="value">1.39%</span>
+        <span className="value">{Number(interest).toFixed(2)}%</span>
       </EstAPR>
     </TimeStepperWrapper>
   );

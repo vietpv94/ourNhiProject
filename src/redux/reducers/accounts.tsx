@@ -9,6 +9,7 @@ export const defaultState = {
   is2FAEnabled: false,
   kycStatus: 0,
   balance: 0,
+  solBalance: 0,
   level: 0,
   nickName: "Lido User"
 };
@@ -37,6 +38,7 @@ const account = (state = defaultState, action: AnyAction) => {
         is2FAEnabled: user.active2fa,
         kycStatus: user.kycStatus,
         balance: user.balance,
+        solBalance: user.solBalance,
         level: user.level,
         nickName: user.nickName
       };

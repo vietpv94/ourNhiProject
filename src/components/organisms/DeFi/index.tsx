@@ -17,15 +17,15 @@ import {
   Title,
   Token,
   TokenInput,
-  Warning,
+  Warning
 } from "./style";
 import sol from "@Assets/images/molecules/token/sol.png";
 import sol2 from "@Assets/images/molecules/card/sol-token.png";
 import { Duration } from "@Components/molecules/Duration";
-import { TimeStepper } from "@Components/molecules/TimeStepper";
+import { ITimeStepper, TimeStepper } from "@Components/molecules/TimeStepper";
 import { Button } from "@Components/atoms/Button";
 import { TickIcon } from "@Components/atoms/icon/tick";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setModal } from "@Redux/actions/modal";
 import { useEffect, useState } from "react";
 import stakingServices from "@Services/staking";
@@ -34,6 +34,10 @@ import { ICardStakingData } from "@Components/molecules/CardStaking";
 import tether from "@Assets/images/tether.png";
 import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { useMemo } from "react";
+import currency from "currency.js";
+import { RootState } from "@Redux/reducers";
+import moment from "moment";
+import { toast } from "react-toastify";
 
 export interface IDeFiProps {
   durations: number[];
@@ -43,72 +47,106 @@ export const ListCurrency = [
   {
     name: "USDT",
     img: tether,
-    id: 1,
+    id: 1
   },
   {
     name: "SOL",
     img: sol2,
-    id: 2,
-  },
-];
-
-
-const data = [
-  {
-    label: "Stake Date:",
-    value: "2022-10-04 11:33",
-  },
-  {
-    label: "Value Date",
-    value: "2022-10-05 07:00",
-  },
-  {
-    label: "Interest Distribution Date",
-    value: "2022-10-05 07:00",
-  },
+    id: 2
+  }
 ];
 
 const dataTerm = [
   {
     id: 1,
     icon: <WarningIcon color="#37373B" />,
-    text: "The APR is adjusted daily based on the on-chain staking rewards, and the specific APR is subject to the page display on the day.",
+    text: "The APR is adjusted daily based on the on-chain staking rewards, and the specific APR is subject to the page display on the day."
   },
   {
     id: 1,
     icon: <WarningIcon color="#37373B" />,
-    text: "APR does not mean the actual or predicted returns in fiat currency.",
-  },
+    text: "APR does not mean the actual or predicted returns in fiat currency."
+  }
 ];
+
+interface IPoolData {
+  id: number;
+  level: number;
+  value: number;
+  percentProfitPerDay: number;
+  percentProfitPerMonth: number;
+  minimumValue: number;
+  maximumValue: number;
+  poolLimit: number;
+  duration: number;
+  type: number;
+  createdAt: string;
+  poolMaxStakeValue: number;
+  currentStakeValue: number;
+}
 export function DeFi(props: IDeFiProps) {
   const [selected, setSelected] = useState<number>(props.durations[0]);
-  const [currency, setCurrency] = useState<number>(2); // SOL=2, USDT=1
+  const [stakeTimeData, setStakeTimeData] = useState<ITimeStepper[]>([]);
+  const [coin, setCoin] = useState<number>(2); // SOL=2, USDT=1
+  const [selectedDuration, setSelectedDuration] = useState<IPoolData>();
   const dropdownRef = React.useRef(null);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [value, setValue] = useState<number>(0);
   const [agree, setAgree] = useState<boolean>(false);
-  const [defiDuration, setDefiDuration] = useState<any>();
+  const [defiDuration, setDefiDuration] = useState<IPoolData[]>([]);
   const dispatch = useDispatch();
+  const account = useSelector((state: RootState) => state.account);
   const handleConfirm = () => {
+    if(!agree) return toast.warning("You must agree with Lido Simple Earn Agreement")
     const pack: ICardStakingData = {
       value,
       duration: selected,
-      percentProfitPerMonth: defiDuration?.percentProfitPerMonth || 0,
-      percentProfitPerDay: defiDuration?.percentProfitPerDay || 0,
+      percentProfitPerMonth: selectedDuration?.percentProfitPerMonth || 0,
+      percentProfitPerDay: selectedDuration?.percentProfitPerDay || 0,
       maxProfit: 0,
-      poolMaxStakeValue: 0,
-      buffCurrentStakeValue: 0,
+      poolMaxStakeValue: selectedDuration?.poolMaxStakeValue || 0,
+      currentStakeValue: selectedDuration?.currentStakeValue || 0,
+      currency: coin
     };
     dispatch(
-      setModal({ modal: "stake-confirm", data: { selectedPack: pack } })
+      setModal({
+        modal: "stake-confirm",
+        data: { selectedPack: pack, type: 2 }
+      })
     );
   };
 
   const loadDefiDuration = async () => {
     const { data } = await stakingServices.getStakingDefiDuration();
-    console.log(data);
+    const selectedDuration = data.filter(
+      (d) => d.duration === props.durations[0]
+    )[0];
+    setSelectedDuration(selectedDuration);
     setDefiDuration(data);
   };
+
+  useEffect(() => {
+    const selectedDuration = defiDuration.filter(
+      (d) => d.duration === selected
+    )[0];
+    setSelectedDuration(selectedDuration);
+
+    const data = [
+      {
+        label: "Stake Date:",
+        value: moment(Date.now()).format("YYYY-MM-DD HH:mm")
+      },
+      {
+        label: "Value Date",
+        value: moment(Date.now()).format("YYYY-MM-DD HH:mm")
+      },
+      {
+        label: "Interest Distribution Date",
+        value: moment(Date.now()).add(1, "days").format("YYYY-MM-DD HH:mm")
+      }
+    ];
+    setStakeTimeData(data);
+  }, [selected]);
 
   useEffect(() => {
     loadDefiDuration();
@@ -119,15 +157,15 @@ export function DeFi(props: IDeFiProps) {
   };
 
   const handleSelectCurrency = (id: number) => {
-    setCurrency(id);
+    setCoin(id);
     setDropdown(false);
-  }
+  };
   useOnClickOutside(dropdownRef, () => setDropdown(false));
 
-  const findCurrency = useMemo(() =>{
-    return ListCurrency.find((item) => item.id === currency);
-  }, [currency])
-  
+  const findCurrency = useMemo(() => {
+    return ListCurrency.find((item) => item.id === coin);
+  }, [coin]);
+
   return (
     <DefiWrapper>
       <div className="container">
@@ -141,7 +179,7 @@ export function DeFi(props: IDeFiProps) {
               customStyle={{
                 width: "24",
                 height: "24",
-                viewBox: "0 0 24 24",
+                viewBox: "0 0 24 24"
               }}
             />
             <span className="description">
@@ -177,9 +215,7 @@ export function DeFi(props: IDeFiProps) {
               <TokenInput ref={dropdownRef}>
                 <div className="show" onClick={() => setDropdown(!dropdown)}>
                   <img src={findCurrency?.img} alt="token" />
-                  <span className="name">
-                    {findCurrency?.name}
-                  </span>
+                  <span className="name">{findCurrency?.name}</span>
                 </div>
                 {dropdown && (
                   <Dropdown>
@@ -200,22 +236,29 @@ export function DeFi(props: IDeFiProps) {
             </Input>
           </Subscription>
           <Available>
-            <span className="amount">0.00 SOl&nbsp;</span>
+            <span className="amount">
+              {coin === 1
+                ? `${currency(account.balance, {
+                    symbol: "$",
+                    precision: 0
+                  }).format()} `
+                : `${account.solBalance} SOL `}
+              &nbsp;
+            </span>
             <span className="label"> Available</span>
           </Available>
           <LockedAmount>
             <span className="title">Locked Amount Limitation</span>
             <Item>
               <span className="label">Minimum: </span>
-              <span className="amount">0.001 SOL</span>
-            </Item>
-            <Item>
-              <span className="label">Available: </span>
-              <span className="amount">50 SOL</span>
-            </Item>
-            <Item>
-              <span className="label">Total Personal Quota: </span>
-              <span className="amount">50 SOL</span>
+              <span className="amount">
+                {selectedDuration
+                  ? currency(selectedDuration.minimumValue, {
+                      symbol: "$",
+                      precision: 0
+                    }).format()
+                  : "$0"}
+              </span>
             </Item>
           </LockedAmount>
         </Left>
@@ -227,9 +270,10 @@ export function DeFi(props: IDeFiProps) {
           <Content>
             <TimeStepper
               customStyle={{
-                marginTop: "20px",
+                marginTop: "20px"
               }}
-              data={data}
+              interest={selectedDuration?.percentProfitPerDay || 0}
+              data={stakeTimeData}
             />
             <Term>
               {dataTerm.map((item, index) => (

@@ -22,7 +22,8 @@ export interface ICardStakingData {
   percentProfitPerDay: number;
   maxProfit?: number;
   poolMaxStakeValue?: number;
-  buffCurrentStakeValue: number;
+  currentStakeValue: number;
+  currency?: number;
 }
 
 export interface IYourStakingCardData {
@@ -88,7 +89,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
         <div className="item">
           <span className="label">Total Staked: </span>
           <span className="value">
-            {currency(data.buffCurrentStakeValue || 0, {
+            {currency(data.currentStakeValue || 0, {
               symbol: "$",
               precision: 0
             }).format()}

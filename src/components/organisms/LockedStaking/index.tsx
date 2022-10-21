@@ -28,7 +28,10 @@ export function LockedStaking(props: ILockedStakingProps) {
 
   const handleStakeNow = (pack: ICardStakingData) => {
     dispatch(
-      setModal({ modal: "stake-confirm", data: { selectedPack: pack } })
+      setModal({
+        modal: "stake-confirm",
+        data: { selectedPack: pack, type: 1 }
+      })
     );
   };
 
