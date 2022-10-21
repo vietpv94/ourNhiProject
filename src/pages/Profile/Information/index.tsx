@@ -19,7 +19,7 @@ import { ChangePass } from "./changePass";
 import { userServices } from "@Services/index";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "react-toastify";
-import { enable2FA } from "@Redux/actions/accounts";
+import { enable2FA, updateUser } from "@Redux/actions/accounts";
 import React, { useMemo } from "react";
 import { PendingIcon } from "@Components/atoms/icon/pending";
 import { TickIcon } from "@Components/atoms/icon/tick";
@@ -66,7 +66,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
   };
   const handleVerify = async () => {
     dispatch(loading());
-    const { data } = await userServices.enable2FA({
+    const { data, message } = await userServices.enable2FA({
       twoFACode: code,
     });
     dispatch(unloading());
@@ -75,6 +75,8 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       setActive2FA(false);
       dispatch(enable2FA());
       toast.info("2FA enabled");
+    } else {
+      toast.error(message);
     }
   };
 
@@ -94,10 +96,13 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       kycFormData.append("imageFront", kycForm.imageFront || "");
       kycFormData.append("imageBack", kycForm.imageBack || "");
       dispatch(loading());
-      const { data } = await userServices.sendKyc(kycFormData);
+      const { data, message } = await userServices.sendKyc(kycFormData);
       dispatch(unloading());
       if (data) {
         setActiveKYC(false);
+        dispatch(updateUser({ kycStatus: 1 }));
+      } else {
+        toast.error(message);
       }
     }
   };

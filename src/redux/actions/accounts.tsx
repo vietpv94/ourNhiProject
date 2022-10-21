@@ -25,6 +25,12 @@ export function disable2FA() {
   };
 }
 
+export function updateUser(param: any) {
+  return {
+    type: ACCOUNT_ACTION.UPDATE,
+    payload: param
+  };
+}
 
 export const loginSuccess = (param: any) => {
   return { type: ACCOUNT_ACTION.LOGIN_SUCCESS, payload: param };

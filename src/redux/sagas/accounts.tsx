@@ -8,6 +8,7 @@ import { sessionServices, authServices, userServices } from "@Services/index";
 import { ACCOUNT_ACTION } from "@Constants/redux-actions/account";
 import { SignInData } from "@Models/auth";
 import { removeToken } from "@Helpers/util";
+import { toast } from "react-toastify";
 export const accountSagas = [
   takeLatest(ACCOUNT_ACTION.LOGIN_REQUEST, handleLoginRequest),
   takeLatest(ACCOUNT_ACTION.LOGOUT_REQUEST, logout)
@@ -17,7 +18,7 @@ function* handleLoginRequest(data: any): any {
   const body = data.credential;
 
   try {
-    const { data, success } = yield call(authServices.login, {
+    const { data, success, message } = yield call(authServices.login, {
       email: body.email,
       password: body.password,
       twoFaCode: body.twoFaCode,
@@ -37,9 +38,11 @@ function* handleLoginRequest(data: any): any {
         yield put(loginSuccess(profileData.data));
       }
     } else {
-      const message = document.getElementById("wrong-email-pass");
-      console.log("ssjai")
-      message?.classList.add("active");
+      if (message.includes("Invalid 2fa code!")) {
+        return toast.error(message);
+      }
+      const messageDiv = document.getElementById("wrong-email-pass");
+      messageDiv?.classList.add("active");
     }
   } catch (err) {
     console.log(err);
