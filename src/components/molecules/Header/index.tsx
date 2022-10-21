@@ -43,16 +43,16 @@ const dataMenu: IMenuItem[] = [
     name: "Home",
     link: "/stake"
   },
-  {
-    id: 2,
-    name: "marketing",
-    link: "/marketing"
-  },
-  {
-    id: 3,
-    name: "support",
-    link: "/support"
-  },
+  // {
+  //   id: 2,
+  //   name: "marketing",
+  //   link: "/marketing"
+  // },
+  // {
+  //   id: 3,
+  //   name: "support",
+  //   link: "/support"
+  // },
   {
     id: 4,
     name: "FAQ",

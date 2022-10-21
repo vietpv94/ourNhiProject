@@ -38,6 +38,7 @@ function* handleLoginRequest(data: any): any {
       }
     } else {
       const message = document.getElementById("wrong-email-pass");
+      console.log("ssjai")
       message?.classList.add("active");
     }
   } catch (err) {

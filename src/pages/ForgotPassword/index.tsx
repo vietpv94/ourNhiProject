@@ -44,7 +44,7 @@ export const ForgotPassword = () => {
     setCountdown();
     userServices
       .resetPassword({
-        email: userName,
+        email: userName
       })
       .then((response: any) => {
         if (!response.success) {
@@ -89,7 +89,7 @@ export const ForgotPassword = () => {
       .verifyResetPassword({
         email: userName,
         verifyToken: accessToken,
-        password,
+        password
       })
       .then((res) => {
         if (res.success) {
@@ -138,7 +138,7 @@ export const ForgotPassword = () => {
               display: "flex",
               justifyContent: "center",
               alignContent: "center",
-              flexDirection: "column",
+              flexDirection: "column"
             }}
           >
             <Button onClick={() => handleNext()}>Next</Button>
@@ -162,7 +162,7 @@ export const ForgotPassword = () => {
             />
             <div className="icon">
               <img
-                src={showPassword ? IconHide : IconShow}
+                src={showPassword ? IconShow : IconHide}
                 alt="Hide"
                 onClick={() =>
                   showPassword ? setShowPassword(false) : setShowPassword(true)
@@ -201,14 +201,14 @@ export const ForgotPassword = () => {
       <UserLayout heading={`Password Changed`}>
         <Details
           style={{
-            fontSize: "16px",
+            fontSize: "16px"
           }}
         >
           Please log in with the new password.
         </Details>
         <Button
           style={{
-            width: "70%",
+            width: "70%"
           }}
         >
           <NavLink to="/login">Log In</NavLink>

@@ -32,12 +32,12 @@ const updateProfile = async (params: { data: UserUpdateData }) => {
   }
 };
 
-const getVerifyEmail = async (data: SendMail) => {
+const getVerifyEmail = async (verifyData: SendMail) => {
   try {
-    const response = await nonAuthService.get(`user/verify`, data);
-    return response;
+    const {data} = await nonAuthService.get(`user/verify`, verifyData);
+    return handleResponse(data);
   } catch (err) {
-    console.log(err);
+    return handleError(err, "Error while get verify code");
   }
 };
 

@@ -32,6 +32,14 @@ import {
 } from "./components";
 import { breakpoints } from "@Utils/theme";
 import { Link } from "@Pages/Login/components";
+
+export const validateEmail = (email: string) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
 export const SignUp = () => {
   const [step, setStep] = useState(1);
   const [check, setCheck] = useState(false); // checkbox
@@ -73,6 +81,25 @@ export const SignUp = () => {
         return toast.error(err.message);
       });
   };
+
+  const handleStep1 = async () => {
+    if (!validateEmail(email) || email === "") {
+      return toast.error("email is invalid");
+    }
+    userServices
+      .getVerifyEmail({
+        email: email
+      })
+      .then((response: any) => {
+        if (!response.success) {
+          return toast.error(response.message);
+        }
+        setStep(2);
+      })
+      .catch((err) => {
+        return toast.error(err.message);
+      });
+  };
   const handleVerifyCode = async () => {
     userServices
       .verifyCode({
@@ -80,8 +107,12 @@ export const SignUp = () => {
         verifyToken: code
       })
       .then((response: any) => {
+        console.log(response);
+
         if (response.success) {
           handleSignUp().then((signResponse: any) => {
+            console.log(signResponse);
+
             if (signResponse.success) {
               setStep(3);
             } else {
@@ -161,7 +192,7 @@ export const SignUp = () => {
                 />
                 <div className="icon">
                   <img
-                    src={showPassword ? IconHide : IconShow}
+                    src={showPassword ? IconShow : IconHide}
                     alt="Hide"
                     onClick={() =>
                       showPassword
@@ -214,8 +245,7 @@ export const SignUp = () => {
                       "You haven't agreed to Terms & Conditions."
                     );
                   }
-
-                  setStep(2);
+                  handleStep1();
                 }}
               >
                 Next
