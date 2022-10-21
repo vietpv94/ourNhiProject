@@ -355,7 +355,14 @@ export function Dashboard(props: IDashboardProps) {
               )}`
             : link}
         </div>
-        <div className="copy">
+        <div
+          className="copy"
+          onClick={() => {
+            copyToClipboard(
+              `${window.location.origin}/sign-up?ref=${account.ref}`
+            );
+          }}
+        >
           <CopyIcon />
         </div>
       </Link>
