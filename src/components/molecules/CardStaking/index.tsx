@@ -76,7 +76,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       </Percent>
       <Button
         onClick={() => {
-          onClick && onClick(data);
+          onClick && onClick({ ...data, currency: 1 });
         }}
         customStyle={
           "width: 100%; height: 32px; font-weight: 600;font-size: 10px; "
