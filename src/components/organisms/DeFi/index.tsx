@@ -106,8 +106,7 @@ export function DeFi(props: IDeFiProps) {
 
   const loadDefiDuration = async () => {
     const { data } = await stakingServices.getStakingDefiDuration();
-    const reDefineDuration = groupBy(data, "duration");
-    console.log(reDefineDuration);
+    console.log(data);
     setDefiDuration(data);
   };
 

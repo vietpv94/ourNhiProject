@@ -1,12 +1,13 @@
 import logo from "@Assets/images/molecules/card/sol-token.png";
 import {
   CardStaking,
-  ICardStakingData,
+  ICardStakingData
 } from "@Components/molecules/CardStaking";
 import { Duration } from "@Components/molecules/Duration";
 import { setModal } from "@Redux/actions/modal";
 import { selectPack } from "@Redux/actions/staking";
 import { stakingServices } from "@Services/index";
+import currency from "currency.js";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -37,7 +38,7 @@ export function LockedStaking(props: ILockedStakingProps) {
     setPacks(data?.packs || []);
     setPoolStaked({
       currentStakeValue: data?.currentStakeValue | 0,
-      maxPoolValue: data?.maxPoolValue || 0,
+      maxPoolValue: data?.maxPoolValue || 0
     });
   };
 
@@ -53,8 +54,18 @@ export function LockedStaking(props: ILockedStakingProps) {
         <Pool>
           <span className="label">Pool: </span>
           <span className="value">
-            ${poolStaked?.currentStakeValue}/
-            <span className="total">${poolStaked?.maxPoolValue}</span>
+            {currency(poolStaked?.currentStakeValue || 0, {
+              symbol: "$",
+              precision: 0
+            }).format()}
+            /
+            <span className="total">
+              {" "}
+              {currency(poolStaked?.maxPoolValue || 0, {
+                symbol: "$",
+                precision: 0
+              }).format()}
+            </span>
           </span>
         </Pool>
         <Duration
@@ -66,14 +77,15 @@ export function LockedStaking(props: ILockedStakingProps) {
       </Header>
       <GridWrapper>
         <Grid>
-          {packs.length ?
-            packs.map((pack, index) => (
-              <CardStaking
-                onClick={handleStakeNow}
-                data={pack}
-                key={`grid-item-${index}`}
-              />
-            )) : null}
+          {packs.length
+            ? packs.map((pack, index) => (
+                <CardStaking
+                  onClick={handleStakeNow}
+                  data={pack}
+                  key={`grid-item-${index}`}
+                />
+              ))
+            : null}
         </Grid>
       </GridWrapper>
     </>

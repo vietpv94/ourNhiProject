@@ -10,7 +10,6 @@ export interface IWithdrawSuccessfulProps {
 export function WithdrawSuccessful({
   widthDrawData
 }: IWithdrawSuccessfulProps) {
-  const address = "DX8079xyayi098093nd8q9xqw309joq";
   return (
     <>
       <WithdrawWrapper>
