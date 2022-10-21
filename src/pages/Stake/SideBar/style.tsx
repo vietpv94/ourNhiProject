@@ -55,6 +55,7 @@ export const Main = styled.main`
   gap: 20px;
   align-items: flex-start;
   justify-content: flex-start;
+  overflow-y: auto;
 `;
 
 export const Item = styled.div`

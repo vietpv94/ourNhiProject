@@ -33,10 +33,12 @@ export const Amount = styled.div`
 export const Percent = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const Item = styled.div`
+  flex: 1;
   position: relative;
   display: flex;
   align-items: center;
@@ -47,7 +49,7 @@ export const Item = styled.div`
     & > .percent {
       color: #74b465;
     }
-    &::after {
+    /* &::after {
       content: "";
       position: absolute;
       top: 50%;
@@ -56,7 +58,7 @@ export const Item = styled.div`
       width: 2px;
       background-color: #e6e6e6;
       height: calc(100% - 20px);
-    }
+    } */
   }
   & > .percent {
     color: #2a3751;
@@ -69,6 +71,12 @@ export const Item = styled.div`
     font-weight: 400;
     font-size: 10px;
   }
+`;
+
+export const Bulkhead = styled.div`
+  width: 2px;
+  background-color: #e6e6e6;
+  height: 40px;
 `;
 
 export const TotalStaker = styled.div`

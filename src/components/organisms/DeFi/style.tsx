@@ -20,6 +20,8 @@ export const DefiWrapper = styled.div`
     height: max-content;
   }
   @media ${breakpoints.sm} {
+    background: transparent;
+    border: none;
     & > .container {
       flex-direction: column;
       & > div {
@@ -44,6 +46,9 @@ export const Left = styled.div`
       }
     }
   }
+  @media ${breakpoints.sm} {
+    background: transparent;
+  }
 `;
 export const Right = styled.div`
   width: 45%;
@@ -55,13 +60,14 @@ export const Right = styled.div`
 `;
 
 export const Title = styled.div`
+  position: relative;
   color: #37373b;
   font-weight: 600;
   font-size: 20px;
   padding: 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  width: max-content;
   gap: 10px;
 `;
 
@@ -265,6 +271,45 @@ export const Dropdown = styled.div`
     }
     &:hover {
       background: #e6f6ff;
+    }
+  }
+`;
+
+export const Tooltip = styled.div`
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  padding: 10px;
+  background: #f8fafc;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  z-index: 1;
+  & > span {
+    color: #37373b;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 140%;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f8fafc;
+  }
+  @media ${breakpoints.sm} {
+    left: 0;
+    transform: translateX(0);
+    &:after {
+      left: 10%;
+      transform: translateX(0%);
     }
   }
 `;

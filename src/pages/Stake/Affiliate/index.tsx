@@ -89,6 +89,10 @@ export function Affiliate(props: IAffiliateProps) {
     DataRewardHistory[]
   >([]);
   const [binaryBox, setBinaryBox] = useState<IBox[]>([]);
+
+  let wrapper = document.getElementById("binary-wrapper");
+  let width = wrapper?.clientWidth;
+
   const loadDashboardInfo = async () => {
     dispatch(loading());
     const { data } = await userServices.getBinaryDashboard();
@@ -190,7 +194,11 @@ export function Affiliate(props: IAffiliateProps) {
   };
 
   const loadBinaryTreeUser = async () => {
-    const boxes = await getAllBoxes([], { x: 600, y: 50, level: 0 });
+    const boxes = await getAllBoxes([], {
+      x: width ? width / 2 : 400,
+      y: 50,
+      level: 0,
+    });
     setBinaryBox(boxes || []);
   };
 
@@ -276,9 +284,12 @@ export function Affiliate(props: IAffiliateProps) {
   }, [dashboardInfo]);
 
   useEffect(() => {
+    if (width) loadBinaryTreeUser();
+  }, [width]);
+
+  useEffect(() => {
     loadDashboardInfo();
     loadCommissionHistory();
-    loadBinaryTreeUser();
   }, []);
 
   return (
@@ -290,7 +301,7 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Board>
+        <Board id="binary-wrapper">
           {binaryBox && (
             <BinaryMLM
               binaryBox={binaryBox}

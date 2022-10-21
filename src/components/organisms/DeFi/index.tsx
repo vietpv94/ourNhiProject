@@ -17,6 +17,7 @@ import {
   Title,
   Token,
   TokenInput,
+  Tooltip,
   Warning,
 } from "./style";
 import sol from "@Assets/images/molecules/token/sol.png";
@@ -39,6 +40,7 @@ import { RootState } from "@Redux/reducers";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { loading, unloading } from "@Redux/actions/loading";
+import useHover from "@Hooks/useHover";
 
 export interface IDeFiProps {
   durations: number[];
@@ -94,6 +96,8 @@ export function DeFi(props: IDeFiProps) {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [value, setValue] = useState<number>(0);
   const [agree, setAgree] = useState<boolean>(false);
+  const hoverRef = React.useRef(null);
+  const isHover = useHover(hoverRef);
   const [defiDuration, setDefiDuration] = useState<IPoolData[]>([]);
   const dispatch = useDispatch();
   const account = useSelector((state: RootState) => state.account);
@@ -267,9 +271,18 @@ export function DeFi(props: IDeFiProps) {
           </LockedAmount>
         </Left>
         <Right>
-          <Title style={{ padding: "unset" }}>
+          <Title style={{ padding: "unset" }} ref={hoverRef}>
             <span>Summary</span>
             <WarningIcon color="#292D32" />
+            {isHover && (
+              <Tooltip>
+                <span>
+                  DeFi Staking subscription and redemption are closed during
+                  23:50-00:10 (UTC) daily. No interest is accumulated on
+                  products purchased on the day of subscription.
+                </span>
+              </Tooltip>
+            )}
           </Title>
           <Content>
             <TimeStepper
