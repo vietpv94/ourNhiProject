@@ -165,13 +165,13 @@ export function Affiliate(props: IAffiliateProps) {
         const parentX = position.x;
         const parentY = position.y;
         if (data.leftChildData?.email) {
-          position.x = parentX - 120;
+          position.x = parentX - 120 - position.level * 50;
           position.y = parentY + 250;
           await getAllBoxes(boxes, position, data.leftChildData.email);
         }
 
         if (data.rightChildData?.email) {
-          position.x = parentX + 120;
+          position.x = parentX + 120 + position.level * 50;
           position.y = parentY + 250;
           await getAllBoxes(boxes, position, data.rightChildData.email);
         }
@@ -182,7 +182,7 @@ export function Affiliate(props: IAffiliateProps) {
   };
 
   const loadBinaryTreeUser = async () => {
-    const boxes = await getAllBoxes([], { x: 600, y: 50, level: 0 });
+    const boxes = await getAllBoxes([], { x: 700, y: 50, level: 0 });
     setBinaryBox(boxes || []);
   };
 
