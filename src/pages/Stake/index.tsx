@@ -40,7 +40,12 @@ export function Stake(props: IStakeProps) {
       </StakeWrapper>
       {modal === "stake-confirm" &&
         withModal(() => {
-          return <StakeConFirmModal selectedPack={data.selectedPack} />;
+          return (
+            <StakeConFirmModal
+              selectedPack={data.selectedPack}
+              type={data.type}
+            />
+          );
         }, handleClose)}
       {modal === "stake-successful" &&
         withModal(() => {
