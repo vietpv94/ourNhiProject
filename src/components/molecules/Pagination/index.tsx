@@ -29,9 +29,9 @@ const Pagination = (props: IPaginationProps) => {
   });
   if (paginationRange === undefined) return null;
 
-  if (currentPage === 0 || paginationRange?.length < 2) {
-    return null;
-  }
+  // if (currentPage === 0 || paginationRange?.length < 2) {
+  //   return null;
+  // }
 
   const onNext = () => {
     onPageChange(currentPage + 1);

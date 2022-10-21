@@ -58,6 +58,7 @@ export const Item = styled.div`
 `;
 export const StyledCheckbox = styled(Checkbox)`
   margin-top: 16px;
+  align-items: center;
   img {
     width: 24px;
     height: 24px;

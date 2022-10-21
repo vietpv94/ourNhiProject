@@ -18,7 +18,7 @@ import {
   Form,
   Heading,
   Input,
-  Select
+  Select,
 } from "@Components/atoms/Form";
 import { Steps } from "@Components/molecules/Steps";
 import { UserLayout } from "@Components/molecules/UserLayout";
@@ -28,10 +28,11 @@ import {
   Item,
   StyledCheckbox,
   Social,
-  ButtonGroup
+  ButtonGroup,
 } from "./components";
 import { breakpoints } from "@Utils/theme";
 import { Link } from "@Pages/Login/components";
+import { TickIcon } from "@Components/atoms/icon/tick";
 
 export const validateEmail = (email: string) => {
   return String(email)
@@ -62,7 +63,7 @@ export const SignUp = () => {
     return authServices.register({
       email: email,
       password: password,
-      refCode: ref
+      refCode: ref,
     });
   };
 
@@ -70,7 +71,7 @@ export const SignUp = () => {
     setCountdown();
     userServices
       .getVerifyEmail({
-        email: email
+        email: email,
       })
       .then((response: any) => {
         if (!response.success) {
@@ -88,7 +89,7 @@ export const SignUp = () => {
     }
     userServices
       .getVerifyEmail({
-        email: email
+        email: email,
       })
       .then((response: any) => {
         if (!response.success) {
@@ -104,7 +105,7 @@ export const SignUp = () => {
     userServices
       .verifyCode({
         email: email,
-        verifyToken: code
+        verifyToken: code,
       })
       .then((response: any) => {
         console.log(response);
@@ -221,10 +222,15 @@ export const SignUp = () => {
                 </div>
               </Input>
               <StyledCheckbox>
-                <img
-                  src={check ? IconChecked : IconUncheck}
+                <TickIcon
+                  type="square"
+                  color={check ? "#00A3FF" : "#37373B"}
+                  status={check ? "tick" : "cross"}
                   onClick={() => setCheck(!check)}
-                  alt="Uncheck"
+                  customStyle={{
+                    width: "25",
+                    height: "25",
+                  }}
                 />
                 <div className="content">
                   <ol>
@@ -254,7 +260,7 @@ export const SignUp = () => {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  alignContent: "center"
+                  alignContent: "center",
                 }}
               >
                 <Link to="/login">
