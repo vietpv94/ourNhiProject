@@ -35,6 +35,7 @@ export const Dropdown = styled.ul`
   background-color: #fff;
   border: 1px solid #f8fafc;
   border-radius: 8px;
+  overflow: hidden;
 `;
 
 export const Item = styled.li`

@@ -137,13 +137,21 @@ export const Input = styled.div`
 `;
 
 export const TokenInput = styled(Token)`
-  & > img {
-    width: 15px;
-    height: 15px;
-  }
-  & > .name {
-    font-weight: 600;
-    font-size: 14px;
+  position: relative;
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: flex-end;
+    cursor: pointer;
+    & > img {
+      width: 15px;
+      height: 15px;
+    }
+    & > .name {
+      font-weight: 600;
+      font-size: 14px;
+    }
   }
 `;
 
@@ -217,5 +225,46 @@ export const ItemTerm = styled.div`
     font-weight: 400;
     font-size: 12px;
     color: #37373b;
+  }
+`;
+
+export const Dropdown = styled.div`
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background: #fff;
+  border: 1px solid #c1cbd7;
+  border-radius: 8px;
+  width: max-content;
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  & > li {
+    width: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    & > img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 0.5px solid #00a3ff;
+      border-radius: 100px;
+      cursor: pointer;
+    }
+    & > span {
+      color: #37373b;
+    }
+    &:hover {
+      background: #e6f6ff;
+    }
   }
 `;

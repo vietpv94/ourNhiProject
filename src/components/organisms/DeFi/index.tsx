@@ -4,6 +4,7 @@ import {
   Available,
   Content,
   DefiWrapper,
+  Dropdown,
   Input,
   Item,
   ItemTerm,
@@ -30,9 +31,27 @@ import { useEffect, useState } from "react";
 import stakingServices from "@Services/staking";
 import { groupBy } from "lodash";
 import { ICardStakingData } from "@Components/molecules/CardStaking";
+import tether from "@Assets/images/tether.png";
+import useOnClickOutside from "@Hooks/useOnClickOutside";
+import { useMemo } from "react";
+
 export interface IDeFiProps {
   durations: number[];
 }
+
+export const ListCurrency = [
+  {
+    name: "USDT",
+    img: tether,
+    id: 1,
+  },
+  {
+    name: "SOL",
+    img: sol2,
+    id: 2,
+  },
+];
+
 
 const data = [
   {
@@ -63,6 +82,9 @@ const dataTerm = [
 ];
 export function DeFi(props: IDeFiProps) {
   const [selected, setSelected] = useState<number>(props.durations[0]);
+  const [currency, setCurrency] = useState<number>(2); // SOL=2, USDT=1
+  const dropdownRef = React.useRef(null);
+  const [dropdown, setDropdown] = useState<boolean>(false);
   const [value, setValue] = useState<number>(0);
   const [agree, setAgree] = useState<boolean>(false);
   const [defiDuration, setDefiDuration] = useState<any>();
@@ -84,7 +106,6 @@ export function DeFi(props: IDeFiProps) {
 
   const loadDefiDuration = async () => {
     const { data } = await stakingServices.getStakingDefiDuration();
-
     const reDefineDuration = groupBy(data, "duration");
     console.log(reDefineDuration);
     setDefiDuration(data);
@@ -97,6 +118,17 @@ export function DeFi(props: IDeFiProps) {
   const handleAgree = () => {
     setAgree(!agree);
   };
+
+  const handleSelectCurrency = (id: number) => {
+    setCurrency(id);
+    setDropdown(false);
+  }
+  useOnClickOutside(dropdownRef, () => setDropdown(false));
+
+  const findCurrency = useMemo(() =>{
+    return ListCurrency.find((item) => item.id === currency);
+  }, [currency])
+  
   return (
     <DefiWrapper>
       <div className="container">
@@ -143,9 +175,28 @@ export function DeFi(props: IDeFiProps) {
                   setValue(Number(e.target.value));
                 }}
               />
-              <TokenInput>
-                <img src={sol2} alt="token" />
-                <span className="name">SOl</span>
+              <TokenInput ref={dropdownRef}>
+                <div className="show" onClick={() => setDropdown(!dropdown)}>
+                  <img src={findCurrency?.img} alt="token" />
+                  <span className="name">
+                    {findCurrency?.name}
+                  </span>
+                </div>
+                {dropdown && (
+                  <Dropdown>
+                    {ListCurrency.map((item) => (
+                      <li
+                        key={`key-dropdow-defi-${item.id}`}
+                        onClick={() => {
+                          handleSelectCurrency(item.id);
+                        }}
+                      >
+                        <img src={item.img} alt="token" className="icon" />
+                        <span>{item.name}</span>
+                      </li>
+                    ))}
+                  </Dropdown>
+                )}
               </TokenInput>
             </Input>
           </Subscription>

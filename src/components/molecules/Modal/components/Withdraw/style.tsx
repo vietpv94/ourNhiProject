@@ -37,6 +37,7 @@ export const InputWrapper = styled.div`
 `;
 
 export const Input = styled.div`
+  position: relative;
   display: flex;
   background: #f8fafc;
   border: 1px solid #c1cbd7;
@@ -52,6 +53,7 @@ export const Input = styled.div`
     border-radius: 50%;
     border: 0.5px solid #00a3ff;
     border-radius: 100px;
+    cursor: pointer;
   }
   & > input {
     flex: 1;
@@ -97,4 +99,42 @@ export const Footer = styled.div`
   line-height: 12px;
   width: calc(100% + 60px);
   transform: translate(-30px, 30px);
+`;
+
+export const Dropdown = styled.ul`
+  position: absolute;
+  top: calc( 100% + 5px );
+  left: 0;
+  background: #fff;
+  border: 1px solid #c1cbd7;
+  border-radius: 8px;
+  width: max-content;
+  overflow: hidden;
+  z-index: 1;
+  & > li {
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    & > img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 0.5px solid #00a3ff;
+      border-radius: 100px;
+      cursor: pointer;
+    }
+    & > span {
+      color: #37373b;
+    }
+    &:hover{
+      background: #e6f6ff;
+    }
+  }
 `;
