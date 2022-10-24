@@ -72,9 +72,7 @@ export function SideBar(props: ISideBarProps) {
   });
 
   const loadProfile = async () => {
-    dispatch(loading());
     await userServices.getProfile();
-    dispatch(unloading());
   };
   const { visible, setVisible } = useWalletModal();
 
@@ -90,10 +88,8 @@ export function SideBar(props: ISideBarProps) {
 
   const loadWalletBalance = async () => {
     if (!connection || !publicKey) return;
-    dispatch(loading());
     const balance = await connection.getBalance(publicKey);
     setBalance(balance / LAMPORTS_PER_SOL);
-    dispatch(unloading());
   };
   useEffect(() => {
     loadProfile();

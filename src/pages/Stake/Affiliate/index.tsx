@@ -313,9 +313,9 @@ export function Affiliate(props: IAffiliateProps) {
       <RewardHistory>
         <div className="header">
           <div className="title">Reward History</div>
-          <div className="filter">
+          {/* <div className="filter">
             <Dropdown {...dataSortBy} />
-          </div>
+          </div> */}
         </div>
         <BoxHistory>
           <Table

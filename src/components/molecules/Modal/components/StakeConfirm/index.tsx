@@ -1,6 +1,7 @@
 import solToken from "@Assets/images/molecules/card/sol-token.png";
 import { Button } from "@Components/atoms/Button";
 import { ICardStakingData } from "@Components/molecules/CardStaking";
+import { loading, unloading } from "@Redux/actions/loading";
 import { setModal } from "@Redux/actions/modal";
 import { RootState } from "@Redux/reducers";
 import { stakingServices } from "@Services/index";
@@ -30,6 +31,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
         return toast.warning("Please connect with a wallet to continue!");
       }
       if (type === 1) {
+        dispatch(loading());
         const { data } = await stakingServices.initStaking({
           packageId: Number(selectedPack?.id),
           address: publicKey.toBase58()
@@ -38,8 +40,12 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
         if (data.needSignTx) {
           const recoverRealData = Buffer.from(data.txBase64, "base64");
           const recoverTx = Transaction.populate(Message.from(recoverRealData));
-          if (!recoverTx) return;
+          if (!recoverTx) {
+            dispatch(unloading());
+            return;
+          }
           if (!signTransaction) {
+            dispatch(unloading());
             setVisible(!visible);
             return toast.error(
               "Wallet is not connected, please connect with your wallet and try again"
@@ -57,6 +63,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
               address: publicKey.toBase58()
             })
             .then((response: any) => {
+              dispatch(unloading());
               if (response.success) {
                 dispatch(
                   setModal({
@@ -70,6 +77,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
                   })
                 );
               } else {
+                dispatch(unloading());
                 toast.error(response.message);
               }
             });
@@ -81,6 +89,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
             })
             .then((response: any) => {
               if (response.success) {
+                dispatch(unloading());
                 dispatch(
                   setModal({
                     modal: "stake-successful",
@@ -93,11 +102,13 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
                   })
                 );
               } else {
+                dispatch(unloading());
                 toast.error(response.message);
               }
             });
         }
       } else {
+        dispatch(loading());
         const { data } = await stakingServices.initStakingDefi({
           stakeValue: Number(selectedPack?.value),
           duration: selectedPack?.duration,
@@ -108,8 +119,12 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
         if (data.needSignTx) {
           const recoverRealData = Buffer.from(data.txBase64, "base64");
           const recoverTx = Transaction.populate(Message.from(recoverRealData));
-          if (!recoverTx) return;
+          if (!recoverTx) {
+            dispatch(unloading());
+            return;
+          }
           if (!signTransaction) {
+            dispatch(unloading());
             setVisible(!visible);
             return toast.error(
               "Wallet is not connected, please connect with your wallet and try again"
@@ -130,6 +145,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
             })
             .then((response: any) => {
               if (response.success) {
+                dispatch(unloading());
                 dispatch(
                   setModal({
                     modal: "stake-successful",
@@ -142,6 +158,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
                   })
                 );
               } else {
+                dispatch(unloading());
                 toast.error(response.message);
               }
             });
@@ -155,6 +172,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
             })
             .then((response: any) => {
               if (response.success) {
+                dispatch(unloading());
                 dispatch(
                   setModal({
                     modal: "stake-successful",
@@ -167,6 +185,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
                   })
                 );
               } else {
+                dispatch(unloading());
                 toast.error(response.message);
               }
             });

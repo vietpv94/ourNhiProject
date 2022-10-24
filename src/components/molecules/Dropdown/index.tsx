@@ -7,22 +7,32 @@ import {
   DropdownList,
   DropdownWrapper,
   Label,
-  Main,
+  Main
 } from "./style";
 
 export interface IDropdownProps {
   label: string;
+  onSelect?: (data: IDropdownItem) => void;
   data: {
     id: number;
     name: string;
   }[];
 }
 
-export function Dropdown({ label, data }: IDropdownProps) {
+export interface IDropdownItem {
+  id: number;
+  name: string;
+}
+
+export function Dropdown({ label, data, onSelect }: IDropdownProps) {
   const [selected, setSelected] = React.useState(data[0].name);
   const [isOpen, setIsOpen] = React.useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));
+  const handleSelect = (data: IDropdownItem) => {
+    setSelected(data.name);
+    onSelect && onSelect(data);
+  };
   return (
     <DropdownWrapper>
       <Label>{label}:</Label>
@@ -37,7 +47,7 @@ export function Dropdown({ label, data }: IDropdownProps) {
           <ArrowIcon
             customStyle={{
               height: "10",
-              width: "10",
+              width: "10"
             }}
             style="outline"
           />
@@ -49,7 +59,7 @@ export function Dropdown({ label, data }: IDropdownProps) {
                 <DropdownItem
                   key={"dropdown-item-" + item.id}
                   onClick={() => {
-                    setSelected(item.name);
+                    handleSelect(item);
                     setIsOpen(false);
                   }}
                 >

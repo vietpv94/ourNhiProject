@@ -1,25 +1,17 @@
-import { Dropdown } from "@Components/molecules/Dropdown";
+import { Dropdown, IDropdownItem } from "@Components/molecules/Dropdown";
 import { Tab } from "@Components/molecules/Tab";
 import { Table } from "@Components/molecules/Table";
-import * as React from "react";
-import {
-  DataPayout,
-  dataSortBy,
-  dataSortTime,
-  DataStaking,
-  dataStaking,
-  dataTransaction,
-  DataTransaction,
-} from "./data";
+import { DataPayout, dataSortBy, dataSortTime } from "./data";
 import {
   Box,
   BoxPayout,
   BoxTransaction,
   HistoryWrapper,
   Title,
-  Top,
+  Top
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
+import tether from "@Assets/images/tether.png";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { stakingServices, transactionServices } from "@Services/index";
 import moment from "moment";
@@ -72,6 +64,7 @@ export function History(props: IHistoryProps) {
   const [totalRow, setTotalRow] = useState<number>(0);
   const [stakingHistory, setStakingHistory] = useState<IStakingHistory[]>([]);
   const [payoutData, setPayoutData] = useState<DataPayout[]>([]);
+  const [currentTimeFilter, setCurrentTimeFilter] = useState({});
   const [transactionData, setTransactionData] = useState<ITransactionData[]>(
     []
   );
@@ -82,7 +75,7 @@ export function History(props: IHistoryProps) {
     "value",
     "Wallet Address",
     "status",
-    "time",
+    "time"
   ];
   const renderData = useMemo(() => {
     if (!stakingHistory?.length) return [];
@@ -95,15 +88,15 @@ export function History(props: IHistoryProps) {
         ),
         token: (
           <div className="token">
-            <img src={sol} alt="sol" />
-            <span>{item.token || "SOL"}</span>
+            <img src={tether} alt="sol" />
+            <span>{item.token || "USDT"}</span>
           </div>
         ),
         dateOfRegistration: (
           <div className="dateOfRegistration">
             {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
           </div>
-        ),
+        )
       };
     });
   }, [stakingHistory]);
@@ -140,7 +133,7 @@ export function History(props: IHistoryProps) {
           <div className="time">
             {moment(item.createdAt).format("YYYY-MM-DD HH:mm")}
           </div>
-        ),
+        )
       };
     });
   }, [transactionData]);
@@ -160,7 +153,7 @@ export function History(props: IHistoryProps) {
           </div>
         ),
         package: <div className="package">${item.stakingValue}</div>,
-        time: <div className="time">{item.createdAt}</div>,
+        time: <div className="time">{item.createdAt}</div>
       };
     });
   }, [payoutData]);
@@ -203,6 +196,46 @@ export function History(props: IHistoryProps) {
     },
     [currentTab]
   );
+
+  const onTimeFilterSelect = async (item: IDropdownItem) => {
+    let toDate = moment(Date.now());
+    let fromDate: any;
+    if (item.id === 2) {
+      fromDate = moment(toDate).subtract(1, "weeks");
+    }
+    if (item.id === 3) {
+      fromDate = moment(toDate).subtract(1, "month");
+    }
+    if (item.id === 4) {
+      fromDate = moment(toDate).subtract(1, "years");
+      console.log(fromDate);
+    }
+    if (item.id === 5) {
+      fromDate = moment(toDate).subtract(1, "days");
+    }
+    const filter =
+      item.id === 1
+        ? {}
+        : {
+            fromDate: fromDate.format("YYYY-MM-DD HH:mm"),
+            toDate: toDate.format("YYYY-MM-DD HH:mm")
+          };
+    setCurrentTimeFilter(filter);
+    if (currentTab === "staking")
+      await loadStakingHistory({
+        ...filter
+      });
+    if (currentTab === "payout")
+      await loadPayoutData({
+        ...filter
+      });
+    if (currentTab === "transactions")
+      await loadTransaction({
+        ...filter
+      });
+  };
+
+  const onSortSelect = () => {};
   return (
     <HistoryWrapper>
       <Title>History</Title>
@@ -214,8 +247,12 @@ export function History(props: IHistoryProps) {
           setCurrentTab={setCurrentTab}
         />
         <div className="left">
-          <Dropdown label="time" data={dataSortTime} />
-          <Dropdown label="sort by" data={dataSortBy} />
+          <Dropdown
+            label="time"
+            data={dataSortTime}
+            onSelect={onTimeFilterSelect}
+          />
+          {/* <Dropdown label="sort by" data={dataSortBy} onSelect={onSortSelect} /> */}
         </div>
       </Top>
       {currentTab === "staking" && (

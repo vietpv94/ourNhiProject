@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@Redux/reducers";
+import { NavLink, useSearchParams, useNavigate} from "react-router-dom";
 import { useMedia } from "react-use";
 import IconClose from "@Assets/images/close-circle.png";
 import IconHide from "@Assets/images/eye-slash.png";
@@ -54,11 +55,23 @@ export const SignUp = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useSearchParams();
   const isMobile = useMedia(breakpoints.sm);
+  const navigate = useNavigate();
+  const { is2FAEnabled, userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.account
+  );
+  
   useEffect(() => {
     if (search.get("ref")) {
       setRef(search.get("ref") || "admin");
     }
   }, [search]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/stake");
+    }
+  }, [isLoggedIn]);
+
   const handleSignUp = () => {
     return authServices.register({
       email: email,
@@ -87,6 +100,7 @@ export const SignUp = () => {
     if (!validateEmail(email) || email === "") {
       return toast.error("email is invalid");
     }
+    setCountdown();
     userServices
       .getVerifyEmail({
         email: email,
