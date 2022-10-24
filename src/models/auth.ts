@@ -8,6 +8,6 @@ export type SignInData = {
 export type SignUpData = {
   email: string;
   password: string;
-  nickname?: string;
+  nickName: string;
   refCode?: string;
 };

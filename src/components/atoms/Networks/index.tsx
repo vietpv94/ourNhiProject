@@ -6,7 +6,7 @@ import {
   List,
   NetworksWrapper,
   Section,
-  Title,
+  Title
 } from "./style";
 import { dataSupportedNetworks, SupportedNetworkCard } from "./data";
 import { Button } from "@Components/atoms/Button";
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 export interface INetworksProps {}
 
 export const ItemNetwork = (data: SupportedNetworkCard) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Card>
       <img src={data.icon} alt={data.name} />
@@ -24,7 +24,7 @@ export const ItemNetwork = (data: SupportedNetworkCard) => {
       <p className="description">{data.description}</p>
       <Flex>
         <div className="apr">
-          <span>APR</span>
+          <span>Max APR</span>
           <span>{data.apr}%</span>
         </div>
         <div className="staked">
@@ -34,9 +34,17 @@ export const ItemNetwork = (data: SupportedNetworkCard) => {
       </Flex>
       <Flex>
         <Button type="silver" text="Learn more" />
-        <Button type="blue" text="Stake now" onClick={() => {
-          navigate("/stake");
-        }}/>
+        {data.poolLocked ? (
+          <Button type="disabledBlue" text="Stake now" onClick={() => {}} />
+        ) : (
+          <Button
+            type="blue"
+            text="Stake now"
+            onClick={() => {
+              navigate("/stake");
+            }}
+          />
+        )}
       </Flex>
     </Card>
   );

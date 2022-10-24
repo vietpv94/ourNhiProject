@@ -3,18 +3,18 @@ import { handleError, handleResponse } from "@Helpers/util";
 import { SignUpData, SignInData } from "@Models/index";
 import { Token, User } from "@Types/index";
 
-const register = async (user: SignUpData): Promise<Token> => {
+const register = async (user: SignUpData) => {
   try {
-    const { data } = await service.post<User, Token>("auth/signup", user);
+    const { data } = await service.post("auth/signup", user);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "SignUp failed.");
   }
 };
 
-const login = async (user: SignInData): Promise<Token> => {
+const login = async (user: SignInData) => {
   try {
-    const { data } = await service.post<User, Token>("auth/sign-in", user);
+    const { data } = await service.post("auth/sign-in", user);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "Login failed.");

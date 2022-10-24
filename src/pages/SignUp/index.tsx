@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@Redux/reducers";
-import { NavLink, useSearchParams, useNavigate} from "react-router-dom";
+import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import IconClose from "@Assets/images/close-circle.png";
 import IconHide from "@Assets/images/eye-slash.png";
@@ -19,7 +19,7 @@ import {
   Form,
   Heading,
   Input,
-  Select,
+  Select
 } from "@Components/atoms/Form";
 import { Steps } from "@Components/molecules/Steps";
 import { UserLayout } from "@Components/molecules/UserLayout";
@@ -29,7 +29,7 @@ import {
   Item,
   StyledCheckbox,
   Social,
-  ButtonGroup,
+  ButtonGroup
 } from "./components";
 import { breakpoints } from "@Utils/theme";
 import { Link } from "@Pages/Login/components";
@@ -48,6 +48,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [nickname, setNickname] = useState("");
   const [code, setCode] = useState("");
   const [ref, setRef] = useState("");
   const [time, setTime] = useState(0);
@@ -59,7 +60,7 @@ export const SignUp = () => {
   const { is2FAEnabled, userId, isLoggedIn } = useSelector(
     (state: RootState) => state.account
   );
-  
+
   useEffect(() => {
     if (search.get("ref")) {
       setRef(search.get("ref") || "admin");
@@ -72,19 +73,11 @@ export const SignUp = () => {
     }
   }, [isLoggedIn]);
 
-  const handleSignUp = () => {
-    return authServices.register({
-      email: email,
-      password: password,
-      refCode: ref,
-    });
-  };
-
   const handleGetCode = async () => {
     setCountdown();
     userServices
       .getVerifyEmail({
-        email: email,
+        email: email
       })
       .then((response: any) => {
         if (!response.success) {
@@ -103,7 +96,7 @@ export const SignUp = () => {
     setCountdown();
     userServices
       .getVerifyEmail({
-        email: email,
+        email: email
       })
       .then((response: any) => {
         if (!response.success) {
@@ -119,21 +112,11 @@ export const SignUp = () => {
     userServices
       .verifyCode({
         email: email,
-        verifyToken: code,
+        verifyToken: code
       })
       .then((response: any) => {
-        console.log(response);
-
         if (response.success) {
-          handleSignUp().then((signResponse: any) => {
-            console.log(signResponse);
-
-            if (signResponse.success) {
-              setStep(3);
-            } else {
-              return toast.error(signResponse.message);
-            }
-          });
+          setStep(3);
         } else {
           return toast.error(response.message);
         }
@@ -141,6 +124,21 @@ export const SignUp = () => {
       .catch((err: Error) => {
         return toast.error(err.message);
       });
+  };
+
+  const handleRegister = async () => {
+    const { data, message } = await authServices.register({
+      email: email,
+      password: password,
+      nickName: nickname,
+      refCode: ref
+    });
+
+    if (data) {
+      setStep(4);
+    } else {
+      return toast.error(message);
+    }
   };
 
   const setCountdown = () => {
@@ -157,7 +155,7 @@ export const SignUp = () => {
       }
     }, 1000);
   };
-  if (step === 3) {
+  if (step === 4) {
     return (
       <UserLayout heading={`Congratulation! \n Your account has been created.`}>
         <ButtonGroup>
@@ -243,7 +241,7 @@ export const SignUp = () => {
                   onClick={() => setCheck(!check)}
                   customStyle={{
                     width: "25",
-                    height: "25",
+                    height: "25"
                   }}
                 />
                 <div className="content">
@@ -274,7 +272,7 @@ export const SignUp = () => {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  alignContent: "center",
+                  alignContent: "center"
                 }}
               >
                 <Link to="/login">
@@ -315,6 +313,30 @@ export const SignUp = () => {
                     );
                   }
                   handleVerifyCode();
+                }}
+              >
+                Submit
+              </FormButton>
+            </Form>
+          </Options>
+        )}
+        {step === 3 && (
+          <Options>
+            <Form>
+              <Details>Almost done...!</Details>
+              <div className="label">Enter your nickname</div>
+              <Input>
+                <input
+                  type="text"
+                  onChange={(e) => setNickname(e.target.value)}
+                />
+              </Input>
+              <FormButton
+                onClick={() => {
+                  if (!code) {
+                    return toast.error("Please enter your nickname!.");
+                  }
+                  handleRegister();
                 }}
               >
                 Submit

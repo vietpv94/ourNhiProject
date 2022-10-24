@@ -11,7 +11,7 @@ import {
   Logo,
   Mask,
   Percent,
-  TotalStaker,
+  TotalStaker
 } from "./style";
 import { useMemo } from "react";
 import moment from "moment";
@@ -26,6 +26,7 @@ export interface ICardStakingData {
   poolMaxStakeValue?: number;
   currentStakeValue: number;
   currency?: number;
+  tvl?: number;
 }
 
 export interface IYourStakingCardData {
@@ -59,7 +60,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
       <Amount>
         {currency(data.value, {
           symbol: "$",
-          precision: 0,
+          precision: 0
         }).format()}
       </Amount>
       <Percent>
@@ -92,9 +93,9 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
         <div className="item">
           <span className="label">Total Staked: </span>
           <span className="value">
-            {currency(data.currentStakeValue || 0, {
+            {currency(data.tvl || 0, {
               symbol: "$",
-              precision: 0,
+              precision: 0
             }).format()}
           </span>
         </div>
@@ -119,7 +120,7 @@ export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
     return {
       ...data,
       isAllowUnstake,
-      startTime: startTime.format("YYYY-MM-DD HH:mm"),
+      startTime: startTime.format("YYYY-MM-DD HH:mm")
     };
   }, [data]);
   return (
@@ -131,7 +132,7 @@ export function YourStakingCard({ data, onClick }: IYourStakingCardProps) {
       <Amount>
         {currency(stakedData.stakeValue, {
           symbol: "$",
-          precision: 0,
+          precision: 0
         }).format()}
       </Amount>
       <Percent>

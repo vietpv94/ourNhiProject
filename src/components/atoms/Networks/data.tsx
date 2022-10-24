@@ -9,7 +9,8 @@ export interface SupportedNetworkCard {
   name: string;
   description: string;
   apr: number;
-  staked: number;
+  staked: string;
+  poolLocked: boolean;
 }
 
 export const dataSupportedNetworks: SupportedNetworkCard[] = [
@@ -18,39 +19,44 @@ export const dataSupportedNetworks: SupportedNetworkCard[] = [
     icon: ethereum,
     description:
       "Stake any amount of ETH and earn daily staking rewards. Put your staked ETH to work across DeFi to compound your yield.",
-    apr: 5.5,
-    staked: 1000000,
+    apr: 15,
+    staked: "5,954,022,468",
+    poolLocked: true
   },
   {
     name: "solana",
     icon: solana,
     description:
       "Stake any amount of SOL and earn daily staking rewards. Put your staked SOL to work across DeFi to compound your yield.",
-    apr: 5.5,
-    staked: 1000000,
+    apr: 15,
+    staked: "116,773,895",
+    poolLocked: false
   },
   {
     name: "polygon",
     icon: polygon,
     description:
       "Stake any amount of MATIC and earn daily staking rewards. Put your staked MATIC to work across DeFi to compound your yield.",
-    apr: 5.5,
-    staked: 1000000,
+    apr: 15,
+    staked: "47,409,432",
+    poolLocked: false
   },
   {
     name: "pokadot",
     icon: pokadot,
     description:
       "Stake any amount of DOT and earn daily staking rewards. Put your staked DOT to work across DeFi to compound your yield.",
-    apr: 5.5,
-    staked: 1000000,
+    apr: 15,
+    staked: "11,982,072",
+    poolLocked: false
   },
   {
     name: "kusama",
     icon: kusama,
     description:
       "Stake any amount of KSM and earn daily staking rewards. Put your staked KSM to work across DeFi to compound your yield.",
-    apr: 5.5,
-    staked: 1000000,
-  },
+    apr: 15,
+    staked: "2,649,222",
+    poolLocked: true
+  }
 ];

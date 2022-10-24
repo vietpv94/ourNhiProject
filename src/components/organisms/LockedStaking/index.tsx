@@ -1,7 +1,7 @@
 import logo from "@Assets/images/molecules/card/sol-token.png";
 import {
   CardStaking,
-  ICardStakingData,
+  ICardStakingData
 } from "@Components/molecules/CardStaking";
 import { Duration } from "@Components/molecules/Duration";
 import Pagination from "@Components/molecules/Pagination";
@@ -39,7 +39,7 @@ export function LockedStaking(props: ILockedStakingProps) {
     dispatch(
       setModal({
         modal: "stake-confirm",
-        data: { selectedPack: pack, type: 1 },
+        data: { selectedPack: pack, type: 1 }
       })
     );
   };
@@ -60,7 +60,7 @@ export function LockedStaking(props: ILockedStakingProps) {
     setPacks(data?.packs || []);
     setPoolStaked({
       currentStakeValue: data?.currentStakeValue | 0,
-      maxPoolValue: data?.maxPoolValue || 0,
+      maxPoolValue: data?.maxPoolValue || 0
     });
     dispatch(unloading());
   };
@@ -79,14 +79,14 @@ export function LockedStaking(props: ILockedStakingProps) {
           <span className="value">
             {currency(poolStaked?.currentStakeValue || 0, {
               symbol: "$",
-              precision: 0,
+              precision: 0
             }).format()}
             /
             <span className="total">
               {" "}
               {currency(poolStaked?.maxPoolValue || 0, {
                 symbol: "$",
-                precision: 0,
+                precision: 0
               }).format()}
             </span>
           </span>
@@ -106,7 +106,7 @@ export function LockedStaking(props: ILockedStakingProps) {
             ? packs.map((pack, index) => (
                 <CardStaking
                   onClick={handleStakeNow}
-                  data={pack}
+                  data={{ ...pack, tvl: poolStaked?.currentStakeValue || 0 }}
                   key={`grid-item-${index}`}
                 />
               ))

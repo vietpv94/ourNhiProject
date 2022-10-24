@@ -7,6 +7,7 @@ import { ArrowIcon } from "@Components/atoms/icon/arrow";
 export interface ITokenSelectorProps {}
 
 interface ITokenData {
+  id: number;
   name: string;
   network: string;
   value: number;
@@ -14,31 +15,38 @@ interface ITokenData {
 }
 const dataToken: ITokenData[] = [
   {
+    id: 0,
     name: "SOL",
     network: "SOLANA",
     value: 33.86,
-    icon: sol,
+    icon: sol
   },
-  {
-    name: "DOT",
-    network: "POLKADOT",
-    value: 33.86,
-    icon: dot,
-  },
-  {
-    name: "MATIC",
-    network: "POLYGON",
-    value: 33.86,
-    icon: matic,
-  },
+  { id: 1, name: "DOT", network: "POLKADOT", value: 33.86, icon: dot },
+  { id: 2, name: "MATIC", network: "POLYGON", value: 33.86, icon: matic }
 ];
 export function TokenSelector(props: ITokenSelectorProps) {
   const [activeToken, setActiveToken] = React.useState(dataToken[0]);
   return (
     <TokenSelectorWrapper>
       <Main>
-        <img className="tokenImage" src={activeToken.icon} alt="sol" />
-        <div className="right">
+        <img
+          className="tokenImage"
+          src={activeToken.icon}
+          alt="sol"
+          onClick={() => {
+            setActiveToken(
+              dataToken[activeToken.id == 2 ? 0 : activeToken.id + 1]
+            );
+          }}
+        />
+        <div
+          className="right"
+          onClick={() => {
+            setActiveToken(
+              dataToken[activeToken.id == 2 ? 0 : activeToken.id + 1]
+            );
+          }}
+        >
           <div className="info">
             <span className="name">
               {activeToken.name}{" "}
