@@ -1,26 +1,32 @@
 import { breakpoints } from "@Utils/theme";
+import { motion, Reorder } from "framer-motion";
 import styled from "styled-components";
 
-export const SideBarWrapper = styled.div`
-  position: sticky;
-  top: calc(80px + 20px);
-  left: 0;
-  min-width: 300px;
+export const SideBarWrapper = styled(motion.div)`
   height: 100%;
-  background: #fefefe;
-  border: 1px solid #dde2e8;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 16px;
+  width: 300px;
+  position: relative;
+  top: 0;
+  left: 0;
   display: flex;
+  border-radius: 16px;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  &.toggle {
+    background: #fefefe;
+    border: 1px solid #dde2e8;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.04);
+  }
   @media ${breakpoints.sm} {
     position: fixed;
     top: 0;
     left: unset;
     z-index: 2;
     right: -100%;
+    background: #fefefe;
+    border: 1px solid #dde2e8;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.04);
     &.active {
       right: 0;
     }
@@ -35,6 +41,7 @@ export const SideBarHeader = styled.div`
   position: relative;
   padding: 20px;
   gap: 10px;
+  z-index: 2;
   &:after {
     content: "";
     position: absolute;
@@ -46,16 +53,36 @@ export const SideBarHeader = styled.div`
   }
 `;
 
-export const Main = styled.main`
+export const Main = styled(Reorder.Group)`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
   padding: 20px;
   flex-direction: column;
-  gap: 20px;
   align-items: flex-start;
-  justify-content: flex-start;
-  overflow-y: auto;
+  justify-content: space-between;
+  padding-top: 70px;
+  padding-right: 0;
+  & > .group {
+    width: 100%;
+    gap: 20px;
+    display: flex;
+    padding-right: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: auto;
+  }
+  & > .select-token {
+    width: 100%;
+    padding: 20px 20px 0 0;
+  }
+  @media ${breakpoints.sm} {
+    padding-top: 100px;
+  }
 `;
 
 export const Item = styled.div`
@@ -132,4 +159,21 @@ export const ChildItem = styled.div`
       background: #00a3ff;
     }
   }
+`;
+
+export const HamburgerWrapper = styled.div`
+  position: absolute;
+  top: 29px;
+  left: 29px;
+  cursor: pointer;
+`;
+
+export const Menu = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  height: inherit;
+  cursor: pointer;
 `;

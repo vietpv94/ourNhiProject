@@ -38,13 +38,12 @@ export const List = styled.div`
   justify-content: center;
   gap: 30px;
   margin-top: 24px;
+  align-items: center;
   & > .image {
     padding: 20px 0;
     width: calc(100% / 6 - 30px);
     position: relative;
     & > img {
-      top: 50%;
-      transform: translateY(-50%);
       width: 100%;
       height: auto;
     }

@@ -21,11 +21,14 @@ export const TableWrapper = styled.div`
       width: 100%;
       padding-bottom: 10px;
       table-layout: fixed;
+      padding-right: 10px;
       & > tr {
         display: flex;
         width: 100%;
+        align-items: center;
+        justify-content: space-between;
         & > th {
-          flex: 1;
+          flex: 2;
           padding: 10px 0;
           color: #8c8c92;
           text-transform: capitalize;
@@ -34,9 +37,15 @@ export const TableWrapper = styled.div`
           font-weight: 400;
           font-size: 14px;
           min-width: 120px;
+          @media ${breakpoints.xs} {
+            min-width: unset;
+            width: max-content;
+            font-size: 12px;
+          }
         }
         & > th:first-child {
           text-align: left;
+          flex: 1;
         }
         & > th:last-child {
           text-align: right;
@@ -56,8 +65,10 @@ export const TableWrapper = styled.div`
         position: relative;
         padding: 10px 0;
         table-layout: fixed;
+        align-items: center;
+        justify-content: space-between;
         & > td {
-          flex: 1;
+          flex: 2;
           padding: 10px 0;
           color: #37373b;
           text-transform: capitalize;
@@ -65,9 +76,15 @@ export const TableWrapper = styled.div`
           font-weight: 500;
           font-size: 14px;
           min-width: 120px;
+          @media ${breakpoints.xs} {
+            min-width: unset;
+            width: max-content;
+            font-size: 12px;
+          }
         }
         & > td:first-child {
           text-align: left;
+          flex: 1;
         }
         & > td:last-child {
           text-align: right;
@@ -82,6 +99,7 @@ export const TableWrapper = styled.div`
           left: 0;
         }
         @media ${breakpoints.sm} {
+          min-width: 100%;
           width: max-content;
         }
       }

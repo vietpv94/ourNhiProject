@@ -42,6 +42,12 @@ export const Box = styled.div`
   flex: 1;
   display: flex;
   overflow: hidden;
+  @media ${breakpoints.sm} {
+    padding: 10px 20px;
+  }
+  @media ${breakpoints.xs} {
+    padding: 10px 15px;
+  }
   & > div > table {
     & > tbody {
       & > tr > td {
@@ -85,9 +91,20 @@ export const BoxPayout = styled.div`
   flex: 1;
   display: flex;
   overflow: hidden;
+  @media ${breakpoints.sm} {
+    padding: 10px 20px;
+  }
+  @media ${breakpoints.xs} {
+    padding: 10px 15px;
+  }
   & > div > table {
     & > tbody {
       & > tr > td {
+        & > div {
+          height: 20px;
+          display: flex;
+          align-items: center;
+        }
         & > .time {
           color: rgba(41, 45, 50, 0.5);
           font-weight: 500;
@@ -107,37 +124,72 @@ export const BoxTransaction = styled.div`
   flex: 1;
   display: flex;
   overflow: hidden;
+  @media ${breakpoints.sm} {
+    padding: 10px 20px;
+  }
+  @media ${breakpoints.xs} {
+    padding: 10px 15px;
+  }
   & > div > table {
+    & > thead {
+      & > tr {
+        & > th {
+          min-width: 120px;
+        }
+        & > th:first-child {
+          min-width: 50px;
+          max-width: 100px;
+        }
+        & > th:last-child {
+          padding-right: 10px;
+        }
+      }
+    }
     & > tbody {
-      & > tr > td {
-        & > .walletAddress {
-          color: rgba(41, 45, 50, 0.5);
+      & > tr {
+        & > td {
+          min-width: 120px;
+          padding: unset;
+          & > .walletAddress {
+            color: rgba(41, 45, 50, 0.5);
+          }
+          & > .time {
+            color: rgba(41, 45, 50, 0.5);
+            font-weight: 500;
+            font-size: 14px;
+          }
+          & > .status {
+            margin: auto;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 35px;
+            width: 120px;
+            &.success {
+              color: #53ba95;
+              background: rgba(83, 186, 149, 0.3);
+            }
+            &.pending {
+              color: #ff9900;
+              background: rgba(255, 224, 130, 0.3);
+            }
+            &.failed {
+              color: #ff6482;
+              background: rgba(255, 100, 130, 0.3);
+            }
+            @media ${breakpoints.xs} {
+              height: 28px;
+              width: 80px;
+            }
+          }
         }
-        & > .time {
-          color: rgba(41, 45, 50, 0.5);
-          font-weight: 500;
-          font-size: 14px;
+        & > td:first-child {
+          min-width: 50px;
+          max-width: 100px;
         }
-        & > .status {
-          margin: auto;
-          border-radius: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 35px;
-          width: 120px;
-          &.success {
-            color: #53ba95;
-            background: rgba(83, 186, 149, 0.3);
-          }
-          &.pending {
-            color: #ff9900;
-            background: rgba(255, 224, 130, 0.3);
-          }
-          &.failed {
-            color: #ff6482;
-            background: rgba(255, 100, 130, 0.3);
-          }
+        & > td:last-child {
+          padding-right: 10px;
         }
       }
     }

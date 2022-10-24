@@ -16,7 +16,7 @@ import {
   ItemNav,
   Main,
   MenuMobileWrapper,
-  Navigation
+  Navigation,
 } from "./style";
 
 export interface IHeaderProps {}
@@ -29,7 +29,12 @@ export const ItemNavigation = (data: DataItemNav) => {
       <span>{data.name}</span>
       <Dropdown style={{ display: `${isHover ? "flex" : "none"}` }}>
         {data.children?.map((item, index) => (
-          <li key={`navigation-${index}`}>
+          <li
+            key={`navigation-${index}`}
+            onClick={() => {
+              window.open(item.link, "_blank");
+            }}
+          >
             <span className="title">{item.name}</span>
             <span className="description">{item.description}</span>
           </li>
@@ -44,7 +49,13 @@ export const ItemMenuMobile = (data: DataItemNav) => {
     <div className="item">
       <span className="name">{data.name}</span>
       {data.children?.map((item, index) => (
-        <div className="item-child" key={`menu-${index}`}>
+        <div
+          className="item-child"
+          key={`menu-${index}`}
+          onClick={() => {
+            window.open(item.link, "_blank");
+          }}
+        >
           <span className="title">{item.name}</span>
           <span className="description">{item.description}</span>
         </div>
@@ -81,10 +92,14 @@ export function Header(props: IHeaderProps) {
     );
   }, [isLoggedIn]);
 
+  function reloadPage() {
+    window.location.reload();
+  }
+
   return (
     <HeaderWrapper className={isOpenSideBar ? "toggle" : ""}>
       <Main className="header">
-        <Logo />
+        <Logo onClick={reloadPage} />
         {!isMobile ? (
           <>
             <Navigation>

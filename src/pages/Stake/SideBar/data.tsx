@@ -20,37 +20,37 @@ export const dataSideBar: DataSideBar[] = [
     children: [
       {
         name: "Staking",
-        link: "/stake/defi-staking"
+        link: "/stake/defi-staking",
       },
       {
         name: "UnStaking",
-        link: "/stake/unstaking"
-      }
-    ]
+        link: "/stake/unstaking",
+      },
+    ],
   },
   {
     name: "Dashboard",
     link: "/stake/dashboard",
-    icon: <DocumentIcon />
+    icon: <DocumentIcon />,
   },
   {
     name: "History",
     link: "/stake/history",
-    icon: <HistoryIcon />
+    icon: <HistoryIcon />,
   },
   {
     name: "Affiliate",
     link: "/stake/affiliate",
-    icon: <TeamIcon />
+    icon: <TeamIcon />,
   },
-  {
-    name: "Swap",
-    link: "/stake/swap",
-    icon: <SwapIcon />
-  },
+  // {
+  //   name: "Swap",
+  //   link: "/stake/swap",
+  //   icon: <SwapIcon />
+  // },
   {
     name: "Withdraw",
     link: "",
-    icon: <WithdrawIcon />
-  }
+    icon: <WithdrawIcon />,
+  },
 ];
