@@ -101,7 +101,7 @@ export function History(props: IHistoryProps) {
         ),
         dateOfRegistration: (
           <div className="dateOfRegistration">
-            {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
+            {dateOfRegistration.format("MMM DD, YYYY")}
           </div>
         ),
       };
@@ -138,7 +138,7 @@ export function History(props: IHistoryProps) {
         ),
         time: (
           <div className="time">
-            {moment(item.createdAt).format("YYYY-MM-DD HH:mm")}
+            {moment(item.createdAt).format("MMM DD, YYYY")}
           </div>
         ),
       };
@@ -160,7 +160,11 @@ export function History(props: IHistoryProps) {
           </div>
         ),
         package: <div className="package">${item.stakingValue}</div>,
-        time: <div className="time">{item.createdAt}</div>,
+        time: (
+          <div className="time">
+            {moment(item.createdAt).format("MMM DD, YYYY")}
+          </div>
+        ),
       };
     });
   }, [payoutData]);

@@ -16,7 +16,7 @@ import {
   ItemNav,
   Main,
   MenuMobileWrapper,
-  Navigation
+  Navigation,
 } from "./style";
 
 export interface IHeaderProps {}
@@ -81,10 +81,14 @@ export function Header(props: IHeaderProps) {
     );
   }, [isLoggedIn]);
 
+  function reloadPage() {
+    window.location.reload();
+  }
+
   return (
     <HeaderWrapper className={isOpenSideBar ? "toggle" : ""}>
       <Main className="header">
-        <Logo />
+        <Logo onClick={reloadPage} />
         {!isMobile ? (
           <>
             <Navigation>

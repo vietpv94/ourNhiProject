@@ -32,6 +32,7 @@ export const HeaderWrapper = styled.div`
 export const Logo = styled.img`
   height: 24px;
   width: auto;
+  cursor: pointer;
 `;
 
 export const Main = styled.div`

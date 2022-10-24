@@ -1,6 +1,8 @@
+import { breakpoints } from "@Utils/theme";
 import _ from "lodash";
 import * as React from "react";
 import { useCallback } from "react";
+import { useMedia } from "react-use";
 import Pagination from "../Pagination";
 import { Footer, TableWrapper } from "./style";
 
@@ -15,7 +17,7 @@ let PageSize = 10;
 
 export function Table({ data, total, header, onMovePage }: ITableProps) {
   const [currentPage, setCurrentPage] = React.useState(1);
-
+  const isMobile = useMedia(breakpoints.xs);
   const handlePageChange = (page: number) => {
     onMovePage(page);
     setCurrentPage(page);
@@ -39,7 +41,9 @@ export function Table({ data, total, header, onMovePage }: ITableProps) {
           <tr>
             {header.map((item, index) => (
               <th className={item} key={`thead-tr-${index}`}>
-                {_.startCase(item)}
+                {item === "date of registration" && isMobile
+                  ? "Time"
+                  : _.startCase(item)}
               </th>
             ))}
           </tr>

@@ -94,10 +94,14 @@ export function Header(props: IHeaderProps) {
   useEffect(() => {
     loadProfile();
   }, []);
+
+  function reloadPage() {
+    window.location.reload();
+  }
   return (
     <Container>
       <HeaderWrapper>
-        <Logo src={logo} alt="logo" />
+        <Logo src={logo} alt="logo" onClick={reloadPage} />
         {isTablet ? (
           <Flex>
             <Badge />

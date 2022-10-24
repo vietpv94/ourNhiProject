@@ -145,4 +145,5 @@ export const MenuMobileWrapper = styled.div`
 export const LogoImage = styled.img`
   height: 24px;
   width: auto;
+  cursor: pointer;
 `;
