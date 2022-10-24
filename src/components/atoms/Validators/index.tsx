@@ -35,36 +35,36 @@ import { ValidatorsWrapper, Section, Title, Description, List } from "./style";
 export interface IValidatorsProps {}
 
 const data = [
-  { id: 1, image: one },
-  { id: 2, image: two },
-  { id: 3, image: three },
-  { id: 4, image: four },
-  { id: 5, image: five },
-  { id: 6, image: six },
-  { id: 7, image: seven },
-  { id: 8, image: eight },
-  { id: 9, image: nine },
-  { id: 10, image: ten },
-  { id: 11, image: eleven },
-  { id: 12, image: twelve },
-  { id: 13, image: thirteen },
-  { id: 14, image: fourteen },
-  { id: 15, image: fifteen },
-  { id: 16, image: sixteen },
-  { id: 17, image: seventeen },
-  { id: 18, image: eighteen },
-  { id: 19, image: nineteen },
-  { id: 20, image: twenty },
-  { id: 21, image: twentyone },
-  { id: 22, image: twentytwo },
-  { id: 23, image: twentythree },
-  { id: 24, image: twentyfour },
-  { id: 25, image: twentyfive },
-  { id: 26, image: twentysix },
-  { id: 27, image: twentyseven },
-  { id: 28, image: twentyeight },
-  { id: 29, image: twentynine },
-  { id: 30, image: thirty },
+  { id: 1, image: one, link: "https://jumpcrypto.com/" },
+  { id: 2, image: two, link: "https://p2p.org/" },
+  { id: 3, image: three, link: "https://chorus.one/" },
+  { id: 4, image: four, link: "https://stake.fish/" },
+  { id: 5, image: five, link: "https://stakingfacilities.com/" },
+  { id: 6, image: six, link: "https://blockscape.network/" },
+  { id: 7, image: seven, link: "https://www.dsrvlabs.com/" },
+  { id: 8, image: eight, link: "https://everstake.one/" },
+  { id: 9, image: nine, link: "https://www.kiln.fi/" },
+  { id: 10, image: ten, link: "https://www.rockx.com/" },
+  { id: 11, image: eleven, link: "https://www.figment.io/" },
+  { id: 12, image: twelve, link: "https://www.allnodes.com/" },
+  { id: 13, image: thirteen, link: "https://blockdaemon.com/" },
+  { id: 14, image: fourteen, link: "https://blockdaemon.com/" },
+  { id: 15, image: fifteen, link: "https://stakin.com/home" },
+  { id: 16, image: sixteen, link: "https://www.chainlayer.io/" },
+  { id: 17, image: seventeen, link: "https://www.simply-vc.com.mt/" },
+  { id: 18, image: eighteen, link: "https://www.bridgetowercapital.com/" },
+  { id: 19, image: nineteen, link: "https://stakely.io/en" },
+  { id: 20, image: twenty, link: "https://infstones.com/" },
+  { id: 21, image: twentyone, link: "https://www.hashquark.io/#/" },
+  { id: 22, image: twentytwo, link: "https://consensys.net/codefi/" },
+  { id: 23, image: twentythree, link: "https://sigmaprime.io/" },
+  { id: 24, image: twentyfour, link: "https://prysmaticlabs.com/" },
+  { id: 25, image: twentyfive, link: "https://chainsafe.io/" },
+  { id: 26, image: twentysix, link: "https://nethermind.io/" },
+  { id: 27, image: twentyseven, link: "https://www.kukis-global.com/" },
+  { id: 28, image: twentyeight, link: "https://www.cryptomanufaktur.io/" },
+  { id: 29, image: twentynine, link: "https://rocklogic.at/" },
+  { id: 30, image: thirty, link: "https://www.attestant.io/" },
 ];
 
 export function Validators(props: IValidatorsProps) {
@@ -75,7 +75,11 @@ export function Validators(props: IValidatorsProps) {
         <Description>Explore validators that help grow Lido</Description>
         <List>
           {data.map((item) => (
-            <div key={`validator-${item.id}`} className="image">
+            <div
+              key={`validator-${item.id}`}
+              className="image"
+              onClick={() => window.open(item.link, "_blank")}
+            >
               <img src={item.image} alt="validator" />
             </div>
           ))}

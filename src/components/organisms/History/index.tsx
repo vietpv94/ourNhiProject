@@ -8,7 +8,7 @@ import {
   BoxTransaction,
   HistoryWrapper,
   Title,
-  Top
+  Top,
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import tether from "@Assets/images/tether.png";
@@ -75,7 +75,7 @@ export function History(props: IHistoryProps) {
     "value",
     "Wallet Address",
     "status",
-    "time"
+    "time",
   ];
   const renderData = useMemo(() => {
     if (!stakingHistory?.length) return [];
@@ -94,9 +94,9 @@ export function History(props: IHistoryProps) {
         ),
         dateOfRegistration: (
           <div className="dateOfRegistration">
-            {dateOfRegistration.format("YYYY-MM-DD HH:mm")}
+            {dateOfRegistration.format("MMM DD, YYYY")}
           </div>
-        )
+        ),
       };
     });
   }, [stakingHistory]);
@@ -131,9 +131,9 @@ export function History(props: IHistoryProps) {
         ),
         time: (
           <div className="time">
-            {moment(item.createdAt).format("YYYY-MM-DD HH:mm")}
+            {moment(item.createdAt).format("MMM DD, YYYY")}
           </div>
-        )
+        ),
       };
     });
   }, [transactionData]);
@@ -153,7 +153,11 @@ export function History(props: IHistoryProps) {
           </div>
         ),
         package: <div className="package">${item.stakingValue}</div>,
-        time: <div className="time">{item.createdAt}</div>
+        time: (
+          <div className="time">
+            {moment(item.createdAt).format("MMM DD, YYYY")}
+          </div>
+        ),
       };
     });
   }, [payoutData]);
@@ -218,20 +222,20 @@ export function History(props: IHistoryProps) {
         ? {}
         : {
             fromDate: fromDate.format("YYYY-MM-DD HH:mm"),
-            toDate: toDate.format("YYYY-MM-DD HH:mm")
+            toDate: toDate.format("YYYY-MM-DD HH:mm"),
           };
     setCurrentTimeFilter(filter);
     if (currentTab === "staking")
       await loadStakingHistory({
-        ...filter
+        ...filter,
       });
     if (currentTab === "payout")
       await loadPayoutData({
-        ...filter
+        ...filter,
       });
     if (currentTab === "transactions")
       await loadTransaction({
-        ...filter
+        ...filter,
       });
   };
 
