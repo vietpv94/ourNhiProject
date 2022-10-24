@@ -68,9 +68,7 @@ export function Header(props: IHeaderProps) {
   const isTablet = useMedia(breakpoints.sm);
   const dispatch = useDispatch();
   const loadProfile = async () => {
-    dispatch(loading());
     await userServices.getProfile();
-    dispatch(unloading());
   };
   const { visible, setVisible } = useWalletModal();
 
@@ -86,10 +84,8 @@ export function Header(props: IHeaderProps) {
 
   const loadWalletBalance = async () => {
     if (!connection || !publicKey) return;
-    dispatch(loading());
     const balance = await connection.getBalance(publicKey);
     setBalance(balance / LAMPORTS_PER_SOL);
-    dispatch(unloading());
   };
   useEffect(() => {
     loadProfile();

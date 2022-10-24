@@ -68,9 +68,9 @@ export const Main = styled(Reorder.Group)`
   padding-right: 0;
   & > .group {
     width: 100%;
-    padding-right: 20px;
     gap: 20px;
     display: flex;
+    padding-right: 20px;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -78,7 +78,7 @@ export const Main = styled(Reorder.Group)`
   }
   & > .select-token {
     width: 100%;
-    padding: 20px;
+    padding: 20px 20px 0 0;
   }
   @media ${breakpoints.sm} {
     padding-top: 100px;
