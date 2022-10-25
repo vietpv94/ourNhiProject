@@ -8,6 +8,7 @@ export interface SupportedNetworkCard {
   icon: string;
   name: string;
   description: string;
+  symbol?: string;
   apr: number;
   staked: string;
   poolLocked: boolean;
@@ -17,6 +18,7 @@ export const dataSupportedNetworks: SupportedNetworkCard[] = [
   {
     name: "ethereum",
     icon: ethereum,
+    symbol: 'ETH',
     description:
       "Stake any amount of ETH and earn daily staking rewards. Put your staked ETH to work across DeFi to compound your yield.",
     apr: 15,
@@ -26,6 +28,7 @@ export const dataSupportedNetworks: SupportedNetworkCard[] = [
   {
     name: "solana",
     icon: solana,
+    symbol: 'SOL',
     description:
       "Stake any amount of SOL and earn daily staking rewards. Put your staked SOL to work across DeFi to compound your yield.",
     apr: 15,
@@ -35,6 +38,7 @@ export const dataSupportedNetworks: SupportedNetworkCard[] = [
   {
     name: "polygon",
     icon: polygon,
+    symbol: 'MATIC',
     description:
       "Stake any amount of MATIC and earn daily staking rewards. Put your staked MATIC to work across DeFi to compound your yield.",
     apr: 15,
@@ -44,6 +48,7 @@ export const dataSupportedNetworks: SupportedNetworkCard[] = [
   {
     name: "pokadot",
     icon: pokadot,
+    symbol: 'DOT',
     description:
       "Stake any amount of DOT and earn daily staking rewards. Put your staked DOT to work across DeFi to compound your yield.",
     apr: 15,
@@ -53,6 +58,7 @@ export const dataSupportedNetworks: SupportedNetworkCard[] = [
   {
     name: "kusama",
     icon: kusama,
+    symbol: 'KSM',
     description:
       "Stake any amount of KSM and earn daily staking rewards. Put your staked KSM to work across DeFi to compound your yield.",
     apr: 15,

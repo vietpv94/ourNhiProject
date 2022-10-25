@@ -1,7 +1,7 @@
 import mask from "@Assets/images/molecules/card/mask.png";
 import { Button } from "@Components/atoms/Button";
 import logo from "@Assets/images/molecules/card/sol-token.png";
-import tether from "@Assets/images/tether.png";
+import sol from "@Assets/images/molecules/card/sol-token.png";
 import {
   Amount,
   Bulkhead,
@@ -56,7 +56,7 @@ export function CardStaking({ data, onClick }: ICardStakingProps) {
     <CardStakingWrapper>
       <Mask className="left" src={mask} alt="mask" />
       <Mask className="right" src={mask} alt="mask" />
-      <Logo src={tether} alt="tether" />
+      <Logo src={sol} alt="sol" />
       <Amount>
         {currency(data.value, {
           symbol: "$",

@@ -1,6 +1,6 @@
 import HomeWrapper from "./style";
 import Layout from "@Pages/Layout";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "@Components/molecules/HeaderHomePage";
 import { Networks } from "@Components/atoms/Networks";
 import { HowLidoWork } from "@Components/atoms/HowLidoWork";
@@ -15,16 +15,26 @@ import { JoinCommunity } from "@Components/atoms/JoinCommunity";
 import { Subscribe } from "@Components/atoms/Subscribe";
 import { Footer } from "@Components/molecules/Footer";
 import { Introduce } from "@Components/atoms/Introduce";
+import { counterServices } from "@Services/index";
 
 interface Props {}
 
 export function HomePage(): React.ReactElement {
+  const [data, setData] = useState([]);
+  const loadStakingCounter = async () => {
+    const { data } = await counterServices.getStakingCounter();
+    setData(data);
+  };
+
+  useEffect(() => {
+    loadStakingCounter();
+  }, []);
   return (
     <Layout title="Liquidity for staked assets">
       <Header />
       <HomeWrapper>
         <Introduce />
-        <Networks />
+        <Networks data={data} />
         <HowLidoWork />
         <TheDAO />
         <GrowingEcosystem />

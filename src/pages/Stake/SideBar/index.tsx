@@ -7,11 +7,11 @@ import useOnClickOutside from "@Hooks/useOnClickOutside";
 import { openSideBar } from "@Redux/actions/home";
 import { loading, unloading } from "@Redux/actions/loading";
 import { setModal } from "@Redux/actions/modal";
-import { userServices } from "@Services/index";
+import { stakingServices, userServices } from "@Services/index";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   useWalletModal,
-  WalletDisconnectButton,
+  WalletDisconnectButton
 } from "@solana/wallet-adapter-react-ui";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { breakpoints } from "@Utils/theme";
@@ -30,7 +30,7 @@ import {
   Main,
   Menu,
   SideBarHeader,
-  SideBarWrapper,
+  SideBarWrapper
 } from "./style";
 
 export interface ISideBarProps {}
@@ -41,8 +41,8 @@ const VariantsMenu = {
     transition: {
       type: "spring",
       stiffness: 20,
-      restDelta: 2,
-    },
+      restDelta: 2
+    }
   }),
   closed: {
     clipPath: "circle(30px at 40px 40px)",
@@ -50,9 +50,9 @@ const VariantsMenu = {
       delay: 0.2,
       type: "spring",
       stiffness: 400,
-      damping: 40,
-    },
-  },
+      damping: 40
+    }
+  }
 };
 
 const VariantsSidebar = {
@@ -61,8 +61,8 @@ const VariantsSidebar = {
     transition: {
       type: "spring",
       stiffness: 100,
-      restDelta: 2,
-    },
+      restDelta: 2
+    }
   },
   closed: {
     width: "80px",
@@ -70,9 +70,9 @@ const VariantsSidebar = {
       delay: 0.2,
       type: "spring",
       stiffness: 400,
-      damping: 40,
-    },
-  },
+      damping: 40
+    }
+  }
 };
 
 export function SideBar(props: ISideBarProps) {
@@ -85,12 +85,13 @@ export function SideBar(props: ISideBarProps) {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
   const [balance, setBalance] = useState(0);
+  const [solPrice, setSolPrice] = useState(0);
   const handleActiveChild = (name: string, link: string) => {
     navigate(link);
     if (name === "Withdraw" || name === "Deposit") {
       dispatch(
         setModal({
-          modal: name.toLowerCase(),
+          modal: name.toLowerCase()
         })
       );
     }
@@ -132,7 +133,13 @@ export function SideBar(props: ISideBarProps) {
   };
   useEffect(() => {
     loadProfile();
+    loadPrice();
   }, []);
+
+  const loadPrice = async () => {
+    const { data } = await stakingServices.getSolPrice();
+    setSolPrice(data.solPrice);
+  };
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -158,14 +165,14 @@ export function SideBar(props: ISideBarProps) {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "start",
+                  alignItems: "start"
                 }}
               >
                 <div
                   style={{
                     fontSize: "13px",
                     height: "16px",
-                    color: "#000",
+                    color: "#000"
                   }}
                 >
                   {balance.toFixed(2)} SOL
@@ -174,7 +181,7 @@ export function SideBar(props: ISideBarProps) {
                   style={{
                     fontSize: "11px",
                     height: "60px",
-                    color: "#ccc",
+                    color: "#ccc"
                   }}
                 >
                   {publicKey?.toBase58().slice(0, 6)}...
@@ -242,7 +249,7 @@ export function SideBar(props: ISideBarProps) {
             ))}{" "}
           </div>
           <div className="select-token">
-            <TokenSelector />
+            <TokenSelector dataPrice={{ solPrice: solPrice }} />
           </div>
         </Main>
       )}

@@ -4,7 +4,10 @@ import sol from "@Assets/images/molecules/token/sol.png";
 import dot from "@Assets/images/molecules/token/dot.png";
 import matic from "@Assets/images/molecules/token/matic.png";
 import { ArrowIcon } from "@Components/atoms/icon/arrow";
-export interface ITokenSelectorProps {}
+import { useMemo } from "react";
+export interface ITokenSelectorProps {
+  dataPrice: { solPrice?: number; maticPrice?: number; dotPrice?: number };
+}
 
 interface ITokenData {
   id: number;
@@ -13,19 +16,29 @@ interface ITokenData {
   value: number;
   icon: string;
 }
-const dataToken: ITokenData[] = [
-  {
+
+export function TokenSelector({ dataPrice }: ITokenSelectorProps) {
+  const [activeToken, setActiveToken] = React.useState({
     id: 0,
     name: "SOL",
     network: "SOLANA",
-    value: 33.86,
+    value: dataPrice.solPrice,
     icon: sol
-  },
-  { id: 1, name: "DOT", network: "POLKADOT", value: 33.86, icon: dot },
-  { id: 2, name: "MATIC", network: "POLYGON", value: 33.86, icon: matic }
-];
-export function TokenSelector(props: ITokenSelectorProps) {
-  const [activeToken, setActiveToken] = React.useState(dataToken[0]);
+  });
+
+  const dataToken = useMemo(() => {
+    return [
+      {
+        id: 0,
+        name: "SOL",
+        network: "SOLANA",
+        value: dataPrice.solPrice,
+        icon: sol
+      },
+      { id: 1, name: "DOT", network: "POLKADOT", value: 33.86, icon: dot },
+      { id: 2, name: "MATIC", network: "POLYGON", value: 33.86, icon: matic }
+    ];
+  }, [dataPrice]);
   return (
     <TokenSelectorWrapper>
       <Main>
