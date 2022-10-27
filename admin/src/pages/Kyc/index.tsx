@@ -10,11 +10,10 @@ import { CommonFilter } from "@Types/common";
 import adminTransactionServices from "@Services/adminTransaction";
 import adminKYCServices from "@Services/adminKYC";
 import { Button } from "@Components/atoms/Button";
-import { Flex } from "@Pages/Home/style";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 export interface IHistoryProps {}
 
-interface IKyc {
+export interface IKyc {
   id: number;
   status: number;
   fullName: string;
@@ -47,6 +46,7 @@ export function KycManagement(props: IHistoryProps) {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [totalKycRequest, setTotalKycRequest] = useState<number>(0);
   const [listKycRequest, setListKycRequest] = useState<IKyc[]>([]);
+  const navigate = useNavigate();
   const headerKycs = [
     "ID",
     "Email",
@@ -81,26 +81,19 @@ export function KycManagement(props: IHistoryProps) {
           </div>
         ),
         createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm"),
-        action: item.status !== 2 && (
+        action: (
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              alignContent: "center",
+              alignContent: "center"
             }}
           >
             <Button
-              text="Approve"
-              type={"blue"}
+              text="Detail"
+              type={"outline"}
               onClick={() => {
-                approveKyc(item.id);
-              }}
-            />
-            <Button
-              text="Reject"
-              type={"silver"}
-              onClick={() => {
-                rejectKyc(item.id);
+                navigate(`${item.id}`);
               }}
             />
           </div>
@@ -108,18 +101,6 @@ export function KycManagement(props: IHistoryProps) {
       };
     });
   }, [listKycRequest]);
-  const rejectKyc = async (id: number) => {
-    const { data, success } = await adminKYCServices.rejectKycRequest(id);
-    if (!success) {
-      toast.error(data.message);
-    }
-  };
-  const approveKyc = async (id: number) => {
-    const { data, success } = await adminKYCServices.approveKycRequest(id);
-    if (!success) {
-      toast.error(data.message);
-    }
-  };
 
   const handleChangePage = async (page: number) => {
     await loadKycRequest({ page: page });

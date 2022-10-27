@@ -17,6 +17,7 @@ import { TransactionManagement } from "@Pages/Transaction";
 import { KycManagement } from "@Pages/Kyc";
 import { StakingSessionManagement } from "@Pages/StakingSession";
 import { SystemConfigManagement } from "@Pages/SystemConfig";
+import { KYCDetail } from "@Pages/Kyc/detail";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -48,8 +49,12 @@ const App: FC = () => {
             <Route path="" element={<UserManagement />} />
             <Route path="transaction" element={<TransactionManagement />} />
             <Route path="sys-conf" element={<SystemConfigManagement />} />
-            <Route path="staking-session" element={<StakingSessionManagement />} />
+            <Route
+              path="staking-session"
+              element={<StakingSessionManagement />}
+            />
             <Route path="kyc" element={<KycManagement />} />
+            <Route path="kyc/:id" element={<KYCDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>
