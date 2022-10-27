@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@Redux/*": ["src/redux/*"],
+      "@Components/*": ["src/components/*"],
+      "@Services/*": ["src/services/*"],
+      "@Utils/*": ["src/utils/*"],
+      "@Hooks/*": ["src/hooks/*"],
+      "@Pages/*": ["src/pages/*"],
+      "@Constants/*": ["src/constants/*"],
+      "@Styles/*": ["src/styles/*"],
+      "@Types/*": ["src/types/*"],
+      "@Helpers/*": ["src/helpers/*"],
+      "@Models/*": ["src/models/*"],
+      "@Assets/*": ["src/assets/*"]
+    }
+  },
+  "include": ["./src/**/*", "types", "index.d.ts"],
+  "exclude": ["./build/**/*"]
+}
