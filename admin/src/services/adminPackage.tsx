@@ -12,6 +12,14 @@ const getPackage = async (filter?: CommonFilter) => {
   }
 };
 
+const getPackageById = async (id: number) => {
+  try {
+    const { data } = await service.get(`admin/fixed-staking-package/${id}`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "get getPackageById failed.");
+  }
+};
 const addPackage = async (param: IStakingPackage) => {
   try {
     const { data } = await service.post("admin/fixed-staking-package", param);
@@ -46,7 +54,8 @@ export const adminPackageServices = {
   getPackage,
   addPackage,
   updatePackage,
-  deletePackage
+  deletePackage,
+  getPackageById
 };
 
 export default adminPackageServices;

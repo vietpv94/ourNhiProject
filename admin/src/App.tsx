@@ -20,6 +20,12 @@ import { SystemConfigManagement } from "@Pages/SystemConfig";
 import { KYCDetail } from "@Pages/Kyc/detail";
 import { BonusManagement } from "@Pages/Bonus";
 import { BonusDetail } from "@Pages/Bonus/detail";
+import { PackageManagement } from "@Pages/Packages";
+import { PackageDetail } from "@Pages/Packages/detail";
+import { AddPackage } from "@Pages/Packages/add";
+import { LevelConditionManagement } from "@Pages/LevelCondition";
+import { LevelConditionDetail } from "@Pages/LevelCondition/detail";
+import { AddLevelCondition } from "@Pages/LevelCondition/add";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -60,6 +66,14 @@ const App: FC = () => {
 
             <Route path="bonus" element={<BonusManagement />} />
             <Route path="bonus/:id" element={<BonusDetail />} />
+
+            <Route path="package" element={<PackageManagement />} />
+            <Route path="package/:id" element={<PackageDetail />} />
+            <Route path="package/add" element={<AddPackage />} />
+
+            <Route path="level-condition" element={<LevelConditionManagement />} />
+            <Route path="level-condition/:id" element={<LevelConditionDetail />} />
+            <Route path="level-condition/add" element={<AddLevelCondition />} />
           </Route>
         </Routes>
       </BrowserRouter>

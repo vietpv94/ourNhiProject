@@ -14,7 +14,7 @@ import adminBonusLevelServices from "@Services/adminBonusLevel";
 import { IBonusLevel } from "@Models/bonusLevel";
 import { IFullStakingPackage } from "@Models/index";
 import adminPackageServices from "@Services/adminPackage";
-export interface IHistoryProps {}
+export interface IPackageProps {}
 
 const convertStatus = (status: number): string => {
   switch (status) {
@@ -30,7 +30,7 @@ const convertStatus = (status: number): string => {
   }
 };
 
-export function PackageManagement(props: IHistoryProps) {
+export function PackageManagement(props: IPackageProps) {
   const tabs = ["Quản lý gói"];
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [totalPackage, setTotalPackage] = useState<number>(0);
@@ -63,7 +63,6 @@ export function PackageManagement(props: IHistoryProps) {
         id: item.id,
         duration: `${item.duration / (30 * 24 * 60 * 60)} months`,
         value: item.value,
-
         percentProfitPerMonth: item.percentProfitPerMonth,
         createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm"),
         action: (
@@ -96,12 +95,20 @@ export function PackageManagement(props: IHistoryProps) {
       <Title>Quản lý gói</Title>
       <Top>
         <Tab
-          parent="bonusManagement"
+          parent="packageManagement"
           tabs={tabs}
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
         />
-        <div className="left"></div>
+        <div className="left">
+          <Button
+            text="Thêm Gói"
+            type={"outline"}
+            onClick={() => {
+              navigate('add');
+            }}
+          />
+        </div>
       </Top>
       <BoxUsers>
         <Table

@@ -1,4 +1,5 @@
 export interface IStakingLevelCondition {
+  id?: number;
   level: number;
   conditionInvest: number;
   conditionNumF1: number;
@@ -7,4 +8,5 @@ export interface IStakingLevelCondition {
   maximumBinaryTreeIncome: number;
   maxDeepReceiveSunCommission: number;
   reward: number;
+  createdAt?: string;
 }

@@ -9,101 +9,65 @@ import userServices from "@Services/user";
 import { CommonFilter } from "@Types/common";
 import adminTransactionServices from "@Services/adminTransaction";
 import adminSystemConfigServices from "@Services/adminSystemConfig";
+import { Button } from "@Components/atoms/Button";
+import { useNavigate } from "react-router-dom";
 export interface IHistoryProps {}
 
-interface IUser {
+interface ISystemConfig {
   id: number;
-  email: string;
-  nickName: string;
-  active: true;
-  verified: false;
-  balance: number;
-  solBalance: number;
-  lastLogin: string;
-  depositAmount: number;
-  withdrawAmount: number;
-  commissionAmount: number;
-  totalInvestment: number;
-  totalRevenue: number;
-  dayRevenue: number;
-  refCode: string;
-  referralCodeApplied: string;
-  level: number;
-  active2fa: boolean;
-  kycStatus: number;
-  blockWithdraw: boolean;
-  minLevel: number;
+  key: string;
   createdAt: string;
 }
 
-const convertStatus = (status: number): string => {
-  switch (status) {
-    case 0:
-    case 3:
-      return "failed";
-    case 1:
-      return "pending";
-    case 2:
-      return "success";
-    default:
-      return "failed";
-  }
-};
-
 export function SystemConfigManagement(props: IHistoryProps) {
-  const tabs = ["transactionManagement"];
+  const tabs = ["System Config Management"];
   const [currentTab, setCurrentTab] = useState(tabs[0]);
-  const [totalTransaction, setTotalTransaction] = useState<number>(0);
-  const [listTransaction, setListTransaction] = useState<IUser[]>([]);
-  const headerUsers = [
-    "ID",
-    "Email",
-    "Balance",
-    "SOL Balance",
-    "Level",
-    "Kyc Status",
-    "Verified",
-    "Created"
-  ];
+  const [totalSystemConfig, setTotalSystemConfig] = useState<number>(0);
+  const [systemConfig, setSystemConfig] = useState<ISystemConfig[]>([]);
+  const navigate = useNavigate();
+  const headerUsers = ["ID", "Key", "Action"];
 
   useEffect(() => {
-    loadTransaction();
+    loadConfig();
   }, []);
 
-  const loadTransaction = async (param?: CommonFilter) => {
-    const { data } = await adminSystemConfigServices.getSystemConfigs(param);
-    console.log(data);
-
-    setTotalTransaction(data.users);
-    setListTransaction(data.total);
+  const loadConfig = async (param?: CommonFilter) => {
+    const { data, totalRow } = await adminSystemConfigServices.getSystemConfigs(
+      param
+    );
+    setSystemConfig(data);
+    setTotalSystemConfig(totalRow);
   };
 
   const renderDataUser = useMemo(() => {
-    if (!listTransaction?.length) return [];
-    return listTransaction.map((item: IUser, index: number) => {
+    if (!systemConfig?.length) return [];
+    return systemConfig.map((item: ISystemConfig, index: number) => {
       return {
         id: item.id,
-        email: <div className="walletAddress">{item.email}</div>,
-        balance: item.balance,
-        solBalance: item.solBalance,
-        level: item.level,
-        kycStatus: (
-          <div className={`status ${convertStatus(item.kycStatus)}`}>
-            {convertStatus(item.kycStatus)}
+        Key: item.key,
+        action: (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center"
+            }}
+          >
+            <Button
+              text="Detail"
+              type={"outline"}
+              onClick={() => {
+                navigate(`${item.id}`);
+              }}
+            />
           </div>
-        ),
-        verified: (
-          <div className={`status ${item.verified ? "success" : "pending"}`}>
-            {item.verified ? "success" : "failed"}
-          </div>
-        ),
-        createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm")
+        )
       };
     });
-  }, [listTransaction]);
+  }, [systemConfig]);
 
   const handleChangePage = async (page: number) => {
-    await loadTransaction({ page: page });
+    await loadConfig({ page: page });
   };
 
   return (
@@ -125,7 +89,7 @@ export function SystemConfigManagement(props: IHistoryProps) {
         <Table
           header={headerUsers}
           data={renderDataUser}
-          total={totalTransaction}
+          total={totalSystemConfig}
           onMovePage={handleChangePage}
         />
       </BoxUsers>

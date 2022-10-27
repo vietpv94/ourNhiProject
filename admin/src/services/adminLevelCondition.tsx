@@ -3,7 +3,7 @@ import { handleError, handleResponse } from "@Helpers/util";
 import { IStakingLevelCondition } from "@Models/index";
 import { CommonFilter } from "@Types/common";
 
-const getLevelCondition  = async (filter?: CommonFilter) => {
+const getLevelCondition = async (filter?: CommonFilter) => {
   try {
     const { data } = await service.get("admin/level-condition", filter);
     return handleResponse(data);
@@ -11,7 +11,14 @@ const getLevelCondition  = async (filter?: CommonFilter) => {
     return handleError(err, "get getLevelCondition failed.");
   }
 };
-
+const getLevelConditionById = async (id: number) => {
+  try {
+    const { data } = await service.get(`admin/level-condition/${id}`);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "get getLevelConditionById failed.");
+  }
+};
 const addLevelCondition = async (param: IStakingLevelCondition) => {
   try {
     const { data } = await service.post("admin/level-condition", param);
@@ -21,12 +28,12 @@ const addLevelCondition = async (param: IStakingLevelCondition) => {
   }
 };
 
-const updateLevelCondition = async (id: number, param: IStakingLevelCondition) => {
+const updateLevelCondition = async (
+  id: number,
+  param: IStakingLevelCondition
+) => {
   try {
-    const { data } = await service.update(
-      `admin/level-condition/${id}`,
-      param
-    );
+    const { data } = await service.update(`admin/level-condition/${id}`, param);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "updateLevelCondition failed.");
@@ -43,10 +50,11 @@ const deleteLevelCondition = async (id: number) => {
 };
 
 export const adminStakingLevelConditionServices = {
-  getLevelCondition ,
-  addLevelCondition ,
-  updateLevelCondition ,
-  deleteLevelCondition 
+  getLevelCondition,
+  addLevelCondition,
+  updateLevelCondition,
+  deleteLevelCondition,
+  getLevelConditionById
 };
 
 export default adminStakingLevelConditionServices;

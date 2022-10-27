@@ -10,35 +10,19 @@ import { IBonusLevel } from "@Models/bonusLevel";
 import { IFullStakingPackage, IStakingPackage } from "@Models/package";
 export interface IKYCDetailProps {}
 
-export function PackageDetail(props: IKYCDetailProps) {
-  const param = useParams();
+export function AddPackage(props: IKYCDetailProps) {
   const navigate = useNavigate();
-  const [packageDetail, setPackageDetail] = useState<IStakingPackage>();
-  const loadDetailPackage = async () => {
-    if (param.id) {
-      const { data } = await adminPackageServices.getPackageById(
-        Number(param.id)
-      );
-      setPackageDetail({
-        duration: Number(data.duration),
-        percentProfitPerMonth: Number(data.percentProfitPerMonth),
-        percentProfitPerDay: Number(data.percentProfitPerDay),
-        maxProfit: Number(data.maxProfit),
-        poolMaxStakeValue: Number(data.poolMaxStakeValue)
-      });
-    }
-  };
+  const [packageDetail, setPackageDetail] = useState<IStakingPackage>({
+    duration: 0,
+    percentProfitPerMonth: 0,
+    percentProfitPerDay: 0,
+    maxProfit: 0,
+    poolMaxStakeValue: 0
+  });
 
-  useEffect(() => {
-    loadDetailPackage();
-  }, []);
-
-  const updateUser = useCallback(async () => {
-    console.log(packageDetail);
-
+  const addPackage = useCallback(async () => {
     if (packageDetail) {
-      const { success, message } = await adminPackageServices.updatePackage(
-        Number(param.id),
+      const { success, message } = await adminPackageServices.addPackage(
         packageDetail
       );
       if (!success) {
@@ -111,10 +95,10 @@ export function PackageDetail(props: IKYCDetailProps) {
       />
 
       <Button
-        text="Update"
+        text="Submit"
         type={"blue"}
         onClick={() => {
-          updateUser();
+          addPackage();
         }}
       />
     </DetailWrapper>

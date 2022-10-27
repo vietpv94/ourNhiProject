@@ -32,11 +32,7 @@ export const dataSideBar: DataSideBar[] = [
     link: "/admin/staking-session",
     icon: <HistoryIcon />
   },
-  {
-    name: "Manage System Config",
-    link: "/admin/sys-conf",
-    icon: <BlockAddIcon />
-  },
+
   {
     name: "Manage KYC",
     link: "/admin/kyc",
