@@ -18,6 +18,8 @@ import { KycManagement } from "@Pages/Kyc";
 import { StakingSessionManagement } from "@Pages/StakingSession";
 import { SystemConfigManagement } from "@Pages/SystemConfig";
 import { KYCDetail } from "@Pages/Kyc/detail";
+import { BonusManagement } from "@Pages/Bonus";
+import { BonusDetail } from "@Pages/Bonus/detail";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -55,6 +57,9 @@ const App: FC = () => {
             />
             <Route path="kyc" element={<KycManagement />} />
             <Route path="kyc/:id" element={<KYCDetail />} />
+
+            <Route path="bonus" element={<BonusManagement />} />
+            <Route path="bonus/:id" element={<BonusDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -23,6 +23,11 @@ export const dataSideBar: DataSideBar[] = [
     icon: <DocumentIcon />
   },
   {
+    name: "Manage Package",
+    link: "/admin/package",
+    icon: <BlockAddIcon />
+  },
+  {
     name: "Manage Staking Session",
     link: "/admin/staking-session",
     icon: <HistoryIcon />
@@ -35,6 +40,16 @@ export const dataSideBar: DataSideBar[] = [
   {
     name: "Manage KYC",
     link: "/admin/kyc",
+    icon: <TeamIcon />
+  },
+  {
+    name: "Manage Bonus",
+    link: "/admin/bonus",
+    icon: <TeamIcon />
+  },
+  {
+    name: "Manage Level Condition",
+    link: "/admin/level-condition",
     icon: <TeamIcon />
   }
 ];

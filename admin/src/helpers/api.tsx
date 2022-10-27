@@ -19,7 +19,7 @@ class CommonService {
 
   static getById<T>(
     endpoint: string,
-    id: string
+    id: number | string
   ): Promise<AxiosResponse<IResponse<T>>> {
     return httpClient.get(`/${endpoint}/${id}`);
   }
