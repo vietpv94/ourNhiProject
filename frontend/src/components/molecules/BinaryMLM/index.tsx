@@ -48,11 +48,11 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
   const boxSpaceX = 100;
   const boxHeight = 187;
   const boxSpaceY = 150;
-  const centerX =  widthcurrent ? widthcurrent / 2 : 700;
+  const centerX = widthcurrent ? widthcurrent / 2 : 700;
   const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
     console.log(boxPrev);
-    
+
     if (boxPrev.children.length > 1) return;
     if (!boxes) return;
     const maxId = Math.max(...Object.keys(boxes).map((id) => parseInt(id)));
@@ -80,16 +80,16 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
         title: id.toString(),
         left: {
           num: 0,
-          sum: 0,
+          sum: 0
         },
         right: {
           num: 0,
-          sum: 0,
+          sum: 0
         },
         level: 0,
         packageValue: 0,
-        total: 0,
-      },
+        total: 0
+      }
     };
     allBoxLevel.push(newBox);
     allBoxLevel.sort((a, b) => {
@@ -100,21 +100,16 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     allBoxLevel.forEach((box, index) => {
       box.index = index;
     });
-    const totalX = 2 * (boxWidth + boxSpaceX)  - boxSpaceX;
+    const totalX = 2 * (boxWidth + boxSpaceX) - boxSpaceX;
 
-    if(boxPrev.x > centerX) {
-      boxPrev.x +=  boxPrev.children.length === 0? (boxWidth + boxSpaceX) : 0
-    } else {
-      boxPrev.x -=  boxPrev.children.length === 0? (boxWidth + boxSpaceX)  : 0
-    }
     const leftMostX = boxPrev.x + boxSpaceX - totalX / 2;
-      newBox.x = leftMostX + (2 * boxWidth  + boxSpaceX)* (boxPrev.children.length);
-      newBox.y = Y0 + level * (2 * boxWidth  + boxSpaceY);
-    
+    newBox.x = leftMostX + (boxWidth + boxSpaceX) * boxPrev.children.length;
+    newBox.y = boxPrev.y + (boxHeight + boxSpaceY);
+
     setBoxes((prev) => {
       return {
         ...prev,
-        [newBox.id]: newBox,
+        [newBox.id]: newBox
       };
     });
     setAllBox([...allBox]);
@@ -127,7 +122,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     curveness: 0.8,
     strokeWidth: 3,
     headSize: 5,
-    dashness: true,
+    dashness: true
   };
   const onAddChildSucceed = () => {
     updateBinaryTree();
@@ -157,7 +152,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
                 height: "650px",
                 width: "100%",
                 display: "flex",
-                background: "#94949413",
+                background: "#94949413"
               }}
             >
               <div>

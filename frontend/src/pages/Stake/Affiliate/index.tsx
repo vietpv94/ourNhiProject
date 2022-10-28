@@ -13,7 +13,7 @@ import {
   BoxHistory,
   Header,
   RewardHistory,
-  Wrapper,
+  Wrapper
 } from "./style";
 import sol from "@Assets/images/molecules/card/sol-token.png";
 import { BinaryMLM } from "@Components/molecules/BinaryMLM";
@@ -60,21 +60,21 @@ const dataSortBy = {
   data: [
     {
       id: 1,
-      name: "All",
+      name: "All"
     },
     {
       id: 2,
-      name: "Latest",
+      name: "Latest"
     },
     {
       id: 3,
-      name: "Oldest",
+      name: "Oldest"
     },
     {
       id: 4,
-      name: "Highest",
-    },
-  ],
+      name: "Highest"
+    }
+  ]
 };
 
 interface BinaryDashboardData {
@@ -93,7 +93,7 @@ export function Affiliate(props: IAffiliateProps) {
     DataRewardHistory[]
   >([]);
   const [binaryBox, setBinaryBox] = useState<IBox[]>([]);
-  const account = useSelector((state: RootState) => state.account)
+  const account = useSelector((state: RootState) => state.account);
 
   const loadDashboardInfo = async () => {
     dispatch(loading());
@@ -106,7 +106,7 @@ export function Affiliate(props: IAffiliateProps) {
       profitLastMonth,
       level,
       childThisMonth,
-      childLastMonth,
+      childLastMonth
     } = data;
 
     setDashboardInfo({
@@ -120,7 +120,7 @@ export function Affiliate(props: IAffiliateProps) {
       percentProfitChange:
         profitThisMonth === 0 || profitThisMonth === 0
           ? 0
-          : profitThisMonth / profitLastMonth,
+          : profitThisMonth / profitLastMonth
     });
     dispatch(unloading());
   };
@@ -150,16 +150,16 @@ export function Affiliate(props: IAffiliateProps) {
         title: data.email,
         left: {
           sum: data.leftChildData?.sum || 0,
-          num: data.leftChildData?.num || 0,
+          num: data.leftChildData?.num || 0
         },
         right: {
           sum: data.rightChildData?.sum || 0,
-          num: data.rightChildData?.num || 0,
+          num: data.rightChildData?.num || 0
         },
         level: data.level,
         packageValue: data.packageValue,
-        total: data.bonusQuota,
-      },
+        total: data.bonusQuota
+      }
     };
   };
   const wrapper = document.getElementById("binary-wrapper");
@@ -168,13 +168,13 @@ export function Affiliate(props: IAffiliateProps) {
   const boxSpaceX = 100;
   const boxHeight = 187;
   const boxSpaceY = 150;
-  const centerX = width? width/2 : 700;
-  const totalX = 16 * (boxWidth + boxSpaceX);
+  const centerX = width ? width / 2 : 700;
+  const totalX = 16 * (boxWidth + boxSpaceX) - boxSpaceX;
   const Y0 = 50;
 
   const getAllBoxes = async (
     boxes: IBox[],
-    position: { x: number; y: number; level: number; },
+    position: { x: number; y: number; level: number },
     email?: string
   ) => {
     dispatch(loading());
@@ -184,23 +184,28 @@ export function Affiliate(props: IAffiliateProps) {
       const box: IBox = convertBinaryChildToBoxData(data, position);
       const currentLevel = position.level;
       if (data.leftChildData?.email || data.rightChildData?.email) {
-
         position.level = currentLevel + 1;
         if (data.leftChildData?.email) {
-          if(currentLevel === 0) {
-            position.x = centerX - totalX/2 
+          if (currentLevel === 0) {
+            position.x = centerX - totalX / 2;
             position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
+          } else {
+            position.x = box.x - totalX / (2 * (currentLevel + 1));
+            position.y = box.y + (boxHeight + boxSpaceY);
           }
-          
+
           await getAllBoxes(boxes, position, data.leftChildData.email);
         }
 
         if (data.rightChildData?.email) {
-          if(currentLevel === 0) {
-            position.x = centerX + totalX/2 
+          if (currentLevel === 0) {
+            position.x = centerX + totalX / 2;
             position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
+          } else {
+            position.x = box.x + totalX / (2 * (currentLevel + 1));
+            position.y = box.y + (boxHeight + boxSpaceY);
           }
-    
+
           await getAllBoxes(boxes, position, data.rightChildData.email);
         }
       }
@@ -212,56 +217,56 @@ export function Affiliate(props: IAffiliateProps) {
   const loadBinaryTreeUser = async () => {
     const wrapper = document.getElementById("binary-wrapper");
     const widthcurrent = wrapper?.clientWidth;
-  
-    const boxes = await getAllBoxes([], {
-      x: widthcurrent ? widthcurrent / 2 : 700,
-      y: 50,
-      level: 0,
-    }, account.email);
+
+    const boxes = await getAllBoxes(
+      [],
+      {
+        x: widthcurrent ? widthcurrent / 2 : 700,
+        y: 50,
+        level: 0
+      },
+      account.email
+    );
 
     const groupChildByParent = groupBy(boxes, "parentId");
     Object.keys(groupChildByParent).map((key) => {
-      const boxParent = boxes?.find((box) =>  box.id === key)
-      if(boxParent) {
-        if (groupChildByParent[key].length < 2) {         
-          const totalX = 2 * (boxWidth + boxSpaceX) - boxSpaceX;
-          if(boxParent.x > centerX) {
-            boxParent.x +=  boxParent.children.length === 0? (2 * boxWidth + boxSpaceX) : 0
-          } else {
-            boxParent.x -=  boxParent.children.length  === 0? (2 * boxWidth + boxSpaceX) : 0
-          }
-
-          const leftMostX = boxParent.x +  boxSpaceX - totalX / 2;
-          
+      const boxParent = boxes?.find((box) => box.id === key);
+      if (boxParent) {
+        if (groupChildByParent[key].length < 2) {
           const newBox: IBox = {
             type: "choose",
             id: `${Math.floor(Math.random() * 100000)}`,
             children: [],
-            x: leftMostX,
-            y: boxParent.y + (boxHeight + boxSpaceY),
+            x: 0,
+            y:  boxParent.y + (boxHeight + boxSpaceY),
             childF1s: [],
-            binaryChildCandidate: [...boxParent?.childF1s || []],
+            binaryChildCandidate: [...(boxParent?.childF1s || [])],
             parentId: boxParent?.id,
             index: boxParent?.children.length,
-            level: (boxParent?.level || 0)+ 1,
+            level: (boxParent?.level || 0) + 1,
             data: {
               title: "0",
               left: {
                 num: 0,
-                sum: 0,
+                sum: 0
               },
               right: {
                 num: 0,
-                sum: 0,
+                sum: 0
               },
               level: 0,
               packageValue: 0,
-              total: 0,
-            },
+              total: 0
+            }
           };
-        
-          boxes?.push(newBox)
-          boxParent.children.push(newBox.id)
+          if (groupChildByParent[key][0].x < boxParent.x) {
+            newBox.x = boxParent.x + totalX / (2 * (boxParent.level + 1));
+          } else {
+            newBox.x = boxParent.x - totalX / (2 * (boxParent.level + 1));
+          }
+
+          boxes?.push(newBox);
+          boxParent.children.push(newBox.id);
         }
       }
       return groupChildByParent[key];
@@ -275,7 +280,7 @@ export function Affiliate(props: IAffiliateProps) {
     "Profit From",
     "Amount",
     "Token",
-    "time",
+    "time"
   ];
 
   const dataTable = useMemo(() => {
@@ -299,7 +304,7 @@ export function Affiliate(props: IAffiliateProps) {
             <span>{"SOL"}</span>
           </div>
         ),
-        time: <div className="time">{item.createdAt}</div>,
+        time: <div className="time">{item.createdAt}</div>
       };
     });
   }, [commissionHistory]);
@@ -317,11 +322,11 @@ export function Affiliate(props: IAffiliateProps) {
         percent: dashboardInfo?.newMemberJoinRate,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <MemberIcon color={color} customStyle={customStyle} />,
+        }) => <MemberIcon color={color} customStyle={customStyle} />
       },
       {
         id: 2,
@@ -330,11 +335,11 @@ export function Affiliate(props: IAffiliateProps) {
         percent: dashboardInfo?.percentProfitChange,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <DollarIcon color={color} customStyle={customStyle} />,
+        }) => <DollarIcon color={color} customStyle={customStyle} />
       },
       {
         id: 3,
@@ -342,12 +347,12 @@ export function Affiliate(props: IAffiliateProps) {
         value: dashboardInfo?.totalTransaction || 0,
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <WalletMoney color={color} customStyle={customStyle} />,
-      },
+        }) => <WalletMoney color={color} customStyle={customStyle} />
+      }
     ];
   }, [dashboardInfo]);
 
