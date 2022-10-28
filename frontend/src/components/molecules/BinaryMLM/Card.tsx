@@ -116,6 +116,7 @@ export function Card({
     if (!chosenOne) return toast.warn("Please select one member to continue");
     dispatch(loading());
     const { data } = await userServices.setBinaryChild({
+      fromId: Number(box.parentId),
       email: chosenOne,
       type: box.index,
     });
@@ -126,116 +127,107 @@ export function Card({
   };
 
   return (
-    <Draggable
-      onDrag={onDrag}
-      onStop={onStop}
-      defaultClassName=""
-      nodeRef={ref}
-    >
-      <CardWrapper
-        ref={ref}
-        id={box.id}
-        style={{ position: "absolute", left: box.x, top: box.y }}
-      >
-        {box.type === "card" ? (
-          <>
-            <Header>
-              <PersonIcon color="#fff" />
-              <span>{box.data.title}</span>
-            </Header>
-            <LeftRight>
-              <div className="left">
-                <div className="flex">
-                  <span className="label">Left</span>
-                  <span className="value">{`0 (+${box.data.left.num})`}</span>
-                </div>
-                <div className="flex">
-                  <span className="label">Sum</span>
-                  <span className="value">{box.data.left.sum}</span>
-                </div>
-              </div>
-              <div className="right">
-                <div className="flex">
-                  <span className="value">{`0 (+${box.data.left.num})`}</span>{" "}
-                  <span className="label">Right</span>
-                </div>
-                <div className="flex">
-                  <span className="value">{box.data.right.sum}</span>
-                  <span className="label">Sum</span>
-                </div>
-              </div>
-            </LeftRight>
-            <Level>
-              <div className="level">
-                <StarIcon level={box.data.level} />
-                <div className="content">
-                  <span className="label">Level {box.data.level}</span>
-                  <span className="status">Complete</span>
-                </div>
-              </div>
-              <div className="package">
-                <img src={solana} alt="token" />
-                <div className="content">
-                  <span className="label">Package</span>
-                  <span className="value">{box.data.packageValue}</span>
-                </div>
-              </div>
-            </Level>
-            <Footer>
-              <div className="label">Max Bonus</div>
-              <span>${box.data.total}</span>
-            </Footer>{" "}
-            <Icon>
-              <AddIcon
-                onClick={() => {
-                  if (box.level === 0) {
-                    addNewBox(box);
-                  }
-                }}
-              />
-            </Icon>
-          </>
-        ) : (
-          <>
-            <ChooseWrapper>
-              <Header>
-                <span>Open position</span>
-              </Header>
-              <Input>
-                <span>{chosenOne ? chosenOne : "Choose a member"}</span>
-                <PlusIcon
-                  onClick={() => {
-                    setShowDropdown(!showDropdown);
-                  }}
-                />
-              </Input>
-              {showDropdown && (
-                <Dropdown ref={ref}>
-                  {box.binaryChildCandidate &&
-                    box.binaryChildCandidate.map((item) => (
-                      <Item
-                        onClick={() => {
-                          setChosenOne(item);
-                          setShowDropdown(!showDropdown);
-                        }}
-                      >
-                        <span>{item}</span>
-                      </Item>
-                    ))}
-                </Dropdown>
-              )}
-              <Button
-                type="blue"
-                text="Confirm"
-                customStyle="width: 100%; height: 30px;"
-                onClick={() => {
-                  confirmAddBinaryChild();
-                }}
-              />
-            </ChooseWrapper>
-          </>
-        )}
-      </CardWrapper>
-    </Draggable>
+    <CardWrapper
+    ref={ref}
+    id={box.id}
+    style={{ position: "absolute", left: box.x, top: box.y }}
+  >
+    {box.type === "card" ? (
+      <>
+        <Header>
+          <PersonIcon color="#fff" />
+          <span>{box.data.title}</span>
+        </Header>
+        <LeftRight>
+          <div className="left">
+            <div className="flex">
+              <span className="label">Left</span>
+              <span className="value">{`0 (+${box.data.left.num})`}</span>
+            </div>
+            <div className="flex">
+              <span className="label">Sum</span>
+              <span className="value">{box.data.left.sum}</span>
+            </div>
+          </div>
+          <div className="right">
+            <div className="flex">
+              <span className="value">{`0 (+${box.data.left.num})`}</span>{" "}
+              <span className="label">Right</span>
+            </div>
+            <div className="flex">
+              <span className="value">{box.data.right.sum}</span>
+              <span className="label">Sum</span>
+            </div>
+          </div>
+        </LeftRight>
+        <Level>
+          <div className="level">
+            <StarIcon level={box.data.level} />
+            <div className="content">
+              <span className="label">Level {box.data.level}</span>
+              <span className="status">Complete</span>
+            </div>
+          </div>
+          <div className="package">
+            <img src={solana} alt="token" />
+            <div className="content">
+              <span className="label">Package</span>
+              <span className="value">{box.data.packageValue}</span>
+            </div>
+          </div>
+        </Level>
+        <Footer>
+          <div className="label">Max Bonus</div>
+          <span>${box.data.total}</span>
+        </Footer>{" "}
+        <Icon>
+          <AddIcon
+            onClick={() => {
+              addNewBox(box);              
+            }}
+          />
+        </Icon>
+      </>
+    ) : (
+      <>
+        <ChooseWrapper>
+          <Header>
+            <span>Open position</span>
+          </Header>
+          <Input>
+            <span>{chosenOne ? chosenOne : "Choose a member"}</span>
+            <PlusIcon
+              onClick={() => {
+                setShowDropdown(!showDropdown);
+              }}
+            />
+          </Input>
+          {showDropdown && (
+            <Dropdown ref={ref}>
+              {box.binaryChildCandidate &&
+                box.binaryChildCandidate.map((item) => (
+                  <Item
+                    onClick={() => {
+                      setChosenOne(item);
+                      setShowDropdown(!showDropdown);
+                    }}
+                  >
+                    <span>{item}</span>
+                  </Item>
+                ))}
+            </Dropdown>
+          )}
+          <Button
+            type="blue"
+            text="Confirm"
+            customStyle="width: 100%; height: 30px;"
+            onClick={() => {
+              confirmAddBinaryChild();
+            }}
+          />
+        </ChooseWrapper>
+      </>
+    )}
+  </CardWrapper>
   );
 }

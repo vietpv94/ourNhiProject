@@ -25,6 +25,10 @@ import { WalletMoney } from "@Components/atoms/icon/walletMoney";
 import { CommonFilter } from "@Types/common";
 import { useDispatch } from "react-redux";
 import { loading, unloading } from "@Redux/actions/loading";
+import account from "@Redux/reducers/accounts";
+import { useSelector } from "react-redux";
+import { RootState } from "@Redux/reducers";
+import { groupBy } from "lodash";
 
 export interface IAffiliateProps {}
 
@@ -89,9 +93,7 @@ export function Affiliate(props: IAffiliateProps) {
     DataRewardHistory[]
   >([]);
   const [binaryBox, setBinaryBox] = useState<IBox[]>([]);
-
-  let wrapper = document.getElementById("binary-wrapper");
-  let width = wrapper?.clientWidth;
+  const account = useSelector((state: RootState) => state.account)
 
   const loadDashboardInfo = async () => {
     dispatch(loading());
@@ -160,10 +162,19 @@ export function Affiliate(props: IAffiliateProps) {
       },
     };
   };
+  const wrapper = document.getElementById("binary-wrapper");
+  const width = wrapper?.clientWidth;
+  const boxWidth = 200;
+  const boxSpaceX = 100;
+  const boxHeight = 187;
+  const boxSpaceY = 150;
+  const centerX = width? width/2 : 700;
+  const totalX = 16 * (boxWidth + boxSpaceX);
+  const Y0 = 50;
 
   const getAllBoxes = async (
     boxes: IBox[],
-    position: { x: number; y: number; level: number },
+    position: { x: number; y: number; level: number; },
     email?: string
   ) => {
     dispatch(loading());
@@ -171,34 +182,91 @@ export function Affiliate(props: IAffiliateProps) {
     dispatch(unloading());
     if (data) {
       const box: IBox = convertBinaryChildToBoxData(data, position);
-      boxes.push(box);
+      const currentLevel = position.level;
       if (data.leftChildData?.email || data.rightChildData?.email) {
-        position.level += 1;
-        const parentX = position.x;
-        const parentY = position.y;
+
+        position.level = currentLevel + 1;
         if (data.leftChildData?.email) {
-          position.x = parentX - 120 - position.level * 50;
-          position.y = parentY + 250;
+          if(currentLevel === 0) {
+            position.x = centerX - totalX/2 
+            position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
+          }
+          
           await getAllBoxes(boxes, position, data.leftChildData.email);
         }
 
         if (data.rightChildData?.email) {
-          position.x = parentX + 120 + position.level * 50;
-          position.y = parentY + 250;
+          if(currentLevel === 0) {
+            position.x = centerX + totalX/2 
+            position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
+          }
+    
           await getAllBoxes(boxes, position, data.rightChildData.email);
         }
       }
-
+      boxes.push(box);
       return boxes;
     }
   };
 
   const loadBinaryTreeUser = async () => {
+    const wrapper = document.getElementById("binary-wrapper");
+    const widthcurrent = wrapper?.clientWidth;
+  
     const boxes = await getAllBoxes([], {
-      x: width ? width / 2 : 700,
+      x: widthcurrent ? widthcurrent / 2 : 700,
       y: 50,
       level: 0,
+    }, account.email);
+
+    const groupChildByParent = groupBy(boxes, "parentId");
+    Object.keys(groupChildByParent).map((key) => {
+      const boxParent = boxes?.find((box) =>  box.id === key)
+      if(boxParent) {
+        if (groupChildByParent[key].length < 2) {         
+          const totalX = 2 * (boxWidth + boxSpaceX) - boxSpaceX;
+          if(boxParent.x > centerX) {
+            boxParent.x +=  boxParent.children.length === 0? (2 * boxWidth + boxSpaceX) : 0
+          } else {
+            boxParent.x -=  boxParent.children.length  === 0? (2 * boxWidth + boxSpaceX) : 0
+          }
+
+          const leftMostX = boxParent.x +  boxSpaceX - totalX / 2;
+          
+          const newBox: IBox = {
+            type: "choose",
+            id: `${Math.floor(Math.random() * 100000)}`,
+            children: [],
+            x: leftMostX,
+            y: boxParent.y + (boxHeight + boxSpaceY),
+            childF1s: [],
+            binaryChildCandidate: [...boxParent?.childF1s || []],
+            parentId: boxParent?.id,
+            index: boxParent?.children.length,
+            level: (boxParent?.level || 0)+ 1,
+            data: {
+              title: "0",
+              left: {
+                num: 0,
+                sum: 0,
+              },
+              right: {
+                num: 0,
+                sum: 0,
+              },
+              level: 0,
+              packageValue: 0,
+              total: 0,
+            },
+          };
+        
+          boxes?.push(newBox)
+          boxParent.children.push(newBox.id)
+        }
+      }
+      return groupChildByParent[key];
     });
+
     setBinaryBox(boxes || []);
   };
 
@@ -284,12 +352,9 @@ export function Affiliate(props: IAffiliateProps) {
   }, [dashboardInfo]);
 
   useEffect(() => {
-    if (width) loadBinaryTreeUser();
-  }, [width]);
-
-  useEffect(() => {
     loadDashboardInfo();
     loadCommissionHistory();
+    loadBinaryTreeUser();
   }, []);
 
   return (

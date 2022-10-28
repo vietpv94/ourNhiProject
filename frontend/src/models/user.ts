@@ -51,6 +51,7 @@ export type KYCData = {
 };
 
 export type SetBinaryChild = {
+  fromId: number;
   email: string;
   type: number;
 };

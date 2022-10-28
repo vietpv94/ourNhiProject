@@ -42,15 +42,16 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     setBoxes(bBoxes);
     setAllBox([...aBoxes]);
   }, [binaryBox]);
-
+  const wrapper = document.getElementById("binary-wrapper");
+  const widthcurrent = wrapper?.clientWidth;
   const boxWidth = 200;
   const boxSpaceX = 100;
   const boxHeight = 187;
   const boxSpaceY = 150;
-  const centerX = 500;
+  const centerX =  widthcurrent ? widthcurrent / 2 : 700;
   const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
-    console.log(boxes);
+    console.log(boxPrev);
     
     if (boxPrev.children.length > 1) return;
     if (!boxes) return;
@@ -99,13 +100,17 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     allBoxLevel.forEach((box, index) => {
       box.index = index;
     });
-    const totalX =
-      allBoxLevel.length * boxWidth + (allBoxLevel.length - 1) * boxSpaceX;
-    const leftMostX = centerX - totalX / 2;
-    allBoxLevel.forEach((box, index) => {
-      box.x = leftMostX + index * (boxWidth + boxSpaceX);
-      box.y = Y0 + level * (boxHeight + boxSpaceY);
-    });
+    const totalX = 2 * (boxWidth + boxSpaceX)  - boxSpaceX;
+
+    if(boxPrev.x > centerX) {
+      boxPrev.x +=  boxPrev.children.length === 0? (boxWidth + boxSpaceX) : 0
+    } else {
+      boxPrev.x -=  boxPrev.children.length === 0? (boxWidth + boxSpaceX)  : 0
+    }
+    const leftMostX = boxPrev.x + boxSpaceX - totalX / 2;
+      newBox.x = leftMostX + (2 * boxWidth  + boxSpaceX)* (boxPrev.children.length);
+      newBox.y = Y0 + level * (2 * boxWidth  + boxSpaceY);
+    
     setBoxes((prev) => {
       return {
         ...prev,
