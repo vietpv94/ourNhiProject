@@ -14,6 +14,7 @@ export interface ICardLevelState {
     index: number;
     name: string;
     value: string;
+    target: string;
     done: boolean;
   }[];
 }
@@ -85,7 +86,12 @@ export function CardLevel({ data }: ICardLevelProps) {
                       <span className={item.done ? "name done" : "name"}>
                         {item.name}
                       </span>
-                      <span className="value">{item.value}</span>
+                      <span className="value">
+                        <span className={item.done? "": "hight-light"}>
+                        {item.value}
+                        </span>
+                        /{item.target}
+                        </span>
                     </div>
                   </Item>
                 );

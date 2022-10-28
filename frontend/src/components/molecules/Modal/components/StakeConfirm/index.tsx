@@ -9,6 +9,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Message, Transaction } from "@solana/web3.js";
 import currency from "currency.js";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Content, Item, Logo, Wrapper } from "./style";
@@ -21,6 +22,7 @@ export interface IStakeConFirmModalProps {
 export function StakeConFirmModal(props: IStakeConFirmModalProps) {
   const { connected, publicKey, signTransaction } = useWallet();
   const { visible, setVisible } = useWalletModal();
+  const [solPrice, setSolPrice] = useState(0);
 
   const dispatch = useDispatch();
   const { selectedPack, type } = props;
@@ -193,6 +195,16 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
       }
     }
   };
+
+  const loadSOLPrice = async () => {
+    const { data } = await stakingServices.getSolPrice();
+    setSolPrice(data.solPrice);
+  };
+
+  useEffect(() => {
+    loadSOLPrice();
+  }, []);
+
   return (
     <Wrapper>
       <Logo src={solToken} alt="sol-token" />
@@ -206,6 +218,18 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
                   precision: 0
                 }).format()} `
               : `${selectedPack?.value} SOL `}
+          </span>
+        </Item>
+
+        <Item>
+          <span className="label">{selectedPack?.currency === 1? 'SOL': 'USDT'} Value:</span>
+          <span className="value">
+            {selectedPack?.currency === 1
+              ? `${Number(selectedPack?.value / solPrice).toFixed(2)} SOL `
+              : `${currency((selectedPack?.value || 0) * solPrice, {
+                  symbol: "$",
+                  precision: 0
+                }).format()} `}
           </span>
         </Item>
         <Item>

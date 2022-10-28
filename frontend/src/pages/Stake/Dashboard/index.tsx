@@ -6,7 +6,7 @@ import { MemberIcon } from "@Components/atoms/icon/member";
 import currency from "currency.js";
 import {
   CardAffiliate,
-  ICardAffiliateProps,
+  ICardAffiliateProps
 } from "@Components/molecules/CardAffiliate";
 import { CardChild } from "@Components/molecules/CardChild";
 import { DataSummary, Summary } from "@Components/molecules/Summary";
@@ -31,13 +31,14 @@ import {
   Link,
   ListAffiliate,
   System,
-  Title,
+  Title
 } from "./style";
 import { CardLevel, Status } from "@Components/molecules/CardLevel";
 import { userServices } from "@Services/index";
 import {
   convertKeyToReadableName,
   convertValueToReadableStatus,
+  convertValueToReadable
 } from "./utils";
 import { LinkIcon } from "@Components/atoms/icon/link";
 import { CoinIcon } from "@Components/atoms/icon/coin";
@@ -54,6 +55,7 @@ export interface DashboardData {
 
 interface ChildInfo {
   id: number;
+  nickName: string;
   level: number;
   package: number;
   partner: number;
@@ -113,7 +115,7 @@ export function Dashboard(props: IDashboardProps) {
       totalStakeCurrent,
       affiliateBonus,
       totalReward,
-      balance,
+      balance
     });
     dispatch(unloading());
   };
@@ -164,61 +166,61 @@ export function Dashboard(props: IDashboardProps) {
         title: "Your Balance",
         value: currency(dashboardInfo?.balance, {
           symbol: "$",
-          precision: 2,
+          precision: 2
         }).format(),
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <CoinIcon color={color} customStyle={customStyle} />,
+        }) => <CoinIcon color={color} customStyle={customStyle} />
       },
       {
         id: 2,
         title: "Staking Amount",
         value: currency(dashboardInfo?.totalStakeCurrent, {
           symbol: "$",
-          precision: 2,
+          precision: 2
         }).format(),
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <ClipboardIcon color={color} customStyle={customStyle} />,
+        }) => <ClipboardIcon color={color} customStyle={customStyle} />
       },
       {
         id: 3,
         title: "Staking Reward",
         value: currency(dashboardInfo?.totalReward, {
           symbol: "$",
-          precision: 2,
+          precision: 2
         }).format(),
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <WalletMoney color={color} customStyle={customStyle} />,
+        }) => <WalletMoney color={color} customStyle={customStyle} />
       },
       {
         id: 4,
         title: "Affiliate Bonus",
         value: currency(dashboardInfo?.affiliateBonus || 0, {
           symbol: "$",
-          precision: 2,
+          precision: 2
         }).format(),
         icon: ({
           color,
-          customStyle,
+          customStyle
         }: {
           color?: string;
           customStyle?: any;
-        }) => <MemberIcon color={color} customStyle={customStyle} />,
-      },
+        }) => <MemberIcon color={color} customStyle={customStyle} />
+      }
     ];
   }, [dashboardInfo]);
 
@@ -235,7 +237,7 @@ export function Dashboard(props: IDashboardProps) {
                 dispatch(loading());
                 const nextResult = await userServices.getUserChild({
                   maxDepth: 0,
-                  from: email,
+                  from: email
                 });
 
                 memberData[i + 1] = nextResult.data;
@@ -268,8 +270,9 @@ export function Dashboard(props: IDashboardProps) {
             if (keyLv !== "level") {
               return {
                 name: convertKeyToReadableName(keyLv),
-                value: lv[keyLv],
-                done: true,
+                value: Number(lv[keyLv]).toFixed(),
+                target: Number(lv[keyLv]).toFixed(),
+                done: true
               };
             }
           })
@@ -280,7 +283,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 0,
           completed: 4,
           total: 4,
-          data: [...serializeLevelCondition],
+          data: [...serializeLevelCondition]
         };
       } else if (lv.level > (currentUserLevel.level || 0) + 1) {
         const serializeLevelCondition = Object.keys(lv)
@@ -288,8 +291,9 @@ export function Dashboard(props: IDashboardProps) {
             if (keyLv !== "level") {
               return {
                 name: convertKeyToReadableName(keyLv),
-                value: lv[keyLv],
-                done: false,
+                value: "0",
+                target: Number(lv[keyLv]).toFixed(),
+                done: false
               };
             }
           })
@@ -300,7 +304,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 4,
           completed: 0,
           total: 4,
-          data: [...serializeLevelCondition],
+          data: [...serializeLevelCondition]
         };
       } else {
         const serializeLevelCondition = Object.keys(lv)
@@ -308,8 +312,9 @@ export function Dashboard(props: IDashboardProps) {
             if (keyLv !== "level") {
               return {
                 name: convertKeyToReadableName(keyLv),
-                value: lv[keyLv],
-                done: convertValueToReadableStatus(keyLv, lv, currentUserLevel),
+                value: convertValueToReadable(keyLv, lv, currentUserLevel),
+                target: Number(lv[keyLv]).toFixed(),
+                done: convertValueToReadableStatus(keyLv, lv, currentUserLevel)
               };
             }
           })
@@ -320,7 +325,7 @@ export function Dashboard(props: IDashboardProps) {
           nextLevel: 4,
           completed: 0,
           total: 4,
-          data: [...serializeLevelCondition],
+          data: [...serializeLevelCondition]
         };
       }
     });
@@ -397,7 +402,11 @@ export function Dashboard(props: IDashboardProps) {
           Object.keys(currentChildData).map((item: any, index) => (
             <ItemInfo key={`item-info-${index}`}>
               <div className="name">
-                {item === "createdAt" ? "Date of Registration" : item}
+                {item === "createdAt"
+                  ? "Date of Registration"
+                  : item === "nickName"
+                  ? "User Name"
+                  : item}
               </div>
               <div className="value">
                 {currentChildData[item as keyof typeof currentChildData]}

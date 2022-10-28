@@ -40,3 +40,28 @@ export const convertValueToReadableStatus = (
       return false;
   }
 };
+
+export const convertValueToReadable = (
+  key: string,
+  levelData: LevelInfo,
+  currentLevelData: CurrentLevelData
+) => {
+  switch (key) {
+    case "conditionInvest":
+      return Number(currentLevelData.totalInvestment).toFixed();
+
+    case "conditionNumF1":
+      return Number(currentLevelData.totalF1).toFixed();
+    case "conditionF1Level":
+      return (
+        filter(
+          currentLevelData.f1Level,
+          (o) => o.level >= levelData["conditionF1Level"]
+        ).length
+      );
+    case "conditionRevenue":
+      return Number(currentLevelData.totalRevenue).toFixed();
+    default:
+      return false;
+  }
+};

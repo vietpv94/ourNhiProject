@@ -38,6 +38,7 @@ export const WalletContext: React.FC<{ children: React.ReactNode }> = ({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider
         wallets={wallets}
+        autoConnect
         onError={(error) => toast.error(error.message)}
       >
         <WalletModalProvider>{children}</WalletModalProvider>

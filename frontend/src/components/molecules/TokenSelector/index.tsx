@@ -22,7 +22,7 @@ export function TokenSelector({ dataPrice }: ITokenSelectorProps) {
     id: 0,
     name: "SOL",
     network: "SOLANA",
-    value: dataPrice.solPrice,
+    value: dataPrice?.solPrice,
     icon: sol
   });
 
@@ -32,7 +32,7 @@ export function TokenSelector({ dataPrice }: ITokenSelectorProps) {
         id: 0,
         name: "SOL",
         network: "SOLANA",
-        value: dataPrice.solPrice,
+        value: dataPrice?.solPrice,
         icon: sol
       },
       { id: 1, name: "DOT", network: "POLKADOT", value: 33.86, icon: dot },
