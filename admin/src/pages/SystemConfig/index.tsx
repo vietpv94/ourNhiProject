@@ -2,12 +2,9 @@ import { Dropdown } from "@Components/molecules/Dropdown";
 import { Tab } from "@Components/molecules/Tab";
 import { Table } from "@Components/molecules/Table";
 import { dataSortBy, dataSortTime } from "./data";
-import { AdminWrapper, Box, BoxPayout, BoxUsers, Title, Top } from "./style";
+import { AdminWrapper, BoxUsers, Title, Top } from "./style";
 import { useEffect, useMemo, useState } from "react";
-import moment from "moment";
-import userServices from "@Services/user";
 import { CommonFilter } from "@Types/common";
-import adminTransactionServices from "@Services/adminTransaction";
 import adminSystemConfigServices from "@Services/adminSystemConfig";
 import { Button } from "@Components/atoms/Button";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +13,8 @@ export interface IHistoryProps {}
 interface ISystemConfig {
   id: number;
   key: string;
+  value: string;
+  isPublic: boolean;
   createdAt: string;
 }
 
@@ -25,7 +24,7 @@ export function SystemConfigManagement(props: IHistoryProps) {
   const [totalSystemConfig, setTotalSystemConfig] = useState<number>(0);
   const [systemConfig, setSystemConfig] = useState<ISystemConfig[]>([]);
   const navigate = useNavigate();
-  const headerUsers = ["ID", "Key", "Action"];
+  const headerSystemConfigs = ["ID", "Key", "Value", "Is Public", "Action"];
 
   useEffect(() => {
     loadConfig();
@@ -35,33 +34,40 @@ export function SystemConfigManagement(props: IHistoryProps) {
     const { data, totalRow } = await adminSystemConfigServices.getSystemConfigs(
       param
     );
+
     setSystemConfig(data);
     setTotalSystemConfig(totalRow);
   };
 
-  const renderDataUser = useMemo(() => {
+  const renderDataSystemConfig = useMemo(() => {
     if (!systemConfig?.length) return [];
     return systemConfig.map((item: ISystemConfig, index: number) => {
       return {
         id: item.id,
-        Key: item.key,
+        key: item.key,
+        value: item?.value?.length > 20 ? item.value.slice(0, 20) + "..." : item.value,
+        isPublic: (
+          <div className={`status success`}>
+            {item.isPublic ? "Public" : "Private"}
+          </div>
+        ),
         action: (
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              alignContent: "center"
+              alignContent: "center",
             }}
           >
             <Button
               text="Detail"
               type={"outline"}
               onClick={() => {
-                navigate(`${item.id}`);
+                navigate(`${item.key}`);
               }}
             />
           </div>
-        )
+        ),
       };
     });
   }, [systemConfig]);
@@ -72,7 +78,7 @@ export function SystemConfigManagement(props: IHistoryProps) {
 
   return (
     <AdminWrapper>
-      <Title>Transaction Management</Title>
+      <Title>SystemConfig Management</Title>
       <Top>
         <Tab
           parent="transactionManagement"
@@ -81,14 +87,12 @@ export function SystemConfigManagement(props: IHistoryProps) {
           setCurrentTab={setCurrentTab}
         />
         <div className="left">
-          <Dropdown label="time" data={dataSortTime} />
-          <Dropdown label="sort by" data={dataSortBy} />
         </div>
       </Top>
       <BoxUsers>
         <Table
-          header={headerUsers}
-          data={renderDataUser}
+          header={headerSystemConfigs}
+          data={renderDataSystemConfig}
           total={totalSystemConfig}
           onMovePage={handleChangePage}
         />

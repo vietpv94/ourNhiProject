@@ -17,6 +17,8 @@ import { TransactionManagement } from "@Pages/Transaction";
 import { KycManagement } from "@Pages/Kyc";
 import { StakingSessionManagement } from "@Pages/StakingSession";
 import { SystemConfigManagement } from "@Pages/SystemConfig";
+import { SystemConfigDetail } from "@Pages/SystemConfig/detail";
+
 import { KYCDetail } from "@Pages/Kyc/detail";
 import { BonusManagement } from "@Pages/Bonus";
 import { BonusDetail } from "@Pages/Bonus/detail";
@@ -26,6 +28,7 @@ import { AddPackage } from "@Pages/Packages/add";
 import { LevelConditionManagement } from "@Pages/LevelCondition";
 import { LevelConditionDetail } from "@Pages/LevelCondition/detail";
 import { AddLevelCondition } from "@Pages/LevelCondition/add";
+import { UserDetail } from "@Pages/User/detail";
 
 function ProtectedRoute<T>(Component: React.ComponentType<any>) {
   const { isLoggedIn } = useSelector((state: RootState) => state.account);
@@ -54,9 +57,13 @@ const App: FC = () => {
               return <HomePage />;
             })}
           >
-            <Route path="" element={<UserManagement />} />
+            <Route path="user" element={<UserManagement />} />
+            <Route path="user/:id" element={<UserDetail />} />
+
             <Route path="transaction" element={<TransactionManagement />} />
             <Route path="sys-conf" element={<SystemConfigManagement />} />
+            <Route path="sys-conf/:id" element={<SystemConfigDetail />} />
+
             <Route
               path="staking-session"
               element={<StakingSessionManagement />}
@@ -71,8 +78,14 @@ const App: FC = () => {
             <Route path="package/:id" element={<PackageDetail />} />
             <Route path="package/add" element={<AddPackage />} />
 
-            <Route path="level-condition" element={<LevelConditionManagement />} />
-            <Route path="level-condition/:id" element={<LevelConditionDetail />} />
+            <Route
+              path="level-condition"
+              element={<LevelConditionManagement />}
+            />
+            <Route
+              path="level-condition/:id"
+              element={<LevelConditionDetail />}
+            />
             <Route path="level-condition/add" element={<AddLevelCondition />} />
           </Route>
         </Routes>

@@ -16,13 +16,23 @@ export interface IDropdownProps {
     id: number;
     name: string;
   }[];
+  onChange?: (value?: any) => void;
 }
 
-export function Dropdown({ label, data }: IDropdownProps) {
+export function Dropdown({ label, data, onChange }: IDropdownProps) {
   const [selected, setSelected] = React.useState(data[0].name);
   const [isOpen, setIsOpen] = React.useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));
+
+  const onClickItem = (item: any) => {
+    setSelected(item.name);
+    setIsOpen(false);
+
+    if (onChange) {
+      onChange(item);
+    }
+  };
   return (
     <DropdownWrapper>
       <Label>{label}:</Label>
@@ -49,8 +59,7 @@ export function Dropdown({ label, data }: IDropdownProps) {
                 <DropdownItem
                   key={"dropdown-item-" + item.id}
                   onClick={() => {
-                    setSelected(item.name);
-                    setIsOpen(false);
+                    onClickItem(item);
                   }}
                 >
                   {item.name}

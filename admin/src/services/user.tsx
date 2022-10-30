@@ -48,28 +48,64 @@ const updateUserBalance = async (
   }
 };
 
-const updateUserLevel = async (
-  id: number,
-  updateData: { balance: string }
-) => {
+const updateUserLevel = async (id: number, updateData: { balance: string }) => {
   try {
-    const { data } = await service.update(
-      `admin/user/${id}/level`,
-      updateData
-    );
+    const { data } = await service.update(`admin/user/${id}/level`, updateData);
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "updateUserLevel failed.");
   }
 };
 
+const getUserTx = async (id: number, filter?: CommonFilter) => {
+  try {
+    const { data } = await service.get(`admin/user/${id}/transaction`, filter);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "getUserTx failed.");
+  }
+};
+
+const getUserCommission = async (id: number, filter?: CommonFilter) => {
+  try {
+    const { data } = await service.get(`admin/user/${id}/commission`, filter);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "getUserCommission failed.");
+  }
+};
+
+const getUserStaking = async (id: number, filter?: CommonFilter) => {
+  try {
+    const { data } = await service.get(`admin/user/${id}/staking`, filter);
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "getUserStaking failed.");
+  }
+};
+
+const getUserStakingProfit = async (id: number, filter?: CommonFilter) => {
+  try {
+    const { data } = await service.get(
+      `admin/user/${id}/staking-profit`,
+      filter
+    );
+    return handleResponse(data);
+  } catch (err) {
+    return handleError(err, "getUserStakingProfit failed.");
+  }
+};
 
 export const userServices = {
   getListUser,
   getDetailUser,
   updateUser,
   updateUserBalance,
-  updateUserLevel
+  updateUserLevel,
+  getUserTx,
+  getUserCommission,
+  getUserStaking,
+  getUserStakingProfit,
 };
 
 export default userServices;

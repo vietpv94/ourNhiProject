@@ -18,6 +18,7 @@ export const Item = (data: DataStake) => {
         className="btn"
         type="blue"
         text="Stake now"
+        disabled={data.disabled}
         onClick={() => {
           navigate("/stake");
         }}

@@ -34,6 +34,7 @@ import {
 import { breakpoints } from "@Utils/theme";
 import { Link } from "@Pages/Login/components";
 import { TickIcon } from "@Components/atoms/icon/tick";
+import { loading, unloading } from "@Redux/actions/loading";
 
 export const validateEmail = (email: string) => {
   return String(email)
@@ -94,27 +95,32 @@ export const SignUp = () => {
       return toast.error("email is invalid");
     }
     setCountdown();
+    dispatch(loading());
     userServices
       .getVerifyEmail({
         email: email
       })
       .then((response: any) => {
+        dispatch(unloading());
         if (!response.success) {
           return toast.error(response.message);
         }
         setStep(2);
       })
       .catch((err) => {
+        dispatch(unloading());
         return toast.error(err.message);
       });
   };
   const handleVerifyCode = async () => {
+    dispatch(loading());
     userServices
       .verifyCode({
         email: email,
         verifyToken: code
       })
       .then((response: any) => {
+        dispatch(unloading());
         if (response.success) {
           setStep(3);
         } else {
@@ -122,18 +128,20 @@ export const SignUp = () => {
         }
       })
       .catch((err: Error) => {
+        dispatch(unloading());
         return toast.error(err.message);
       });
   };
 
   const handleRegister = async () => {
+    dispatch(loading());
     const { data, message } = await authServices.register({
       email: email,
       password: password,
       nickName: nickname,
       refCode: ref
     });
-
+    dispatch(unloading());
     if (data) {
       setStep(4);
     } else {

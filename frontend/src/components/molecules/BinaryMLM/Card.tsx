@@ -69,6 +69,7 @@ export interface IBox {
   parentId: string;
   index: number;
   level: number;
+  maxTreeDeep: number;
   binaryChildCandidate?: string[];
   data: {
     title: string;
@@ -142,7 +143,7 @@ export function Card({
           <div className="left">
             <div className="flex">
               <span className="label">Left</span>
-              <span className="value">{`0 (+${box.data.left.num})`}</span>
+              <span className="value">{`+${box.data.left.num}`}</span>
             </div>
             <div className="flex">
               <span className="label">Sum</span>
@@ -151,7 +152,7 @@ export function Card({
           </div>
           <div className="right">
             <div className="flex">
-              <span className="value">{`0 (+${box.data.left.num})`}</span>{" "}
+              <span className="value">{`+${box.data.right.num}`}</span>{" "}
               <span className="label">Right</span>
             </div>
             <div className="flex">

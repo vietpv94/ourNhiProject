@@ -17,7 +17,8 @@ export function AddPackage(props: IKYCDetailProps) {
     percentProfitPerMonth: 0,
     percentProfitPerDay: 0,
     maxProfit: 0,
-    poolMaxStakeValue: 0
+    poolMaxStakeValue: 0,
+    minValue: 0,
   });
 
   const addPackage = useCallback(async () => {

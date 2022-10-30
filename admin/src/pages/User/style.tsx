@@ -11,6 +11,25 @@ export const Title = styled.div`
   font-weight: 600;
   font-size: 24px;
   color: #3f3f3f;
+  display: flex;
+  align-items: center;
+`;
+
+export const Text = styled.div`
+  font-weight: 200;
+  font-size: 16px;
+  color: #3f3f3f;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+`;
+
+export const Flex = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 `;
 
 export const Top = styled.div`

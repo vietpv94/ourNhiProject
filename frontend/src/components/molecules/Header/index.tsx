@@ -18,7 +18,7 @@ import { color } from "highcharts";
 import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useMedia } from "react-use";
 import { WalletSelector } from "../../../pages/Stake/style";
 import { Number } from "../Badge/style";
@@ -66,6 +66,7 @@ export function Header(props: IHeaderProps) {
   const { connection } = useConnection();
   const [balance, setBalance] = useState(0);
   const isTablet = useMedia(breakpoints.sm);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loadProfile = async () => {
     await userServices.getProfile();
@@ -92,7 +93,7 @@ export function Header(props: IHeaderProps) {
   }, []);
 
   function reloadPage() {
-    window.location.reload();
+    navigate('/')
   }
   return (
     <Container>

@@ -125,8 +125,6 @@ export function StakingSessionManagement(props: IHistoryProps) {
           setCurrentTab={setCurrentTab}
         />
         <div className="left">
-          <Dropdown label="time" data={dataSortTime} />
-          <Dropdown label="sort by" data={dataSortBy} />
         </div>
       </Top>
       <BoxUsers>

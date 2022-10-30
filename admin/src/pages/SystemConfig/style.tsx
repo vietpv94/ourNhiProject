@@ -1,5 +1,17 @@
 import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
+import { Button } from "@Components/atoms/Button";
+import { useNavigate } from "react-router-dom";
+
+type Props = {
+  type: "password" | "number" | "email" | "text" | "file" | undefined;
+  label?: string;
+  children?: React.ReactNode;
+  icon?: React.ReactNode;
+  value?: string;
+  onChange?: (value: any) => void;
+  [key: string]: HTMLInputElement | string | React.ReactNode;
+};
 
 export const AdminWrapper = styled.div`
   width: 100%;
@@ -98,6 +110,95 @@ export const BoxPayout = styled.div`
   }
 `;
 
+export const DetailWrapper = styled.div`
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  & > .title {
+    color: #3f3f3f;
+    font-weight: 600;
+    font-size: 28px;
+  }
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  flex-wrap: wrap;
+  & > label {
+    width: 130px;
+    color: #27272a;
+    font-weight: 400;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  & > .input {
+    flex: 1;
+    height: 40px;
+    padding: 10px 10px 10px 20px;
+    background: #f8fafc;
+    border: 1.21042px solid #c1cbd7;
+    border-radius: 4.8417px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    & > input {
+      flex: 1;
+      outline: none;
+      border: none;
+      color: #37373b;
+      font-weight: 400;
+      font-size: 14px;
+      background: transparent;
+      &::placeholder {
+        color: #8c8c92;
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+  }
+  @media ${breakpoints.xs} {
+    &.file {
+      align-items: flex-start;
+    }
+  }
+`;
+
+export const Input = ({
+  label,
+  type,
+  children,
+  icon,
+  value,
+  onChange,
+  ...props
+}: Props) => {
+  return (
+    <InputWrapper>
+      <label>{label}</label>
+      <div className="input">
+        <input
+          type={type}
+          {...props}
+          onChange={onChange}
+          defaultValue={value}
+        />
+        {icon}
+      </div>{" "}
+      {children}
+    </InputWrapper>
+  );
+};
+
 export const BoxUsers = styled.div`
   margin-top: 20px;
   width: 100%;
@@ -143,3 +244,29 @@ export const BoxUsers = styled.div`
     }
   }
 `;
+
+export const BackBtnWrapper = styled.div`
+  position: absolute;
+  left: -38rem;
+`;
+
+type BackBtnProps = {
+  text?: string;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  [key: string]: HTMLInputElement | string | React.ReactNode;
+};
+
+export const BackButton = ({ text, children, ...props }: BackBtnProps) => {
+  return (
+    <BackBtnWrapper>
+      <Button
+        type="outline"
+        {...props}
+        customStyle='position: "absolute"; left: "138rem"'
+      >
+        {children || text}
+      </Button>
+    </BackBtnWrapper>
+  );
+};

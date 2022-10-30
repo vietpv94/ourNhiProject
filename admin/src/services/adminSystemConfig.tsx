@@ -45,7 +45,11 @@ const updateSystemConfig = async (updateParam: {
   isPublic: boolean;
 }) => {
   try {
-    const { data } = await service.post("admin/system-config", updateParam);
+    const { data } = await service.updateById(
+      "admin/system-config",
+      updateParam,
+      updateParam.key
+    );
     return handleResponse(data);
   } catch (err) {
     return handleError(err, "updateSystemConfig failed.");
@@ -66,7 +70,7 @@ export const adminSystemConfigServices = {
   updateSystemConfig,
   getSystemConfigByKey,
   updateSystemConfigByKey,
-  deleteSystemConfigByKey
+  deleteSystemConfigByKey,
 };
 
 export default adminSystemConfigServices;

@@ -228,7 +228,7 @@ export function StakeConFirmModal(props: IStakeConFirmModalProps) {
               ? `${Number(selectedPack?.value / solPrice).toFixed(2)} SOL `
               : `${currency((selectedPack?.value || 0) * solPrice, {
                   symbol: "$",
-                  precision: 0
+                  precision: 2
                 }).format()} `}
           </span>
         </Item>

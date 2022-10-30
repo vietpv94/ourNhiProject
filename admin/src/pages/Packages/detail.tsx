@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Flex } from "@Components/molecules/Header/style";
-import { Box, DetailWrapper, Input, InputWrapper } from "./style";
+import { BackButton, Box, DetailWrapper, Input, InputWrapper } from "./style";
 import { adminPackageServices } from "@Services/index";
 import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
@@ -24,7 +24,7 @@ export function PackageDetail(props: IKYCDetailProps) {
         percentProfitPerMonth: Number(data.percentProfitPerMonth),
         percentProfitPerDay: Number(data.percentProfitPerDay),
         maxProfit: Number(data.maxProfit),
-        poolMaxStakeValue: Number(data.poolMaxStakeValue)
+        poolMaxStakeValue: Number(data.poolMaxStakeValue),
       });
     }
   };
@@ -52,6 +52,7 @@ export function PackageDetail(props: IKYCDetailProps) {
 
   return packageDetail ? (
     <DetailWrapper>
+      <BackButton onClick={() => navigate("/admin/sys-conf")}>Back</BackButton>
       <Input
         type="number"
         label="Thời hạn (giây)"
@@ -59,7 +60,7 @@ export function PackageDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setPackageDetail({
             ...packageDetail,
-            duration: Number(e.target.value)
+            duration: Number(e.target.value),
           });
         }}
       />
@@ -70,7 +71,7 @@ export function PackageDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setPackageDetail({
             ...packageDetail,
-            percentProfitPerMonth: Number(e.target.value)
+            percentProfitPerMonth: Number(e.target.value),
           });
         }}
       />
@@ -81,7 +82,7 @@ export function PackageDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setPackageDetail({
             ...packageDetail,
-            percentProfitPerDay: Number(e.target.value)
+            percentProfitPerDay: Number(e.target.value),
           });
         }}
       />
@@ -93,7 +94,7 @@ export function PackageDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setPackageDetail({
             ...packageDetail,
-            maxProfit: Number(e.target.value)
+            maxProfit: Number(e.target.value),
           });
         }}
       />
@@ -105,7 +106,7 @@ export function PackageDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setPackageDetail({
             ...packageDetail,
-            poolMaxStakeValue: Number(e.target.value)
+            poolMaxStakeValue: Number(e.target.value),
           });
         }}
       />

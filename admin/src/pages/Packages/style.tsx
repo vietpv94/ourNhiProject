@@ -1,3 +1,4 @@
+import { Button } from "@Components/atoms/Button";
 import { breakpoints } from "@Utils/theme";
 import styled from "styled-components";
 
@@ -104,7 +105,6 @@ export const Box = styled.div`
     height: 100%;
   }
 `;
-
 
 export const BoxPayout = styled.div`
   margin-top: 20px;
@@ -252,5 +252,31 @@ export const Input = ({
       </div>{" "}
       {children}
     </InputWrapper>
+  );
+};
+
+export const BackBtnWrapper = styled.div`
+  position: absolute;
+  left: -38rem;
+`;
+
+type BackBtnProps = {
+  text?: string;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  [key: string]: HTMLInputElement | string | React.ReactNode;
+};
+
+export const BackButton = ({ text, children, ...props }: BackBtnProps) => {
+  return (
+    <BackBtnWrapper>
+      <Button
+        type="outline"
+        {...props}
+        customStyle='position: "absolute"; left: "138rem"'
+      >
+        {children || text}
+      </Button>
+    </BackBtnWrapper>
   );
 };

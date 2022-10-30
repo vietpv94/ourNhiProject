@@ -14,7 +14,7 @@ interface DataSideBar {
 export const dataSideBar: DataSideBar[] = [
   {
     name: "Manage User",
-    link: "/admin",
+    link: "/admin/user",
     icon: <TeamIcon />
   },
   {
@@ -46,6 +46,11 @@ export const dataSideBar: DataSideBar[] = [
   {
     name: "Manage Level Condition",
     link: "/admin/level-condition",
+    icon: <TeamIcon />
+  },
+  {
+    name: "Manage System Config",
+    link: "/admin/sys-conf",
     icon: <TeamIcon />
   }
 ];

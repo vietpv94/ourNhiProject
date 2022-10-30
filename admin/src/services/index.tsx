@@ -7,3 +7,4 @@ export * from "./adminStakingLevel";
 export * from "./adminPackage";
 export * from "./adminBonusLevel";
 export * from "./adminLevelCondition";
+export * from "./adminSystemConfig";

@@ -1,15 +1,14 @@
 import { Dropdown } from "@Components/molecules/Dropdown";
 import { Tab } from "@Components/molecules/Tab";
 import { Table } from "@Components/molecules/Table";
-import {
-  dataSortBy,
-  dataSortTime,
-} from "./data";
+import { dataSortBy, dataSortTime } from "./data";
 import { AdminWrapper, Box, BoxPayout, BoxUsers, Title, Top } from "./style";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import userServices from "@Services/user";
 import { CommonFilter } from "@Types/common";
+import { Button } from "@Components/atoms/Button";
+import { useNavigate } from "react-router-dom";
 export interface IHistoryProps {}
 
 interface IUser {
@@ -52,6 +51,7 @@ const convertStatus = (status: number): string => {
 };
 
 export function UserManagement(props: IHistoryProps) {
+  const navigate = useNavigate();
   const tabs = ["userManagement"];
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [totalUser, setTotalUser] = useState<number>(0);
@@ -63,7 +63,8 @@ export function UserManagement(props: IHistoryProps) {
     "SOL Balance",
     "Level",
     "Verified",
-    "Created"
+    "Created",
+    "Action",
   ];
 
   useEffect(() => {
@@ -72,14 +73,12 @@ export function UserManagement(props: IHistoryProps) {
 
   const loadUser = async (param?: CommonFilter) => {
     const { data } = await userServices.getListUser(param);
-    console.log(data);
 
     setListUser(data.users);
     setTotalUser(data.total);
   };
 
   const renderDataUser = useMemo(() => {
-
     return listUser.map((item: IUser, index: number) => {
       return {
         id: item.id,
@@ -87,12 +86,29 @@ export function UserManagement(props: IHistoryProps) {
         balance: Number(item.balance).toFixed(2),
         solBalance: Number(item.solBalance).toFixed(2),
         level: item.level,
-        verified: (
-          <div className={`status ${item.verified ? "success" : "pending"}`}>
-            {item.verified ? "success" : "failed"}
+        active: (
+          <div className={`status ${item.active ? "success" : "pending"}`}>
+            {item.active ? "success" : "failed"}
           </div>
         ),
-        createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm")
+        createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm"),
+        action: (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
+            <Button
+              text="Detail"
+              type={"outline"}
+              onClick={() => {
+                navigate(`${item.id}`);
+              }}
+            />
+          </div>
+        ),
       };
     });
   }, [listUser]);
@@ -111,10 +127,7 @@ export function UserManagement(props: IHistoryProps) {
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
         />
-        <div className="left">
-          <Dropdown label="time" data={dataSortTime} />
-          <Dropdown label="sort by" data={dataSortBy} />
-        </div>
+        <div className="left"></div>
       </Top>
       <BoxUsers>
         <Table

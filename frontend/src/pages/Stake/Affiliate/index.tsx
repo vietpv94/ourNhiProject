@@ -146,6 +146,7 @@ export function Affiliate(props: IAffiliateProps) {
       index: data.id,
       parentId: data?.parentId?.toString() || "0",
       level: position.level,
+      maxTreeDeep: data?.maxTreeDeep || 0,
       data: {
         title: data.email,
         left: {
@@ -169,7 +170,6 @@ export function Affiliate(props: IAffiliateProps) {
   const boxHeight = 187;
   const boxSpaceY = 150;
   const centerX = width ? width / 2 : 700;
-  const totalX = 16 * (boxWidth + boxSpaceX) - boxSpaceX;
   const Y0 = 50;
 
   const getAllBoxes = async (
@@ -183,11 +183,13 @@ export function Affiliate(props: IAffiliateProps) {
     if (data) {
       const box: IBox = convertBinaryChildToBoxData(data, position);
       const currentLevel = position.level;
+
+      const totalX = (data.maxTreeDeep + 1) * 4 * (boxWidth + boxSpaceX) + boxWidth;
       if (data.leftChildData?.email || data.rightChildData?.email) {
         position.level = currentLevel + 1;
         if (data.leftChildData?.email) {
           if (currentLevel === 0) {
-            position.x = centerX - totalX / 2;
+            position.x = centerX + boxWidth- totalX / 2;
             position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
           } else {
             position.x = box.x - totalX / (2 * (currentLevel + 1));
@@ -224,25 +226,26 @@ export function Affiliate(props: IAffiliateProps) {
         x: widthcurrent ? widthcurrent / 2 : 700,
         y: 50,
         level: 0
-      },
-      account.email
+      }
     );
 
     const groupChildByParent = groupBy(boxes, "parentId");
     Object.keys(groupChildByParent).map((key) => {
       const boxParent = boxes?.find((box) => box.id === key);
       if (boxParent) {
+        const totalX = (boxParent.maxTreeDeep + 1) * 2 * (boxWidth + boxSpaceX) + boxWidth;
         if (groupChildByParent[key].length < 2) {
           const newBox: IBox = {
             type: "choose",
             id: `${Math.floor(Math.random() * 100000)}`,
             children: [],
-            x: 0,
+            x: boxParent.x + totalX / (2 * (boxParent.level + 1)),
             y:  boxParent.y + (boxHeight + boxSpaceY),
             childF1s: [],
             binaryChildCandidate: [...(boxParent?.childF1s || [])],
             parentId: boxParent?.id,
-            index: boxParent?.children.length,
+            maxTreeDeep: 0,
+            index: boxParent?.children.length + 1,
             level: (boxParent?.level || 0) + 1,
             data: {
               title: "0",
@@ -259,11 +262,6 @@ export function Affiliate(props: IAffiliateProps) {
               total: 0
             }
           };
-          if (groupChildByParent[key][0].x < boxParent.x) {
-            newBox.x = boxParent.x + totalX / (2 * (boxParent.level + 1));
-          } else {
-            newBox.x = boxParent.x - totalX / (2 * (boxParent.level + 1));
-          }
 
           boxes?.push(newBox);
           boxParent.children.push(newBox.id);

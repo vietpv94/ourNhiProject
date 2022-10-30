@@ -74,8 +74,9 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
       childF1s: [],
       binaryChildCandidate: boxPrev.childF1s,
       parentId: boxPrev.id,
-      index: boxPrev.children.length,
+      index: boxPrev.children.length +1,
       level: level,
+      maxTreeDeep: 0,
       data: {
         title: id.toString(),
         left: {

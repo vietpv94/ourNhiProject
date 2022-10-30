@@ -1,8 +1,10 @@
 import successful from "@Assets/images/Gif/successful.gif";
 import { ICardStakingData } from "@Components/molecules/CardStaking";
 import { TimeStepper } from "@Components/molecules/TimeStepper";
+import { stakingServices } from "@Services/index";
+import currency from "currency.js";
 import moment from "moment";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Content, Item, Logo, StakeSuccessfulWrapper, Title } from "./style";
 
 interface ISuccessStakingPack {
@@ -29,29 +31,34 @@ export interface IStakeSuccessfulProps {
 
 export function StakeSuccessful(props: IStakeSuccessfulProps) {
   const { successStakingPack } = props;
+  const [solPrice, setSolPrice] = useState(0);
+
+  const loadSOLPrice = async () => {
+    const { data } = await stakingServices.getSolPrice();
+    setSolPrice(data.solPrice);
+  };
+
+  useEffect(() => {
+    loadSOLPrice();
+  }, []);
 
   const dataStaking = useMemo(() => {
-    const startTime = moment.unix(
-      successStakingPack?.startTime || moment().unix()
-    );
-    const endTime = moment.unix(successStakingPack?.endTime || moment().unix());
-    const harvestTime = moment.unix(
-      successStakingPack?.harvestTime || moment().unix()
-    );
-    return [
+    const data = [
       {
         label: "Stake Date:",
-        value: startTime.format("YYYY-MM-DD HH:mm")
+        value: moment(Date.now()).format("YYYY-MM-DD HH:mm")
       },
       {
         label: "Value Date",
-        value: harvestTime.format("YYYY-MM-DD HH:mm")
+        value: moment(Date.now()).format("YYYY-MM-DD HH:mm")
       },
       {
         label: "Interest Distribution Date",
-        value: endTime.format("YYYY-MM-DD HH:mm")
+        value: moment(Date.now()).add(1, "days").format("YYYY-MM-DD HH:mm")
       }
     ];
+
+    return data;
   }, [props.successStakingPack]);
   return (
     <StakeSuccessfulWrapper>
@@ -61,7 +68,19 @@ export function StakeSuccessful(props: IStakeSuccessfulProps) {
         <Item>
           <span className="label">Subscription Package:</span>
           <span className="value">
-            ${Number(successStakingPack?.stakeValue).toFixed(3)}
+            {
+              currency(successStakingPack?.stakeValue || 0, {
+                  symbol: "$",
+                  precision: 2
+                }).format()
+            }
+          </span>
+        </Item>
+        <Item>
+          <span className="label">SOL Value:</span>
+          <span className="value">
+            {`${Number((successStakingPack?.stakeValue || 0) / solPrice).toFixed(2)} SOL `}
+       
           </span>
         </Item>
         <Item>

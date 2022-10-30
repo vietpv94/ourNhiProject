@@ -24,6 +24,8 @@ export const TableWrapper = styled.div`
       & > tr {
         display: flex;
         width: 100%;
+        justify-content: center;
+        align-items: center;
         & > th {
           flex: 1;
           padding: 10px 0;
@@ -54,6 +56,8 @@ export const TableWrapper = styled.div`
         position: relative;
         padding: 10px 0;
         table-layout: fixed;
+        justify-content: center;
+        align-items: center;
         & > td {
           flex: 1;
           padding: 10px 0;

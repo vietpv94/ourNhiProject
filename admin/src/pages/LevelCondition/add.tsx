@@ -1,16 +1,10 @@
 import * as React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Flex } from "@Components/molecules/Header/style";
-import { Box, DetailWrapper, Input, InputWrapper } from "./style";
-import {
-  adminPackageServices,
-  adminStakingLevelConditionServices
-} from "@Services/index";
+import { useNavigate } from "react-router-dom";
+import { DetailWrapper, Input } from "./style";
+import { adminStakingLevelConditionServices } from "@Services/index";
 import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@Components/atoms/Button";
-import { IBonusLevel } from "@Models/bonusLevel";
-import { IFullStakingPackage, IStakingPackage } from "@Models/package";
 import { IStakingLevelCondition } from "@Models/index";
 export interface IKYCDetailProps {}
 
@@ -25,7 +19,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
       conditionRevenue: 0,
       maximumBinaryTreeIncome: 0,
       maxDeepReceiveSunCommission: 0,
-      reward: 0
+      reward: 0,
     });
 
   const addLevelCondition = useCallback(async () => {
@@ -52,7 +46,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            level: Number(e.target.value)
+            level: Number(e.target.value),
           });
         }}
       />
@@ -63,7 +57,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionInvest: Number(e.target.value)
+            conditionInvest: Number(e.target.value),
           });
         }}
       />
@@ -74,7 +68,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionNumF1: Number(e.target.value)
+            conditionNumF1: Number(e.target.value),
           });
         }}
       />
@@ -86,7 +80,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionF1Level: Number(e.target.value)
+            conditionF1Level: Number(e.target.value),
           });
         }}
       />
@@ -98,7 +92,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionRevenue: Number(e.target.value)
+            conditionRevenue: Number(e.target.value),
           });
         }}
       />
@@ -110,7 +104,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            maximumBinaryTreeIncome: Number(e.target.value)
+            maximumBinaryTreeIncome: Number(e.target.value),
           });
         }}
       />
@@ -122,7 +116,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            maxDeepReceiveSunCommission: Number(e.target.value)
+            maxDeepReceiveSunCommission: Number(e.target.value),
           });
         }}
       />
@@ -134,7 +128,7 @@ export function AddLevelCondition(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            reward: Number(e.target.value)
+            reward: Number(e.target.value),
           });
         }}
       />

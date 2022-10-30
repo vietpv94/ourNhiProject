@@ -7,27 +7,33 @@ import kusama from "@Assets/images/home/kusama.png";
 export interface DataStake {
   apr: number;
   icon: string;
+  disabled: boolean;
 }
 
 export const dataStake: DataStake[] = [
   {
     icon: ethereum,
-    apr: 5.1,
+    apr: 15,
+    disabled: true,
   },
   {
     icon: solana,
-    apr: 5.5,
+    apr: 15,
+    disabled: false,
   },
   {
     icon: polygon,
-    apr: 6.3,
+    apr: 15,
+    disabled: false,
   },
   {
     icon: pokadot,
-    apr: 13.5,
+    apr: 15,
+    disabled: false,
   },
   {
     icon: kusama,
-    apr: 9.9,
+    apr: 15,
+    disabled: true,
   },
 ];

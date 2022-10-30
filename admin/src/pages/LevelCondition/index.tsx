@@ -76,7 +76,7 @@ export function LevelConditionManagement(props: IPackageProps) {
 
   return (
     <AdminWrapper>
-      <Title>Quản Điều kiện lên cấp</Title>
+      <Title>Quản lý Điều kiện lên cấp</Title>
       <Top>
         <Tab
           parent="packageManagement"

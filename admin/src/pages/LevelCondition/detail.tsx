@@ -1,16 +1,10 @@
 import * as React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Flex } from "@Components/molecules/Header/style";
-import { Box, DetailWrapper, Input, InputWrapper } from "./style";
-import {
-  adminPackageServices,
-  adminStakingLevelConditionServices,
-  adminStakingLevelServices
-} from "@Services/index";
+import { BackButton, DetailWrapper, Input } from "./style";
+import { adminStakingLevelConditionServices } from "@Services/index";
 import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@Components/atoms/Button";
-import { IBonusLevel } from "@Models/bonusLevel";
 import { IStakingLevelCondition } from "@Models/stakingLevelCondition";
 export interface IKYCDetailProps {}
 
@@ -29,10 +23,8 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         ...data,
         conditionInvest: Number(data.conditionInvest),
         conditionRevenue: Number(data.conditionRevenue),
-        maximumBinaryTreeIncome: Number(
-          data.maximumBinaryTreeIncome
-        ),
-        reward: Number(data.reward)
+        maximumBinaryTreeIncome: Number(data.maximumBinaryTreeIncome),
+        reward: Number(data.reward),
       });
     }
   };
@@ -59,6 +51,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
 
   return levelConditionDetail ? (
     <DetailWrapper>
+      <BackButton onClick={() => navigate("/admin/sys-conf")}>Back</BackButton>
       <Input
         type="number"
         label="Cấp độ"
@@ -66,7 +59,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            level: Number(e.target.value)
+            level: Number(e.target.value),
           });
         }}
       />
@@ -77,7 +70,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionInvest: Number(e.target.value)
+            conditionInvest: Number(e.target.value),
           });
         }}
       />
@@ -88,7 +81,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionNumF1: Number(e.target.value)
+            conditionNumF1: Number(e.target.value),
           });
         }}
       />
@@ -100,7 +93,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionF1Level: Number(e.target.value)
+            conditionF1Level: Number(e.target.value),
           });
         }}
       />
@@ -112,7 +105,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            conditionRevenue: Number(e.target.value)
+            conditionRevenue: Number(e.target.value),
           });
         }}
       />
@@ -124,7 +117,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            maximumBinaryTreeIncome: Number(e.target.value)
+            maximumBinaryTreeIncome: Number(e.target.value),
           });
         }}
       />
@@ -136,7 +129,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            maxDeepReceiveSunCommission: Number(e.target.value)
+            maxDeepReceiveSunCommission: Number(e.target.value),
           });
         }}
       />
@@ -148,7 +141,7 @@ export function LevelConditionDetail(props: IKYCDetailProps) {
         onChange={(e) => {
           setLevelConditionDetail({
             ...levelConditionDetail,
-            reward: Number(e.target.value)
+            reward: Number(e.target.value),
           });
         }}
       />
