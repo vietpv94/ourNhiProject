@@ -4,6 +4,7 @@ import { CopyIcon } from "@Components/atoms/icon/copy";
 import { DollarIcon } from "@Components/atoms/icon/dollar";
 import { MemberIcon } from "@Components/atoms/icon/member";
 import currency from "currency.js";
+import moment from "moment";
 import {
   CardAffiliate,
   ICardAffiliateProps
@@ -56,6 +57,7 @@ export interface DashboardData {
 interface ChildInfo {
   id: number;
   nickName: string;
+  email: string;
   level: number;
   package: number;
   partner: number;
@@ -130,7 +132,13 @@ export function Dashboard(props: IDashboardProps) {
   const loadCurrentChildData = async (email: string) => {
     dispatch(loading());
     const { data } = await userServices.getChildDetail(email);
-    setCurrentChildData(data);
+
+    setCurrentChildData({
+      id: data.id,
+      email: email.toLowerCase(),
+      ...data,
+      createdAt: moment(data.createdAt).format("YYYY-MM-DD HH:mm")
+    });
     dispatch(unloading());
   };
 
@@ -307,9 +315,13 @@ export function Dashboard(props: IDashboardProps) {
           data: [...serializeLevelCondition]
         };
       } else {
+        let countDone = 0;
         const serializeLevelCondition = Object.keys(lv)
           .map((keyLv) => {
             if (keyLv !== "level") {
+              if (convertValueToReadableStatus(keyLv, lv, currentUserLevel)) {
+                countDone += 1;
+              }
               return {
                 name: convertKeyToReadableName(keyLv),
                 value: convertValueToReadable(keyLv, lv, currentUserLevel),
@@ -322,8 +334,8 @@ export function Dashboard(props: IDashboardProps) {
         return {
           level: lv.level,
           status: "pending" as Status,
-          nextLevel: 4,
-          completed: 0,
+          nextLevel: 4 - countDone,
+          completed: countDone,
           total: 4,
           data: [...serializeLevelCondition]
         };

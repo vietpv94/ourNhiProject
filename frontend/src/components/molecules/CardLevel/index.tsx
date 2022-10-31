@@ -45,13 +45,7 @@ export function CardLevel({ data }: ICardLevelProps) {
               <div className="text">
                 <SmallStarIcon />
                 <span>
-                  <span
-                    className={
-                      data.completed < data.total && data.completed
-                        ? "hight-light"
-                        : ""
-                    }
-                  >
+                  <span>
                     {data.completed}
                   </span>
                   /{data.total}

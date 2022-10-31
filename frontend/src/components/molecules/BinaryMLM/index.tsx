@@ -4,7 +4,7 @@ import { Card, IBox } from "./Card";
 import { useXarrow, xarrowPropsType } from "react-xarrows";
 export interface IBinaryMLMProps {
   binaryBox: IBox[];
-  updateBinaryTree: () => void;
+  updateBinaryTree: (email?: string) => void;
 }
 import Xarrow, { Xwrapper } from "react-xarrows";
 import { ZoomInIcon } from "@Components/atoms/icon/zoomIn";
@@ -48,11 +48,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
   const boxSpaceX = 100;
   const boxHeight = 187;
   const boxSpaceY = 150;
-  const centerX = widthcurrent ? widthcurrent / 2 : 700;
-  const Y0 = 50;
   const addNewBox = (boxPrev: IBox) => {
-    console.log(boxPrev);
-
     if (boxPrev.children.length > 1) return;
     if (!boxes) return;
     const maxId = Math.max(...Object.keys(boxes).map((id) => parseInt(id)));
@@ -128,6 +124,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
   const onAddChildSucceed = () => {
     updateBinaryTree();
   };
+
   return (
     <>
       <TransformWrapper
@@ -168,6 +165,9 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
                             addNewBox={addNewBox}
                             onAddChildSucceed={onAddChildSucceed}
                             setIsMoveable={setIsMoveable}
+                            onTitleClick={() => {
+                              updateBinaryTree(box.data.title)
+                            }}
                           />
                         );
                       })}

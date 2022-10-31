@@ -1,5 +1,6 @@
 import { DollarIcon } from "@Components/atoms/icon/dollar";
 import { MemberIcon } from "@Components/atoms/icon/member";
+import { Breadcrumbs } from "@Components/atoms/Breadcrumbs"
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import { RankingIcon } from "@Components/atoms/icon/ranking";
 import { Dropdown } from "@Components/molecules/Dropdown";
@@ -28,7 +29,7 @@ import { loading, unloading } from "@Redux/actions/loading";
 import account from "@Redux/reducers/accounts";
 import { useSelector } from "react-redux";
 import { RootState } from "@Redux/reducers";
-import { groupBy } from "lodash";
+import { findIndex, groupBy, take } from "lodash";
 
 export interface IAffiliateProps {}
 
@@ -92,6 +93,8 @@ export function Affiliate(props: IAffiliateProps) {
   const [commissionHistory, setCommissionHistory] = useState<
     DataRewardHistory[]
   >([]);
+  const [breadCrumbData, setBreadCrumbData] = useState<string[]>([]);
+
   const [binaryBox, setBinaryBox] = useState<IBox[]>([]);
   const account = useSelector((state: RootState) => state.account);
 
@@ -216,7 +219,7 @@ export function Affiliate(props: IAffiliateProps) {
     }
   };
 
-  const loadBinaryTreeUser = async () => {
+  const loadBinaryTreeUser = async (email?: string) => {
     const wrapper = document.getElementById("binary-wrapper");
     const widthcurrent = wrapper?.clientWidth;
 
@@ -226,7 +229,7 @@ export function Affiliate(props: IAffiliateProps) {
         x: widthcurrent ? widthcurrent / 2 : 700,
         y: 50,
         level: 0
-      }
+      }, email
     );
 
     const groupChildByParent = groupBy(boxes, "parentId");
@@ -245,7 +248,7 @@ export function Affiliate(props: IAffiliateProps) {
             binaryChildCandidate: [...(boxParent?.childF1s || [])],
             parentId: boxParent?.id,
             maxTreeDeep: 0,
-            index: boxParent?.children.length + 1,
+            index: boxParent?.children.length,
             level: (boxParent?.level || 0) + 1,
             data: {
               title: "0",
@@ -311,6 +314,17 @@ export function Affiliate(props: IAffiliateProps) {
     await loadCommissionHistory({ page: page });
   };
 
+  const updateBreadcrumb = async (email: string) => {
+    const index = findIndex(breadCrumbData, (o) => o === email);
+    if (index > -1) {
+      setBreadCrumbData([...take(breadCrumbData, index+ 1)]);
+    } else {
+      breadCrumbData.push(email);
+      setBreadCrumbData(breadCrumbData)
+    }
+    await loadBinaryTreeUser(email)
+  }
+
   const cardData: DataSummary[] = useMemo(() => {
     return [
       {
@@ -358,6 +372,7 @@ export function Affiliate(props: IAffiliateProps) {
     loadDashboardInfo();
     loadCommissionHistory();
     loadBinaryTreeUser();
+    setBreadCrumbData([...breadCrumbData, account.email])
   }, []);
 
   return (
@@ -369,11 +384,18 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
+        <Breadcrumbs data={breadCrumbData} onClick={(email) => updateBreadcrumb(email)}/>
         <Board id="binary-wrapper">
           {binaryBox && (
             <BinaryMLM
               binaryBox={binaryBox}
-              updateBinaryTree={loadBinaryTreeUser}
+              updateBinaryTree={(email) => {
+                loadBinaryTreeUser(email)
+                if(email) {
+                  updateBreadcrumb(email)
+                }
+              }
+              }
             />
           )}
         </Board>

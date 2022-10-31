@@ -91,6 +91,7 @@ export interface ICardProps {
   setIsMoveable: React.Dispatch<React.SetStateAction<boolean>>;
   addNewBox: (box: IBox) => void;
   onAddChildSucceed: () => void;
+  onTitleClick: () => void;
 }
 
 export function Card({
@@ -98,6 +99,7 @@ export function Card({
   setIsMoveable,
   addNewBox,
   onAddChildSucceed,
+  onTitleClick
 }: ICardProps) {
   const updateXarrow = useXarrow();
   const ref = React.useRef(null);
@@ -119,7 +121,7 @@ export function Card({
     const { data } = await userServices.setBinaryChild({
       fromId: Number(box.parentId),
       email: chosenOne,
-      type: box.index,
+      type: Number(box.index) + 1,
     });
     dispatch(unloading());
     if (data) {
@@ -135,7 +137,7 @@ export function Card({
   >
     {box.type === "card" ? (
       <>
-        <Header>
+        <Header onClick={onTitleClick}>
           <PersonIcon color="#fff" />
           <span>{box.data.title}</span>
         </Header>
