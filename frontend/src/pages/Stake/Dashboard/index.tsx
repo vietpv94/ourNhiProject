@@ -325,7 +325,7 @@ export function Dashboard(props: IDashboardProps) {
               return {
                 name: convertKeyToReadableName(keyLv, lv.level),
                 value: convertValueToReadable(keyLv, lv, currentUserLevel),
-                target: Number(lv[keyLv]).toFixed(),
+                target: keyLv === 'conditionF1Level'? Number(lv['conditionF1LevelNum']).toFixed(): Number(lv[keyLv]).toFixed(),
                 done: convertValueToReadableStatus(keyLv, lv, currentUserLevel)
               };
             }

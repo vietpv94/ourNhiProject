@@ -57,7 +57,7 @@ export const convertValueToReadable = (
     case "conditionF1Level":
       return filter(
         currentLevelData.f1Level,
-        (o) => o.level >= levelData["conditionF1Level"]
+        (o) => o.level >= levelData.conditionF1Level
       ).length;
     case "conditionRevenue":
       return Number(currentLevelData.totalRevenue).toFixed();

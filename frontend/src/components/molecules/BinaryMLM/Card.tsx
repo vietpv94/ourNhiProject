@@ -118,14 +118,18 @@ export function Card({
   const confirmAddBinaryChild = async () => {
     if (!chosenOne) return toast.warn("Please select one member to continue");
     dispatch(loading());
-    const { data } = await userServices.setBinaryChild({
+    console.log("booooox", box);
+    
+    const { data, message } = await userServices.setBinaryChild({
       fromId: Number(box.parentId),
       email: chosenOne,
-      type: Number(box.index) + 1,
+      type: Number(box.index),
     });
     dispatch(unloading());
     if (data) {
       onAddChildSucceed();
+    } else {
+      toast.error(message)
     }
   };
 

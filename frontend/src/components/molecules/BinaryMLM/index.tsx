@@ -70,7 +70,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
       childF1s: [],
       binaryChildCandidate: boxPrev.childF1s,
       parentId: boxPrev.id,
-      index: boxPrev.children.length +1,
+      index: boxPrev.children.length + 1,
       level: level,
       maxTreeDeep: 0,
       data: {
@@ -94,9 +94,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
       const bParentIndex = boxes[b.parentId].index;
       return aParentIndex - bParentIndex;
     });
-    allBoxLevel.forEach((box, index) => {
-      box.index = index;
-    });
+
     const totalX = 2 * (boxWidth + boxSpaceX) - boxSpaceX;
 
     const leftMostX = boxPrev.x + boxSpaceX - totalX / 2;
@@ -109,6 +107,8 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
         [newBox.id]: newBox
       };
     });
+    console.log(newBox);
+    
     setAllBox([...allBox]);
     boxPrev.children.push(newBox.id);
   };
@@ -117,9 +117,9 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
     startAnchor: "bottom",
     endAnchor: "top",
     curveness: 0.8,
-    strokeWidth: 3,
+    strokeWidth: 2,
     headSize: 5,
-    dashness: true
+    dashness: false
   };
   const onAddChildSucceed = () => {
     updateBinaryTree();
@@ -166,7 +166,7 @@ export function BinaryMLM({ binaryBox, updateBinaryTree }: IBinaryMLMProps) {
                             onAddChildSucceed={onAddChildSucceed}
                             setIsMoveable={setIsMoveable}
                             onTitleClick={() => {
-                              updateBinaryTree(box.data.title)
+                              updateBinaryTree(box.data.title);
                             }}
                           />
                         );

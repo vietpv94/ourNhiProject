@@ -40,7 +40,7 @@ export const dataNavigation: DataItemNav[] = [
       },
       {
         name: "Solana",
-        link: "https://lidofinance.io/solana",
+        link: "https://lidofinance.io/stake",
         description: "SOL",
         icon: solana,
         type: 1,

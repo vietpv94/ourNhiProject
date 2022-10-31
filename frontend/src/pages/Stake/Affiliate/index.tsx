@@ -1,6 +1,6 @@
 import { DollarIcon } from "@Components/atoms/icon/dollar";
 import { MemberIcon } from "@Components/atoms/icon/member";
-import { Breadcrumbs } from "@Components/atoms/Breadcrumbs"
+import { Breadcrumbs } from "@Components/atoms/Breadcrumbs";
 import { ProfileTickIcon } from "@Components/atoms/icon/profileTick";
 import { RankingIcon } from "@Components/atoms/icon/ranking";
 import { Dropdown } from "@Components/molecules/Dropdown";
@@ -146,7 +146,7 @@ export function Affiliate(props: IAffiliateProps) {
       type: "card",
       children: [...data.child.map(String)],
       childF1s: [...data.childF1s],
-      index: data.id,
+      index: data.position || 0,
       parentId: data?.parentId?.toString() || "0",
       level: position.level,
       maxTreeDeep: data?.maxTreeDeep || 0,
@@ -187,12 +187,13 @@ export function Affiliate(props: IAffiliateProps) {
       const box: IBox = convertBinaryChildToBoxData(data, position);
       const currentLevel = position.level;
 
-      const totalX = (data.maxTreeDeep + 1) * 4 * (boxWidth + boxSpaceX) + boxWidth;
+      const totalX =
+        (data.maxTreeDeep + 1) * 4 * (boxWidth + boxSpaceX) + boxWidth;
       if (data.leftChildData?.email || data.rightChildData?.email) {
         position.level = currentLevel + 1;
         if (data.leftChildData?.email) {
           if (currentLevel === 0) {
-            position.x = centerX + boxWidth- totalX / 2;
+            position.x = centerX + boxWidth - totalX / 2;
             position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
           } else {
             position.x = box.x - totalX / (2 * (currentLevel + 1));
@@ -204,7 +205,7 @@ export function Affiliate(props: IAffiliateProps) {
 
         if (data.rightChildData?.email) {
           if (currentLevel === 0) {
-            position.x = centerX + totalX / 2;
+            position.x = centerX - boxWidth + totalX / 2;
             position.y = Y0 + (currentLevel + 1) * (boxHeight + boxSpaceY);
           } else {
             position.x = box.x + totalX / (2 * (currentLevel + 1));
@@ -229,26 +230,31 @@ export function Affiliate(props: IAffiliateProps) {
         x: widthcurrent ? widthcurrent / 2 : 700,
         y: 50,
         level: 0
-      }, email
+      },
+      email
     );
 
     const groupChildByParent = groupBy(boxes, "parentId");
     Object.keys(groupChildByParent).map((key) => {
       const boxParent = boxes?.find((box) => box.id === key);
       if (boxParent) {
-        const totalX = (boxParent.maxTreeDeep + 1) * 2 * (boxWidth + boxSpaceX) + boxWidth;
+        const totalX =
+          (boxParent.maxTreeDeep + 1) * 2 * (boxWidth + boxSpaceX) + boxWidth;
         if (groupChildByParent[key].length < 2) {
           const newBox: IBox = {
             type: "choose",
             id: `${Math.floor(Math.random() * 100000)}`,
             children: [],
-            x: boxParent.x + totalX / (2 * (boxParent.level + 1)),
-            y:  boxParent.y + (boxHeight + boxSpaceY),
+            x:
+              groupChildByParent[key][0]?.index === 1
+                ? boxParent.x + totalX / (2 * (boxParent.level + 1))
+                : boxParent.x - totalX / (2 * (boxParent.level + 1)),
+            y: boxParent.y + (boxHeight + boxSpaceY),
             childF1s: [],
             binaryChildCandidate: [...(boxParent?.childF1s || [])],
             parentId: boxParent?.id,
             maxTreeDeep: 0,
-            index: boxParent?.children.length,
+            index: groupChildByParent[key][0]?.index === 1 ? 2 : 1,
             level: (boxParent?.level || 0) + 1,
             data: {
               title: "0",
@@ -317,13 +323,13 @@ export function Affiliate(props: IAffiliateProps) {
   const updateBreadcrumb = async (email: string) => {
     const index = findIndex(breadCrumbData, (o) => o === email);
     if (index > -1) {
-      setBreadCrumbData([...take(breadCrumbData, index+ 1)]);
+      setBreadCrumbData([...take(breadCrumbData, index + 1)]);
     } else {
       breadCrumbData.push(email);
-      setBreadCrumbData(breadCrumbData)
+      setBreadCrumbData(breadCrumbData);
     }
-    await loadBinaryTreeUser(email)
-  }
+    await loadBinaryTreeUser(email);
+  };
 
   const cardData: DataSummary[] = useMemo(() => {
     return [
@@ -372,7 +378,7 @@ export function Affiliate(props: IAffiliateProps) {
     loadDashboardInfo();
     loadCommissionHistory();
     loadBinaryTreeUser();
-    setBreadCrumbData([...breadCrumbData, account.email])
+    setBreadCrumbData([...breadCrumbData, account.email]);
   }, []);
 
   return (
@@ -384,18 +390,20 @@ export function Affiliate(props: IAffiliateProps) {
       </Header>
       <BinaryMLMWrapper>
         <div className="title">Binary MLM</div>
-        <Breadcrumbs data={breadCrumbData} onClick={(email) => updateBreadcrumb(email)}/>
+        <Breadcrumbs
+          data={breadCrumbData}
+          onClick={(email) => updateBreadcrumb(email)}
+        />
         <Board id="binary-wrapper">
           {binaryBox && (
             <BinaryMLM
               binaryBox={binaryBox}
               updateBinaryTree={(email) => {
-                loadBinaryTreeUser(email)
-                if(email) {
-                  updateBreadcrumb(email)
+                loadBinaryTreeUser(email);
+                if (email) {
+                  updateBreadcrumb(email);
                 }
-              }
-              }
+              }}
             />
           )}
         </Board>
