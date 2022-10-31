@@ -14,6 +14,7 @@ import {
   Dropdown,
   HeaderWrapper,
   ItemNav,
+  ItemWrapper,
   Main,
   MenuMobileWrapper,
   Navigation,
@@ -27,17 +28,23 @@ export const ItemNavigation = (data: DataItemNav) => {
   return (
     <ItemNav ref={ref}>
       <span>{data.name}</span>
-      <Dropdown style={{ display: `${isHover ? "flex" : "none"}` }}>
+      <Dropdown
+        style={{ display: `${data.name === "networks" ? "flex" : "none"}` }}
+      >
         {data.children?.map((item, index) => (
-          <li
-            key={`navigation-${index}`}
+          <ItemWrapper
+            // className="item-child"
+            key={`menu-${index}`}
             onClick={() => {
               window.open(item.link, "_blank");
             }}
           >
-            <span className="title">{item.name}</span>
-            <span className="description">{item.description}</span>
-          </li>
+            <img src={item.icon} alt="" className="icon" />
+            <div>
+              <span className="title">{item.name}</span>
+              <span className="description">{item.description}</span>
+            </div>
+          </ItemWrapper>
         ))}
       </Dropdown>
     </ItemNav>

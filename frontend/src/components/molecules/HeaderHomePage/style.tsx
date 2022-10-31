@@ -33,12 +33,13 @@ export const Main = styled.main`
 
 export const Navigation = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   height: 100%;
 `;
 
 export const ItemNav = styled.div`
-  position: relative;
+  /* position: relative; */
   cursor: pointer;
   padding: 10px 30px;
   & > span {
@@ -52,6 +53,7 @@ export const ItemNav = styled.div`
 export const Dropdown = styled.ul`
   position: absolute;
   display: flex;
+  width: 100%;
   flex-direction: column;
   top: 100%;
   left: 50%;
@@ -106,8 +108,8 @@ export const MenuMobileWrapper = styled.div`
   overflow-x: auto;
   transition: all 0.3s ease-in-out;
   & > .item {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     & > .name {
       font-weight: 700;
       font-size: 10px;
@@ -146,4 +148,28 @@ export const LogoImage = styled.img`
   height: 24px;
   width: auto;
   cursor: pointer;
+`;
+
+export const ItemWrapper = styled.li`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  & > .title {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: rgb(255, 255, 255);
+  }
+  & > .icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+  }
+  & > .description {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.5);
+  }
 `;
