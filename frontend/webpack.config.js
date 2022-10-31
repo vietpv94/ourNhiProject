@@ -8,12 +8,12 @@ const mode = process.env.NODE_ENV || "development";
 const prod = mode === "production";
 module.exports = {
   entry: {
-    app: ["babel-polyfill", "./src/index.tsx"]
+    app: ["babel-polyfill", "./src/index.tsx"],
   },
   output: {
     path: path.join(__dirname, "build"),
     filename: "index.bundle.js",
-    publicPath: "/"
+    publicPath: "/",
   },
   mode,
   resolve: {
@@ -30,7 +30,7 @@ module.exports = {
       "@Styles": path.resolve(__dirname, "src/styles/"),
       "@Types": path.resolve(__dirname, "src/types/"),
       "@Helpers": path.resolve(__dirname, "src/helpers/"),
-      "@Models": path.resolve(__dirname, "src/models")
+      "@Models": path.resolve(__dirname, "src/models"),
     },
     extensions: [".tsx", ".ts", ".js"],
     fallback: {
@@ -45,64 +45,64 @@ module.exports = {
       stream: false,
       assert: false,
       util: false,
-      crypto: require.resolve("crypto-browserify")
-    }
+      crypto: require.resolve("crypto-browserify"),
+    },
   },
   devServer: {
     static: path.join(__dirname, "public"),
     hot: true,
     port: 5000,
-    historyApiFallback: true
+    historyApiFallback: true,
   },
   performance: {
-    hints: process.env.NODE_ENV === "production" ? "warning" : false
+    hints: process.env.NODE_ENV === "production" ? "warning" : false,
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ["babel-loader"]
+        use: ["babel-loader"],
       },
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ["ts-loader"]
+        use: ["ts-loader"],
       },
       {
         test: /\.(css|scss)$/,
         use: [
           prod ? MiniCssExtractPlugin.loader : "style-loader",
           {
-            loader: "css-loader"
-          }
-        ]
+            loader: "css-loader",
+          },
+        ],
       },
       {
         test: /\.(jpg|jpeg|png|gif|mp3|svg|pdf|mp4)$/,
-        use: ["file-loader"]
-      }
-    ]
+        use: ["file-loader"],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: __dirname + "/public/index.html",
       favicon: __dirname + "/public/favicon.png",
       filename: "index.html",
-      inject: "body"
+      inject: "body",
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
       filename: "[name].css",
       chunkFilename: "[id].css",
-      ignoreOrder: false // Enable to remove warnings about conflicting order
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
     new webpack.ProvidePlugin({
-      Buffer: ["buffer", "Buffer"]
+      Buffer: ["buffer", "Buffer"],
     }),
     new Dotenv({
-      path: `./.env`
-    })
-  ]
+      path: `./.env`,
+    }),
+  ],
 };

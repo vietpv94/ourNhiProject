@@ -24,6 +24,7 @@ import React, { useMemo } from "react";
 import { PendingIcon } from "@Components/atoms/icon/pending";
 import { TickIcon } from "@Components/atoms/icon/tick";
 import { loading, unloading } from "@Redux/actions/loading";
+import { Verified } from "../style";
 
 export interface IPersonalInformationProps {}
 export interface IKycForm {
@@ -255,10 +256,16 @@ export function PersonalInformation(props: IPersonalInformationProps) {
           </>
         )}
         <Title>
-          <span>
-            KYC
-            {renderKycStatus}
-          </span>
+          <div>
+            <div>KYC {renderKycStatus}</div>
+            <Verified
+              style={{
+                background: kycStatus === 2 ? "#53BA95" : "#FF9900",
+              }}
+            >
+              {kycStatus === 2 ? "Verified" : "Unverified"}
+            </Verified>
+          </div>
           {(kycStatus === 0 || kycStatus === 3) && (
             <ArrowIcon
               color="#00A3FF"

@@ -22,3 +22,15 @@ export const ProfileWrapper = styled.div`
     left: 0;
   }
 `;
+
+export const Verified = styled.div`
+  height: 100%;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #53ba95;
+  color: #fff;
+  border-radius: 40px;
+  font-size: 12px;
+`;

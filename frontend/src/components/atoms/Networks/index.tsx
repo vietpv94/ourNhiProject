@@ -6,7 +6,7 @@ import {
   List,
   NetworksWrapper,
   Section,
-  Title
+  Title,
 } from "./style";
 import { dataSupportedNetworks, SupportedNetworkCard } from "./data";
 import { Button } from "@Components/atoms/Button";
@@ -70,38 +70,38 @@ export function Networks({ data }: INetworksProps) {
         title: "Total staking assets",
         value: currency(totalStaking, {
           symbol: "$",
-          precision: 0
-        }).format()
+          precision: 0,
+        }).format(),
       },
       {
         title: "Total rewards paid",
         value: currency(totalReward, {
           symbol: "$",
-          precision: 0
-        }).format()
+          precision: 0,
+        }).format(),
       },
       {
         title: "Stakers",
         value: currency(totalStaker, {
           symbol: " ",
           separator: ",",
-          precision: 0
-        }).format()
-      }
+          precision: 0,
+        }).format(),
+      },
     ];
   }, [data]);
 
   const networkData = useMemo(() => {
     return dataSupportedNetworks.map((network) => {
-      const stakeCounterData = data.find(
+      const stakeCounterData = data?.find(
         (item) => network.symbol === item.coinStake
       );
       return {
         ...network,
         staked: currency(stakeCounterData?.totalStakingAssets as Any, {
           symbol: "$",
-          precision: 0
-        }).format()
+          precision: 0,
+        }).format(),
       };
     });
   }, [data]);
@@ -115,9 +115,10 @@ export function Networks({ data }: INetworksProps) {
           to get started.
         </Description>
         <List>
-          {networkData && networkData.map((item, index) => {
-            return <ItemNetwork {...item} key={`network-${index}`} />;
-          })}
+          {networkData &&
+            networkData.map((item, index) => {
+              return <ItemNetwork {...item} key={`network-${index}`} />;
+            })}
         </List>
       </NetworksWrapper>
     </Section>
