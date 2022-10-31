@@ -13,7 +13,7 @@ export const HeaderWrapper = styled.div`
     &.toggle {
       position: sticky;
       & > .header {
-        background-color: #fff;
+        background-color: rgb(239, 242, 246);
       }
     }
   }
@@ -39,9 +39,12 @@ export const Navigation = styled.div`
 `;
 
 export const ItemNav = styled.div`
-  /* position: relative; */
   cursor: pointer;
   padding: 10px 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   & > span {
     color: rgb(39, 56, 82);
     font-weight: 700;
@@ -52,17 +55,18 @@ export const ItemNav = styled.div`
 
 export const Dropdown = styled.ul`
   position: absolute;
-  display: flex;
+  display: grid;
   width: 100%;
-  flex-direction: column;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
   padding: 20px;
   background-color: rgb(43, 48, 54);
   box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;
-  border-radius: 8px;
-  & > li {
+  border-radius: 16px;
+  /* & > li {
     margin-bottom: 10px;
     cursor: pointer;
     display: flex;
@@ -90,7 +94,7 @@ export const Dropdown = styled.ul`
         opacity: 0.5;
       }
     }
-  }
+  } */
 `;
 
 export const MenuMobileWrapper = styled.div`
@@ -100,16 +104,16 @@ export const MenuMobileWrapper = styled.div`
   transform: translateX(-100%);
   width: 100%;
   height: calc(100vh - 80px);
-  padding: 30px;
-  background-color: rgb(255, 255, 255);
+  padding: 0 30px 30px 30px;
+  background-color: rgb(239, 242, 246);
   display: flex;
   flex-direction: column;
   gap: 30px;
   overflow-x: auto;
   transition: all 0.3s ease-in-out;
   & > .item {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: column;
     & > .name {
       font-weight: 700;
       font-size: 10px;
@@ -150,26 +154,170 @@ export const LogoImage = styled.img`
   cursor: pointer;
 `;
 
-export const ItemWrapper = styled.li`
+export const ItemWrapper = styled.li<{ type?: number }>`
+  padding: 16px;
   display: flex;
-  align-items: center;
+  flex-direction: ${({ type }) => (type === 1 ? "row" : "column")};
+  align-items: ${({ type }) => (type === 1 ? "center" : "flex-start")};
   width: 100%;
   gap: 20px;
-  & > .title {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-    color: rgb(255, 255, 255);
+  & > div {
+    display: flex;
+    flex-direction: column;
+    & > .title {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(255, 255, 255);
+    }
+    & > .description {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.5);
+    }
   }
   & > .icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 20px;
+    width: ${({ type }) => (type === 1 ? "40px" : "30px")};
+    height: ${({ type }) => (type === 1 ? "40px" : "30px")};
   }
-  & > .description {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 0.5);
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+  }
+`;
+
+export const Type3 = styled.div`
+  position: absolute;
+  display: flex;
+  width: 100%;
+  grid-gap: 20px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background-color: rgb(43, 48, 54);
+  box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;
+  border-radius: 16px;
+  & > .main {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    padding: 32px;
+    border-radius: 10px;
+    background: rgb(52, 52, 61);
+    cursor: pointer;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      & > .title {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgb(255, 255, 255);
+      }
+      & > .description {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+    & > .icon {
+      width: 40px;
+      height: 40px;
+    }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+    }
+  }
+  & > .list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    & > .item {
+      padding: 10px 16px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(255, 255, 255);
+      border-radius: 10px;
+      &:hover {
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+      }
+    }
+  }
+`;
+
+export const MobileWrapper = styled.div`
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  background: rgb(255, 255, 255);
+  padding: 16px;
+  border-radius: 16px;
+`;
+
+export const MobileType3 = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+  & > .main {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    padding: 32px;
+    border-radius: 10px;
+    background: rgba(0, 10, 61, 0.04);
+    cursor: pointer;
+    gap: 20px;
+    margin-bottom: 10px;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      & > .title {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgb(39, 56, 82);
+      }
+      & > .description {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+        color: rgb(122, 138, 160);
+      }
+    }
+    & > .icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  & > .list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    & > .item {
+      padding: 10px 16px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(39, 56, 82);
+      border-radius: 10px;
+    }
   }
 `;

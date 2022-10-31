@@ -33,35 +33,35 @@ export const dataNavigation: DataItemNav[] = [
     children: [
       {
         name: "Ethereum",
-        link: "https://lidofinance/ethereum",
+        link: "https://lidofinance.io/ethereum",
         description: "ETH",
         icon: ethereum,
         type: 1,
       },
       {
         name: "Solana",
-        link: "https://lido.fi/solana",
+        link: "https://lidofinance.io/solana",
         description: "SOL",
         icon: solana,
         type: 1,
       },
       {
         name: "Kusama",
-        link: "https://lido.fi/kusama",
+        link: "https://lidofinance.io/kusama",
         description: "KSM",
         icon: kusama,
         type: 1,
       },
       {
         name: "Polygon",
-        link: "https://lido.fi/polygon",
+        link: "https://lidofinance.io/polygon",
         description: "MATIC",
         icon: polygon,
         type: 1,
       },
       {
         name: "Polkadot",
-        link: "https://lido.fi/polkadot",
+        link: "https://lidofinance.io/polkadot",
         description: "DOT",
         icon: pokadot,
         type: 1,
@@ -74,7 +74,7 @@ export const dataNavigation: DataItemNav[] = [
     children: [
       {
         name: "Node Operator Portal",
-        link: "https://operatorportal.lido.fi/",
+        link: "",
         description:
           "Consolidated info and resources related to Lido’s Node Operator sets, all in one place",
         icon: nodeOperator,
@@ -82,7 +82,7 @@ export const dataNavigation: DataItemNav[] = [
       },
       {
         name: "Apply to be a Node Operator",
-        link: "https://operatorportal.lido.fi/apply-to-be-a-lido-node-operator",
+        link: "",
         description:
           "Explore requirements and apply to be a Lido Node Operator",
         icon: nodeOperator,
@@ -90,7 +90,7 @@ export const dataNavigation: DataItemNav[] = [
       },
       {
         name: "Existing Lido Operators Resources",
-        link: "https://operatorportal.lido.fi/existing-operator-portal",
+        link: "",
         description:
           "View details about Lido's expectations for Node Operators",
         icon: nodeOperator,
@@ -104,7 +104,7 @@ export const dataNavigation: DataItemNav[] = [
     children: [
       {
         name: "Research forum",
-        link: "https://research.lido.fi/",
+        link: "https://research.lidofinance.io/",
         description:
           "Join the forum to find answers or discuss your ideas for Lido",
         icon: researchForum,
@@ -112,7 +112,7 @@ export const dataNavigation: DataItemNav[] = [
       },
       {
         name: "Governance process",
-        link: "https://easytrack.io/lido",
+        link: "https://lidofinance.io/governance",
         description:
           "Explore how the decisions in Lido governance process are made",
         icon: governanceProcess,
@@ -120,28 +120,28 @@ export const dataNavigation: DataItemNav[] = [
       },
       {
         name: "LEGO",
-        link: "https://research.lido.fi/t/lido-dao-member-manual/25",
+        link: "https://lego.lidofinance.io/",
         description: "Explore how Lido Ecosystem Grants Organization grows",
         icon: lego,
         type: 2,
       },
       {
         name: "Snapshot voting",
-        link: "https://mainnet.lido.fi/#/lido-dao/",
+        link: "https://snapshot.org/#/lido-snapshot.eth",
         description: "Take part in off-chain Snapshot voting",
         icon: snapshotVoting,
         type: 2,
       },
       {
         name: "Aragon voting",
-        link: "https://snapshot.org/#/lido-snapshot.eth",
+        link: "",
         description: "Explore Lido’s on-chain votes",
         icon: aragonVoting,
         type: 2,
       },
       {
         name: "Easy track voting",
-        link: "https://lido.fi/bug-bounty",
+        link: "https://easytrack.lidofinance.io/",
         description:
           "Explore Easy Track - a way to make on-chain decisions using veto voting",
         icon: easyTrackVoting,
@@ -189,22 +189,22 @@ export const dataNavigation: DataItemNav[] = [
       },
       {
         name: "stETH integration guide",
-        link: "https://docs.lido.fi/",
+        link: "",
         type: 3,
       },
       {
         name: "Bug Bounty",
-        link: "https://lido.fi/static/Lido:Ethereum-Liquid-Staking.pdf",
+        link: "https://lidofinance.io/bug-bounty",
         type: 3,
       },
       {
         name: "Documentation",
-        link: "https://github.com/lidofinance/audits",
+        link: "https://docs.lidofinance.io/",
         type: 3,
       },
       {
         name: "Audits",
-        link: "",
+        link: "https://github.com/lidofinance/audits",
         type: 3,
       },
     ],
@@ -215,8 +215,9 @@ export const dataNavigation: DataItemNav[] = [
     children: [
       {
         name: "Twitter",
-        link: "https://twitter.com/lidofinance",
+        link: "https://twitter.com/LidoFinanceio",
         icon: twitter,
+        description: "Follow us on @lidofinance",
         type: 1,
       },
       {
@@ -224,19 +225,22 @@ export const dataNavigation: DataItemNav[] = [
         link: "https://discord.com/invite/lido",
         icon: discord,
         type: 1,
+        description: "Ask questions",
       },
 
       {
         name: "Telegram",
-        link: "https://t.me/globalpeacecoin68",
+        link: "https://t.me/lido_financeio",
         icon: telegram,
         type: 1,
+        description: "Join the community",
       },
       {
         name: "Research forum",
-        link: "https://www.reddit.com/r/LidoFinance",
+        link: "https://research.lidofinance.io/",
         icon: researchForum,
         type: 1,
+        description: "",
       },
     ],
   },
@@ -246,34 +250,34 @@ export const dataNavigation: DataItemNav[] = [
     children: [
       {
         name: "Blog",
-        link: "https://blog.lido.fi/",
+        link: "https://blog.lidofinance.io/",
         description: "Join our Blog and explore more info about Lido",
         icon: blog,
         type: 3,
       },
       {
         name: "FAQ",
-        link: "https://lido.fi/faq",
+        link: "https://lidofinance.io/faq",
         type: 3,
       },
       {
         name: "Help Center",
-        link: "https://help.lido.fi/",
+        link: "https://help.llidofinance.io/",
         type: 3,
       },
       {
         name: "Documentation",
-        link: "https://lido.fi/contact",
+        link: "",
         type: 3,
       },
       {
         name: "Careers",
-        link: "https://careers.lido.fi/",
+        link: "https://careers.lidofinance.io/",
         type: 3,
       },
       {
         name: "Download press kit",
-        link: "https://lido.fi/static/LIDO_press_kit.zip",
+        link: "https://lidofinance.io/static/LIDO_press_kit.zip",
         type: 3,
       },
     ],
