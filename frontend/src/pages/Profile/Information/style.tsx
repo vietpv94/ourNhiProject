@@ -27,13 +27,21 @@ export const Title = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 14px;
-  & > span {
+  & > div {
     font-weight: 600;
     font-size: 14px;
     color: #27272a;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 5px;
+    width: 100%;
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
   }
   & > .icon {
   }
