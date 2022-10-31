@@ -277,7 +277,7 @@ export function Dashboard(props: IDashboardProps) {
           .map((keyLv) => {
             if (keyLv !== "level") {
               return {
-                name: convertKeyToReadableName(keyLv),
+                name: convertKeyToReadableName(keyLv, lv.level),
                 value: Number(lv[keyLv]).toFixed(),
                 target: Number(lv[keyLv]).toFixed(),
                 done: true
@@ -298,7 +298,7 @@ export function Dashboard(props: IDashboardProps) {
           .map((keyLv) => {
             if (keyLv !== "level") {
               return {
-                name: convertKeyToReadableName(keyLv),
+                name: convertKeyToReadableName(keyLv, lv.level),
                 value: "0",
                 target: Number(lv[keyLv]).toFixed(),
                 done: false
@@ -323,7 +323,7 @@ export function Dashboard(props: IDashboardProps) {
                 countDone += 1;
               }
               return {
-                name: convertKeyToReadableName(keyLv),
+                name: convertKeyToReadableName(keyLv, lv.level),
                 value: convertValueToReadable(keyLv, lv, currentUserLevel),
                 target: Number(lv[keyLv]).toFixed(),
                 done: convertValueToReadableStatus(keyLv, lv, currentUserLevel)
