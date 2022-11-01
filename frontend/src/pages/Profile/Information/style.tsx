@@ -33,9 +33,10 @@ export const Title = styled.div`
     color: #27272a;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 5px;
     width: 100%;
+    gap: 20px;
     & > div {
       display: flex;
       align-items: center;

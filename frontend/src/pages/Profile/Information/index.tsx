@@ -263,7 +263,8 @@ export function PersonalInformation(props: IPersonalInformationProps) {
                 background: kycStatus === 2 ? "#53BA95" : "#FF9900",
               }}
             >
-              {kycStatus === 2 ? "Verified" : "Unverified"}
+              <span> {kycStatus === 2 ? "Verified" : "Unverified"}</span>
+              <ArrowIcon direction="down" style="solid" color="#00A3FF" />
             </Verified>
           </div>
           {(kycStatus === 0 || kycStatus === 3) && (
