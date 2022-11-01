@@ -11,6 +11,9 @@ export interface IArrowIconProps {
 
 const Wrapper = styled.div<{ direction: "up" | "down" | "left" | "right" }>`
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   & > svg {
     transform: rotate(
       ${(props) =>
@@ -80,9 +83,9 @@ export function ArrowIcon({
       )}
       {style === "solid" && (
         <svg
-          width="18"
+          width="14"
           height="10"
-          viewBox="0 0 18 10"
+          viewBox="0 0 14 10"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           {...customStyle}
