@@ -62,7 +62,9 @@ const App: FC = () => {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route
             path="stake"
-            element={<Stake />}
+            element={ProtectedRoute(() => {
+              return <Stake />;
+            })}
           >
             {dashboardRoutes.map((item, index) => {
               return (
