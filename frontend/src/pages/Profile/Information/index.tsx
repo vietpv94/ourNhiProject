@@ -113,7 +113,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       case 0:
         return (
           <WarningIcon
-            color="#FF9900"
+            color="#fff"
             customStyle={{
               height: 12,
               width: 12,
@@ -123,6 +123,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       case 1:
         return (
           <PendingIcon
+            color="#fff"
             customStyle={{
               height: 12,
               width: 12,
@@ -132,6 +133,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       case 2:
         return (
           <TickIcon
+            color="#fff"
             customStyle={{
               height: 12,
               width: 12,
@@ -141,6 +143,7 @@ export function PersonalInformation(props: IPersonalInformationProps) {
       default:
         return (
           <TickIcon
+            color="#fff"
             customStyle={{
               height: 12,
               width: 12,
@@ -257,14 +260,14 @@ export function PersonalInformation(props: IPersonalInformationProps) {
         )}
         <Title>
           <div>
-            <div>KYC {renderKycStatus}</div>
+            <div>KYC </div>
             <Verified
               style={{
                 background: kycStatus === 2 ? "#53BA95" : "#FF9900",
-              }}
+              }} 
             >
+              {renderKycStatus}
               <span> {kycStatus === 2 ? "Verified" : "Unverified"}</span>
-              <ArrowIcon direction="down" style="solid" color="#00A3FF" />
             </Verified>
           </div>
           {(kycStatus === 0 || kycStatus === 3) && (

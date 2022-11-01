@@ -20,7 +20,7 @@ root.render(
       <PersistGate persistor={persister}>
         <HelmetProvider>
           <App />
-          <Loading />
+          {/* <Loading /> */}
         </HelmetProvider>
       </PersistGate>
     </Provider>

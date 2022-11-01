@@ -36,7 +36,7 @@ export const Title = styled.div`
     justify-content: flex-start;
     gap: 5px;
     width: 100%;
-    gap: 20px;
+    gap: 10px;
     & > div {
       display: flex;
       align-items: center;
