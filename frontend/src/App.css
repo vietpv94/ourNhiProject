@@ -321,6 +321,7 @@ input[type="number"] {
 .wallet-adapter-modal-list {
     display: flex !important;
     gap: 12px !important;
+    flex-wrap: wrap !important;
 }
 
 .wallet-adapter-modal-wrapper {
