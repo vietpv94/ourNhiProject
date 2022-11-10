@@ -3,7 +3,7 @@ import { ButtonWrapper } from "./style";
 
 export interface IButtonProps {
   className?: string;
-  type: "silver" | "blue" | "outline" | "disabledBlue";
+  type: "silver" | "blue" | "outline" | "disabledBlue" | 'darkSilver';
   text?: string;
   onClick?: () => void;
   customStyle?: string;
@@ -12,8 +12,12 @@ export interface IButtonProps {
 }
 
 const background = {
-  silver: {
+  darkSilver: {
     backgroundColor: "rgb(39, 56, 82)",
+    color: "#ffffff"
+  },
+  silver: {
+    backgroundColor: "#C1CBD7",
     color: "#ffffff"
   },
   blue: {
