@@ -17,6 +17,7 @@ import { WithdrawSuccessful } from "@Components/molecules/Modal/components/Withd
 import { Deposit } from "@Components/molecules/Modal/components/Deposit";
 import { useMemo } from "react";
 import { setModal } from "@Redux/actions/modal";
+import { Transfer } from "@Components/molecules/Transfer";
 
 export interface IStakeProps {}
 
@@ -74,6 +75,10 @@ export function Stake(props: IStakeProps) {
       {modal === "deposit" &&
         withModal(() => {
           return <Deposit />;
+        }, handleClose)}
+      {modal === "" &&
+        withModal(() => {
+          return <Transfer />;
         }, handleClose)}
     </>
   );

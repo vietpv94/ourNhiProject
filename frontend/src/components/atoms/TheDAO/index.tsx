@@ -21,7 +21,7 @@ export function TheDAO(props: ITheDAOProps) {
           community.
         </Description>
         <ListButton>
-          <Button type="silver" text="Read primer" />
+          <Button type="darkSilver" text="Read primer" />
           <Button type="outline" text="Apply to be a Node Operator" />
         </ListButton>
       </TheDAOWrapper>

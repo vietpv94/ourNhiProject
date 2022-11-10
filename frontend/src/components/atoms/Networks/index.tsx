@@ -43,7 +43,7 @@ export const ItemNetwork = (data: SupportedNetworkCard) => {
         </div>
       </Flex>
       <Flex>
-        <Button type="silver" text="Learn more" />
+        <Button type="darkSilver" text="Learn more" />
         {data.poolLocked ? (
           <Button type="disabledBlue" text="Stake now" onClick={() => {}} />
         ) : (
